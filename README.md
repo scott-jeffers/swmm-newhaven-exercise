@@ -2,7 +2,7 @@
 
 **Live viewer:** https://scott-jeffers.github.io/swmm-newhaven-exercise/
 
-A browser-based EPA SWMM 5.2 results viewer, similar to PCSWMM. You can:
+A browser-based EPA SWMM 5.2 results viewer. You can:
 
 - **Map:** see each model on an aerial background (EPSG:6434), with thematic coloring and a time slider/animation.
 - **Graphs:** click any node, conduit or subcatchment for time-series graphs. You can compare scenarios or design storms.
