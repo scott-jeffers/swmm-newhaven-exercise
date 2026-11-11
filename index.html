@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>West Haven SWMM Model Viewer</title>
+<style>.leaflet-image-layer,.leaflet-layer,.leaflet-marker-icon,.leaflet-marker-shadow,.leaflet-pane,.leaflet-pane>canvas,.leaflet-pane>svg,.leaflet-tile,.leaflet-tile-container,.leaflet-zoom-box{position:absolute;left:0;top:0}.leaflet-container{overflow:hidden}.leaflet-marker-icon,.leaflet-marker-shadow,.leaflet-tile{-webkit-user-select:none;-moz-user-select:none;user-select:none;-webkit-user-drag:none}.leaflet-tile::selection{background:0 0}.leaflet-safari .leaflet-tile{image-rendering:-webkit-optimize-contrast}.leaflet-safari .leaflet-tile-container{width:1600px;height:1600px;-webkit-transform-origin:0 0}.leaflet-marker-icon,.leaflet-marker-shadow{display:block}.leaflet-container .leaflet-overlay-pane svg{max-width:none!important;max-height:none!important}.leaflet-container .leaflet-marker-pane img,.leaflet-container .leaflet-shadow-pane img,.leaflet-container .leaflet-tile,.leaflet-container .leaflet-tile-pane img,.leaflet-container img.leaflet-image-layer{max-width:none!important;max-height:none!important;width:auto;padding:0}.leaflet-container img.leaflet-tile{mix-blend-mode:plus-lighter}.leaflet-container.leaflet-touch-zoom{-ms-touch-action:pan-x pan-y;touch-action:pan-x pan-y}.leaflet-container.leaflet-touch-drag{-ms-touch-action:pinch-zoom;touch-action:none;touch-action:pinch-zoom}.leaflet-container.leaflet-touch-drag.leaflet-touch-zoom{-ms-touch-action:none;touch-action:none}.leaflet-container{-webkit-tap-highlight-color:transparent}.leaflet-container a{-webkit-tap-highlight-color:rgba(51,181,229,.4)}.leaflet-tile{filter:inherit;visibility:hidden}.leaflet-tile-loaded{visibility:inherit}.leaflet-zoom-box{width:0;height:0;-moz-box-sizing:border-box;box-sizing:border-box;z-index:800}.leaflet-overlay-pane svg{-moz-user-select:none}.leaflet-pane{z-index:400}.leaflet-tile-pane{z-index:200}.leaflet-overlay-pane{z-index:400}.leaflet-shadow-pane{z-index:500}.leaflet-marker-pane{z-index:600}.leaflet-tooltip-pane{z-index:650}.leaflet-popup-pane{z-index:700}.leaflet-map-pane canvas{z-index:100}.leaflet-map-pane svg{z-index:200}.leaflet-vml-shape{width:1px;height:1px}.lvml{behavior:url(#default#VML);display:inline-block;position:absolute}.leaflet-control{position:relative;z-index:800;pointer-events:visiblePainted;pointer-events:auto}.leaflet-bottom,.leaflet-top{position:absolute;z-index:1000;pointer-events:none}.leaflet-top{top:0}.leaflet-right{right:0}.leaflet-bottom{bottom:0}.leaflet-left{left:0}.leaflet-control{float:left;clear:both}.leaflet-right .leaflet-control{float:right}.leaflet-top .leaflet-control{margin-top:10px}.leaflet-bottom .leaflet-control{margin-bottom:10px}.leaflet-left .leaflet-control{margin-left:10px}.leaflet-right .leaflet-control{margin-right:10px}.leaflet-fade-anim .leaflet-popup{opacity:0;-webkit-transition:opacity .2s linear;-moz-transition:opacity .2s linear;transition:opacity .2s linear}.leaflet-fade-anim .leaflet-map-pane .leaflet-popup{opacity:1}.leaflet-zoom-animated{-webkit-transform-origin:0 0;-ms-transform-origin:0 0;transform-origin:0 0}svg.leaflet-zoom-animated{will-change:transform}.leaflet-zoom-anim .leaflet-zoom-animated{-webkit-transition:-webkit-transform .25s cubic-bezier(0,0,.25,1);-moz-transition:-moz-transform .25s cubic-bezier(0,0,.25,1);transition:transform .25s cubic-bezier(0,0,.25,1)}.leaflet-pan-anim .leaflet-tile,.leaflet-zoom-anim .leaflet-tile{-webkit-transition:none;-moz-transition:none;transition:none}.leaflet-zoom-anim .leaflet-zoom-hide{visibility:hidden}.leaflet-interactive{cursor:pointer}.leaflet-grab{cursor:-webkit-grab;cursor:-moz-grab;cursor:grab}.leaflet-crosshair,.leaflet-crosshair .leaflet-interactive{cursor:crosshair}.leaflet-control,.leaflet-popup-pane{cursor:auto}.leaflet-dragging .leaflet-grab,.leaflet-dragging .leaflet-grab .leaflet-interactive,.leaflet-dragging .leaflet-marker-draggable{cursor:move;cursor:-webkit-grabbing;cursor:-moz-grabbing;cursor:grabbing}.leaflet-image-layer,.leaflet-marker-icon,.leaflet-marker-shadow,.leaflet-pane>svg path,.leaflet-tile-container{pointer-events:none}.leaflet-image-layer.leaflet-interactive,.leaflet-marker-icon.leaflet-interactive,.leaflet-pane>svg path.leaflet-interactive,svg.leaflet-image-layer.leaflet-interactive path{pointer-events:visiblePainted;pointer-events:auto}.leaflet-container{background:#ddd;outline-offset:1px}.leaflet-container a{color:#0078a8}.leaflet-zoom-box{border:2px dotted #38f;background:rgba(255,255,255,.5)}.leaflet-container{font-family:"Helvetica Neue",Arial,Helvetica,sans-serif;font-size:12px;font-size:.75rem;line-height:1.5}.leaflet-bar{box-shadow:0 1px 5px rgba(0,0,0,.65);border-radius:4px}.leaflet-bar a{background-color:#fff;border-bottom:1px solid #ccc;width:26px;height:26px;line-height:26px;display:block;text-align:center;text-decoration:none;color:#000}.leaflet-bar a,.leaflet-control-layers-toggle{background-position:50% 50%;background-repeat:no-repeat;display:block}.leaflet-bar a:focus,.leaflet-bar a:hover{background-color:#f4f4f4}.leaflet-bar a:first-child{border-top-left-radius:4px;border-top-right-radius:4px}.leaflet-bar a:last-child{border-bottom-left-radius:4px;border-bottom-right-radius:4px;border-bottom:none}.leaflet-bar a.leaflet-disabled{cursor:default;background-color:#f4f4f4;color:#bbb}.leaflet-touch .leaflet-bar a{width:30px;height:30px;line-height:30px}.leaflet-touch .leaflet-bar a:first-child{border-top-left-radius:2px;border-top-right-radius:2px}.leaflet-touch .leaflet-bar a:last-child{border-bottom-left-radius:2px;border-bottom-right-radius:2px}.leaflet-control-zoom-in,.leaflet-control-zoom-out{font:bold 18px 'Lucida Console',Monaco,monospace;text-indent:1px}.leaflet-touch .leaflet-control-zoom-in,.leaflet-touch .leaflet-control-zoom-out{font-size:22px}.leaflet-control-layers{box-shadow:0 1px 5px rgba(0,0,0,.4);background:#fff;border-radius:5px}.leaflet-control-layers-toggle{background-image:url(images/layers.png);width:36px;height:36px}.leaflet-retina .leaflet-control-layers-toggle{background-image:url(images/layers-2x.png);background-size:26px 26px}.leaflet-touch .leaflet-control-layers-toggle{width:44px;height:44px}.leaflet-control-layers .leaflet-control-layers-list,.leaflet-control-layers-expanded .leaflet-control-layers-toggle{display:none}.leaflet-control-layers-expanded .leaflet-control-layers-list{display:block;position:relative}.leaflet-control-layers-expanded{padding:6px 10px 6px 6px;color:#333;background:#fff}.leaflet-control-layers-scrollbar{overflow-y:scroll;overflow-x:hidden;padding-right:5px}.leaflet-control-layers-selector{margin-top:2px;position:relative;top:1px}.leaflet-control-layers label{display:block;font-size:13px;font-size:1.08333em}.leaflet-control-layers-separator{height:0;border-top:1px solid #ddd;margin:5px -10px 5px -6px}.leaflet-default-icon-path{background-image:url(images/marker-icon.png)}.leaflet-container .leaflet-control-attribution{background:#fff;background:rgba(255,255,255,.8);margin:0}.leaflet-control-attribution,.leaflet-control-scale-line{padding:0 5px;color:#333;line-height:1.4}.leaflet-control-attribution a{text-decoration:none}.leaflet-control-attribution a:focus,.leaflet-control-attribution a:hover{text-decoration:underline}.leaflet-attribution-flag{display:inline!important;vertical-align:baseline!important;width:1em;height:.6669em}.leaflet-left .leaflet-control-scale{margin-left:5px}.leaflet-bottom .leaflet-control-scale{margin-bottom:5px}.leaflet-control-scale-line{border:2px solid #777;border-top:none;line-height:1.1;padding:2px 5px 1px;white-space:nowrap;-moz-box-sizing:border-box;box-sizing:border-box;background:rgba(255,255,255,.8);text-shadow:1px 1px #fff}.leaflet-control-scale-line:not(:first-child){border-top:2px solid #777;border-bottom:none;margin-top:-2px}.leaflet-control-scale-line:not(:first-child):not(:last-child){border-bottom:2px solid #777}.leaflet-touch .leaflet-bar,.leaflet-touch .leaflet-control-attribution,.leaflet-touch .leaflet-control-layers{box-shadow:none}.leaflet-touch .leaflet-bar,.leaflet-touch .leaflet-control-layers{border:2px solid rgba(0,0,0,.2);background-clip:padding-box}.leaflet-popup{position:absolute;text-align:center;margin-bottom:20px}.leaflet-popup-content-wrapper{padding:1px;text-align:left;border-radius:12px}.leaflet-popup-content{margin:13px 24px 13px 20px;line-height:1.3;font-size:13px;font-size:1.08333em;min-height:1px}.leaflet-popup-content p{margin:17px 0;margin:1.3em 0}.leaflet-popup-tip-container{width:40px;height:20px;position:absolute;left:50%;margin-top:-1px;margin-left:-20px;overflow:hidden;pointer-events:none}.leaflet-popup-tip{width:17px;height:17px;padding:1px;margin:-10px auto 0;pointer-events:auto;-webkit-transform:rotate(45deg);-moz-transform:rotate(45deg);-ms-transform:rotate(45deg);transform:rotate(45deg)}.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:#fff;color:#333;box-shadow:0 3px 14px rgba(0,0,0,.4)}.leaflet-container a.leaflet-popup-close-button{position:absolute;top:0;right:0;border:none;text-align:center;width:24px;height:24px;font:16px/24px Tahoma,Verdana,sans-serif;color:#757575;text-decoration:none;background:0 0}.leaflet-container a.leaflet-popup-close-button:focus,.leaflet-container a.leaflet-popup-close-button:hover{color:#585858}.leaflet-popup-scrolled{overflow:auto}.leaflet-oldie .leaflet-popup-content-wrapper{-ms-zoom:1}.leaflet-oldie .leaflet-popup-tip{width:24px;margin:0 auto}.leaflet-oldie .leaflet-control-layers,.leaflet-oldie .leaflet-control-zoom,.leaflet-oldie .leaflet-popup-content-wrapper,.leaflet-oldie .leaflet-popup-tip{border:1px solid #999}.leaflet-div-icon{background:#fff;border:1px solid #666}.leaflet-tooltip{position:absolute;padding:6px;background-color:#fff;border:1px solid #fff;border-radius:3px;color:#222;white-space:nowrap;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;pointer-events:none;box-shadow:0 1px 3px rgba(0,0,0,.4)}.leaflet-tooltip.leaflet-interactive{cursor:pointer;pointer-events:auto}.leaflet-tooltip-bottom:before,.leaflet-tooltip-left:before,.leaflet-tooltip-right:before,.leaflet-tooltip-top:before{position:absolute;pointer-events:none;border:6px solid transparent;background:0 0;content:""}.leaflet-tooltip-bottom{margin-top:6px}.leaflet-tooltip-top{margin-top:-6px}.leaflet-tooltip-bottom:before,.leaflet-tooltip-top:before{left:50%;margin-left:-6px}.leaflet-tooltip-top:before{bottom:0;margin-bottom:-12px;border-top-color:#fff}.leaflet-tooltip-bottom:before{top:0;margin-top:-12px;margin-left:-6px;border-bottom-color:#fff}.leaflet-tooltip-left{margin-left:-6px}.leaflet-tooltip-right{margin-left:6px}.leaflet-tooltip-left:before,.leaflet-tooltip-right:before{top:50%;margin-top:-6px}.leaflet-tooltip-left:before{right:0;margin-right:-12px;border-left-color:#fff}.leaflet-tooltip-right:before{left:0;margin-left:-12px;border-right-color:#fff}@media print{.leaflet-control{-webkit-print-color-adjust:exact;print-color-adjust:exact}}</style>
+<style>
+:root { --bg:#f6f7f9; --panel:#ffffff; --line:#dfe3e8; --fg:#1d2733; --muted:#5f6b7a; --accent:#1f6feb; --sel:#ff2fb3; }
+* { box-sizing: border-box; }
+html, body { margin:0; height:100%; background:var(--bg); color:var(--fg); font:13px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+#app { display:grid; grid-template-rows:auto 1fr; height:100vh; }
+header { display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; padding:8px 12px; background:#17212b; color:#e8eef5; }
+header h1 { font-size:15px; margin:0 8px 0 0; font-weight:600; letter-spacing:.2px; }
+header label { font-size:11px; color:#9fb0c2; display:flex; flex-direction:column; gap:2px; }
+header select, header button, header input[type=range] { font:inherit; }
+header select { background:#223140; color:#e8eef5; border:1px solid #33475a; border-radius:5px; padding:4px 6px; max-width:330px; }
+.tbtn { background:#223140; color:#e8eef5; border:1px solid #33475a; border-radius:5px; padding:4px 9px; cursor:pointer; }
+.tbtn:hover { background:#2c4053; }
+#timebox { display:flex; align-items:center; gap:8px; flex:1 1 320px; min-width:260px; }
+#timebox input { flex:1; }
+#tlabel { font-variant-numeric:tabular-nums; min-width:150px; color:#e8eef5; font-size:12px; }
+header a { color:#8cc4ff; font-size:12px; }
+main { display:grid; grid-template-columns: 1fr minmax(380px, 40%); min-height:0; }
+#mapwrap { position:relative; min-height:0; }
+#map { position:absolute; inset:0; background:#c9d3dc; }
+#side { display:flex; flex-direction:column; min-height:0; border-left:1px solid var(--line); background:var(--panel); }
+.tabs { display:flex; border-bottom:1px solid var(--line); background:#fafbfc; overflow-x:auto; }
+.tabs button { flex:0 0 auto; border:0; background:none; padding:9px 12px; font:inherit; color:var(--muted); cursor:pointer; border-bottom:2px solid transparent; }
+.tabs button[aria-selected=true] { color:var(--fg); border-bottom-color:var(--accent); font-weight:600; }
+.pane { flex:1; overflow:auto; padding:10px 12px; min-height:0; }
+.pane[hidden] { display:none; }
+.row { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:8px; }
+.row label { color:var(--muted); font-size:12px; }
+select, input, button { font:inherit; }
+.pane select { border:1px solid var(--line); border-radius:5px; padding:3px 6px; background:#fff; }
+.btn { border:1px solid var(--line); background:#fff; border-radius:5px; padding:3px 9px; cursor:pointer; }
+.btn:hover { background:#f0f3f6; }
+.btn.primary { background:var(--accent); color:#fff; border-color:var(--accent); }
+.chip { display:inline-flex; align-items:center; gap:4px; border:1px solid var(--line); border-radius:999px; padding:2px 8px; margin:2px; font-size:12px; background:#f7f9fb; }
+.chip button { border:0; background:none; cursor:pointer; color:var(--muted); padding:0 2px; }
+.muted { color:var(--muted); font-size:12px; }
+h3 { font-size:13px; margin:10px 0 6px; }
+table.props { border-collapse:collapse; width:100%; font-size:12px; }
+table.props td { border-bottom:1px solid var(--line); padding:4px 6px; vertical-align:top; }
+table.props td:first-child { color:var(--muted); width:45%; }
+pre { background:#0f1720; color:#d6e2ee; padding:10px; border-radius:6px; overflow:auto; font:11.5px/1.45 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; white-space:pre; }
+.plot { width:100%; height:330px; }
+.plot.tall { height:420px; }
+#legend { position:absolute; right:10px; bottom:22px; z-index:500; background:rgba(255,255,255,.93); border:1px solid var(--line); border-radius:6px; padding:6px 8px; font-size:11px; min-width:150px; }
+#legend .bar { height:10px; border-radius:3px; margin:4px 0 2px; }
+#legend .ends { display:flex; justify-content:space-between; color:var(--muted); font-variant-numeric:tabular-nums; }
+#maptools { position:absolute; left:10px; top:10px; z-index:500; background:rgba(255,255,255,.95); border:1px solid var(--line); border-radius:6px; padding:8px; width:250px; max-width:calc(100% - 70px); }
+#maptools summary { cursor:pointer; font-weight:600; }
+#maptools .row { margin:6px 0 0; }
+#maptools select { width:100%; border:1px solid var(--line); border-radius:4px; padding:2px 4px; background:#fff; }
+#loading { position:absolute; inset:0; z-index:900; display:flex; align-items:center; justify-content:center; background:rgba(246,247,249,.7); font-size:14px; }
+#loading[hidden] { display:none; }
+.leaflet-tooltip.lbl { background:rgba(255,255,255,.85); border:0; box-shadow:none; padding:0 3px; font-size:10px; color:#111; }
+.leaflet-tooltip.lbl:before { display:none; }
+.ofall { width:0; height:0; border-left:8px solid transparent; border-right:8px solid transparent; border-bottom:14px solid #d62728; filter: drop-shadow(0 0 1px #fff); }
+.gage { font-size:18px; line-height:18px; filter: drop-shadow(0 0 2px #fff); }
+.sectionbar { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+.kv { display:grid; grid-template-columns: repeat(auto-fit, minmax(130px,1fr)); gap:6px; margin:6px 0 10px; }
+.kv div { background:#f6f8fa; border:1px solid var(--line); border-radius:6px; padding:6px 8px; }
+.kv b { display:block; font-size:15px; font-variant-numeric:tabular-nums; }
+.kv span { color:var(--muted); font-size:11px; }
+@media (max-width: 900px) {
+  #legend { font-size:10px; min-width:120px; padding:4px 6px; bottom:18px; }
+  #app { height:auto; min-height:100vh; }
+  main { grid-template-columns: 1fr; }
+  #mapwrap { height:58vh; }
+  #side { border-left:0; border-top:1px solid var(--line); min-height:60vh; }
+  .pane { overflow:visible; }
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <h1>West Haven SWMM Model Viewer</h1>
+    <label>Model (.inp)<select id="selModel" aria-label="Model"></select></label>
+    <label>Period / storm<select id="selPeriod" aria-label="Period"></select></label>
+    <div id="timebox">
+      <button class="tbtn" id="btnPlay" title="Animate">▶</button>
+      <input type="range" id="slider" min="0" max="0" value="0" aria-label="Time step">
+      <span id="tlabel">—</span>
+    </div>
+    <a href="https://github.com/scott-jeffers/swmm-newhaven-exercise">Model files on GitHub ↗</a>
+  </header>
+  <main>
+    <div id="mapwrap">
+      <div id="map"></div>
+      <details id="maptools" open>
+        <summary>Map layers &amp; theme</summary>
+        <div class="row"><label style="width:100%">Links colored by<select id="thLink">
+          <option value="maxflow">Max flow (cfs)</option><option value="maxcap">Max capacity (d/D)</option><option value="flow">Flow at time (cfs)</option>
+          <option value="cap">Capacity at time</option><option value="vel">Velocity at time (ft/s)</option><option value="tss">TSS at time (mg/L)</option>
+          <option value="slope">Slope (%)</option><option value="diam">Diameter (in)</option><option value="none">Single color</option></select></label></div>
+        <div class="row"><label style="width:100%">Nodes colored by<select id="thNode">
+          <option value="maxdepthfrac">Max depth / full depth</option><option value="maxdepth">Max depth (ft)</option><option value="depth">Depth at time (ft)</option>
+          <option value="flood">Flooding at time (cfs)</option><option value="tss">TSS at time (mg/L)</option><option value="invert">Invert elevation (ft)</option><option value="type">Node type</option></select></label></div>
+        <div class="row"><label style="width:100%">Subcatchments colored by<select id="thSub">
+          <option value="imperv">% Impervious</option><option value="maxrunoff">Max runoff (cfs)</option><option value="runoff">Runoff at time (cfs)</option>
+          <option value="tss">TSS washoff at time (mg/L)</option><option value="landuse">Land use</option><option value="none">Outline only</option></select></label></div>
+        <div class="row">
+          <label><input type="checkbox" id="cbBg" checked> Aerial</label>
+          <label><input type="checkbox" id="cbSubs" checked> Subcatchments</label>
+          <label><input type="checkbox" id="cbConn" checked> Sub→outlet</label>
+          <label><input type="checkbox" id="cbLbl"> Labels</label>
+        </div>
+        <div class="muted" style="margin-top:6px">Click any element for graphs &amp; properties. Shift-click (or tick "Add clicks to plot") to plot several together.</div>
+      </details>
+      <div id="legend"></div>
+      <div id="loading">Loading model…</div>
+    </div>
+    <aside id="side">
+      <div class="tabs" role="tablist">
+        <button role="tab" data-tab="graph" aria-selected="true">Graph</button>
+        <button role="tab" data-tab="profile" aria-selected="false">Profile</button>
+        <button role="tab" data-tab="props" aria-selected="false">Properties</button>
+        <button role="tab" data-tab="report" aria-selected="false">Report</button>
+        <button role="tab" data-tab="inp" aria-selected="false">.inp file</button>
+        <button role="tab" data-tab="about" aria-selected="false">Models</button>
+      </div>
+      <section class="pane" id="pane-graph">
+        <div class="row"><span class="muted">Plotted:</span><span id="chips"></span><button class="btn" id="btnSys">+ System</button><button class="btn" id="btnClear">Clear</button><label><input type="checkbox" id="cbMulti"> Add clicks to plot</label></div>
+        <div class="row"><label>Variable <select id="selVar"></select></label><label><input type="checkbox" id="cbRain" checked> Rainfall</label></div>
+        <div class="row" id="cmpRow"><span class="muted">Compare:</span><span id="cmpBox"></span></div>
+        <div id="plotTS" class="plot tall"></div>
+        <div id="statBox"></div>
+      </section>
+      <section class="pane" id="pane-profile" hidden>
+        <div class="row"><label>Profile <select id="selProf"></select></label></div>
+        <div class="row"><label>From <select id="selFrom"></select></label><label>To <select id="selTo"></select></label><button class="btn" id="btnProf">Draw</button></div>
+        <div class="row"><label><input type="checkbox" id="cbMaxHGL" checked> Max HGL</label><label><input type="checkbox" id="cbCmpHGL"> HGL of compared models</label></div>
+        <div id="plotProf" class="plot tall"></div>
+        <p class="muted">Ground = rim elevation at each structure. Gray band = pipe (invert to crown). Blue = hydraulic grade line at the time on the slider (▶ to animate). Dashed = maximum HGL over the period.</p>
+      </section>
+      <section class="pane" id="pane-props" hidden><div id="propBox" class="muted">Click an element on the map.</div></section>
+      <section class="pane" id="pane-report" hidden>
+        <div class="row"><label>Section <select id="selRep"></select></label><button class="btn" id="btnCopyRep">Copy</button></div>
+        <pre id="repBox"></pre>
+      </section>
+      <section class="pane" id="pane-inp" hidden>
+        <div class="row"><label>Jump to <select id="selSec"></select></label><button class="btn" id="btnCopyInp">Copy .inp text</button><span class="muted" id="inpMsg"></span></div>
+        <pre id="inpBox"></pre>
+      </section>
+      <section class="pane" id="pane-about" hidden><div id="aboutBox"></div></section>
+    </aside>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<script>
+(() => {
+'use strict';
+const $ = (id) => document.getElementById(id);
+const VARS = {
+  node: { depth: ['Depth', 'ft'], head: ['Hydraulic head (HGL)', 'ft'], inflow: ['Total inflow', 'cfs'], lat: ['Lateral inflow', 'cfs'], flood: ['Flooding', 'cfs'], tss: ['TSS concentration', 'mg/L'] },
+  link: { flow: ['Flow', 'cfs'], depth: ['Depth', 'ft'], vel: ['Velocity', 'ft/s'], cap: ['Capacity (depth/full)', '–'], tss: ['TSS concentration', 'mg/L'] },
+  sub: { runoff: ['Runoff', 'cfs'], rain: ['Rainfall', 'in/hr'], infil: ['Infiltration', 'in/hr'], tss: ['TSS washoff concentration', 'mg/L'] },
+  sys: { outflow: ['Outfall flow (system)', 'cfs'], runoff: ['Total runoff', 'cfs'], rain: ['Rainfall (avg)', 'in/hr'], flood: ['Flooding (system)', 'cfs'], stored: ['Volume stored', 'ft³'] },
+};
+const GRP = { node: 'nodes', link: 'links', sub: 'subs', sys: 'sys' };
+const COLORS = ['#1f77b4', '#d62728', '#2ca02c', '#ff7f0e', '#9467bd', '#8c564b', '#e377c2', '#17becf', '#7f7f7f', '#bcbd22'];
+const RAMP = ['#2c7bb6', '#00a6ca', '#00ccbc', '#90eb9d', '#ffff8c', '#f9d057', '#f29e2e', '#e76818', '#d7191c'];
+const S = { catalog: [], cache: {}, model: null, period: null, t: 0, sel: [], playing: null, cmp: new Set(), profPath: null };
+
+// ---------- helpers ----------
+const fmt = (v, d = 2) => (v == null || isNaN(v) ? '–' : (+v).toLocaleString(undefined, { maximumFractionDigits: d, minimumFractionDigits: 0 }));
+function ramp(f) { f = Math.max(0, Math.min(1, isFinite(f) ? f : 0)); const i = f * (RAMP.length - 1), a = Math.floor(i), b = Math.min(RAMP.length - 1, a + 1), w = i - a;
+  const h = (c) => [1, 3, 5].map((k) => parseInt(c.slice(k, k + 2), 16)); const A = h(RAMP[a]), B = h(RAMP[b]);
+  return 'rgb(' + A.map((x, k) => Math.round(x + (B[k] - x) * w)).join(',') + ')'; }
+function times(p) { // x values for a period
+  const out = new Array(p.n);
+  if (p.kind === 'design') { for (let i = 0; i < p.n; i++) out[i] = (i + 1) * p.dt / 60; return out; }
+  const t0 = new Date(p.t0.replace(' ', 'T')); for (let i = 0; i < p.n; i++) { const d = new Date(t0.getTime() + i * p.dt * 60000); out[i] = d; } return out; }
+function tLabel(p, i) { if (!p) return '—'; if (p.kind === 'design') return 'Hour ' + ((i + 1) * p.dt / 60).toFixed(2);
+  const d = new Date(new Date(p.t0.replace(' ', 'T')).getTime() + i * p.dt * 60000);
+  return p.kind === 'daily' ? d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : d.toLocaleString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }); }
+const maxOf = (a) => { let m = -Infinity; for (const v of a) if (v > m) m = v; return m; };
+function ser(model, period, kind, name, v) { const g = period.series[GRP[kind]]; if (!g) return null; const e = kind === 'sys' ? g : g[name]; return e ? e[v] : null; }
+async function loadModel(id) {
+  if (S.cache[id]) return S.cache[id];
+  const r = await fetch('data/' + id + '.json'); if (!r.ok) throw new Error('Could not load ' + id);
+  const m = await r.json(); S.cache[id] = m; return m; }
+
+// ---------- map ----------
+let map, bgLayer, X0 = 0, Y0 = 0;
+const L_ = { subs: L.layerGroup(), conn: L.layerGroup(), links: L.layerGroup(), nodes: L.layerGroup(), sel: L.layerGroup(), other: L.layerGroup() };
+const refs = { node: {}, link: {}, sub: {} };
+const ll = (xy) => L.latLng(xy[1] - Y0, xy[0] - X0);
+function initMap() {
+  map = L.map('map', { crs: L.CRS.Simple, minZoom: -6, maxZoom: 4, zoomSnap: 0.25, attributionControl: true, preferCanvas: false, zoomControl: false });
+  L.control.zoom({ position: 'topright' }).addTo(map);
+  if (window.innerWidth < 900) $('maptools').open = false;
+  map.attributionControl.setPrefix('').addAttribution('Imagery: Esri World Imagery · EPSG:6434 ft');
+  Object.values(L_).forEach((g) => g.addTo(map));
+}
+async function drawNetwork(m) {
+  const net = m.net;
+  if (!bgLayer && net.backdrop) {
+    X0 = net.backdrop[0]; Y0 = net.backdrop[1];
+    try { const b = await (await fetch('data/Background_Aerial.jpg')).blob(); const url = URL.createObjectURL(b);
+      bgLayer = L.imageOverlay(url, [ll([net.backdrop[0], net.backdrop[1]]), ll([net.backdrop[2], net.backdrop[3]])], { opacity: 0.95 });
+      if ($('cbBg').checked) bgLayer.addTo(map); bgLayer.bringToBack(); } catch (e) { console.log('backdrop', e); }
+  }
+  Object.values(L_).forEach((g) => g.clearLayers()); refs.node = {}; refs.link = {}; refs.sub = {};
+  for (const [n, s] of Object.entries(net.subs)) {
+    if (!s.poly.length) continue;
+    const p = L.polygon(s.poly.map(ll), { weight: 1, color: '#ffffff', fillOpacity: 0.45, fillColor: '#999' });
+    p.on('click', (e) => pick('sub', n, e.originalEvent.shiftKey)); p.bindTooltip(n, { sticky: true });
+    p.addTo(L_.subs); refs.sub[n] = p;
+    const o = net.nodes[s.outlet] ? net.nodes[s.outlet].xy : (net.subs[s.outlet] ? centroid(net.subs[s.outlet].poly) : null);
+    if (o) L.polyline([ll(centroid(s.poly)), ll(o)], { weight: 1, color: '#ffffff', dashArray: '3 4', opacity: 0.9, interactive: false }).addTo(L_.conn);
+  }
+  for (const [n, l] of Object.entries(net.links)) {
+    const a = net.nodes[l.n1], b = net.nodes[l.n2]; if (!a || !b) continue;
+    const pts = [a.xy, ...l.verts, b.xy].map(ll);
+    const pl = L.polyline(pts, { weight: Math.max(3, l.geom1 * 3.2), color: '#1f6feb', opacity: 0.95, lineCap: 'round' });
+    pl.on('click', (e) => pick('link', n, e.originalEvent.shiftKey)); pl.bindTooltip(n, { sticky: true });
+    pl.addTo(L_.links); refs.link[n] = pl;
+  }
+  for (const [n, v] of Object.entries(net.nodes)) {
+    if (!v.xy) continue;
+    let mk;
+    if (v.type === 'Outfall') mk = L.marker(ll(v.xy), { icon: L.divIcon({ className: '', html: '<div class="ofall"></div>', iconSize: [16, 14], iconAnchor: [8, 10] }) });
+    else mk = L.circleMarker(ll(v.xy), { radius: v.type === 'Storage' ? 7 : 6, weight: v.type === 'Storage' ? 3 : 1.5, color: v.type === 'Storage' ? '#111' : '#fff', fillOpacity: 1, fillColor: '#444' });
+    mk.on('click', (e) => pick('node', n, e.originalEvent && e.originalEvent.shiftKey)); mk.bindTooltip(n, { direction: 'top', offset: [0, -6] });
+    mk.addTo(L_.nodes); refs.node[n] = mk;
+  }
+  for (const [n, g] of Object.entries(net.gages || {})) L.marker(ll(g.xy), { icon: L.divIcon({ className: '', html: '<div class="gage" title="Rain gage ' + n + '">🌧</div>', iconSize: [18, 18] }) }).bindTooltip('Rain gage ' + n).addTo(L_.other);
+  toggleLayers(); labels();
+  if (!S.fitted) { map.fitBounds(L.featureGroup([L_.subs, L_.nodes].flatMap((g) => g.getLayers())).getBounds().pad(0.08)); S.fitted = true; }
+}
+function centroid(poly) { let x = 0, y = 0; poly.forEach((p) => { x += p[0]; y += p[1]; }); return [x / poly.length, y / poly.length]; }
+function toggleLayers() {
+  const on = (g, c) => (c ? map.addLayer(g) : map.removeLayer(g));
+  if (bgLayer) on(bgLayer, $('cbBg').checked); on(L_.subs, $('cbSubs').checked); on(L_.conn, $('cbConn').checked);
+}
+function labels() {
+  const show = $('cbLbl').checked;
+  for (const [n, mk] of Object.entries(refs.node)) { mk.unbindTooltip(); mk.bindTooltip(n, show ? { permanent: true, className: 'lbl', direction: 'right', offset: [6, 0] } : { direction: 'top', offset: [0, -6] }); }
+}
+
+// ---------- theme ----------
+const LANDUSE_C = { ROAD: '#9aa4ae', RESIDENTIAL: '#7fc97f', COMMERCIAL: '#f0a35e' };
+function theme() {
+  const m = S.model, p = S.period; if (!m || !p) return;
+  const net = m.net, t = S.t, leg = [];
+  const scale = (vals) => { const arr = Object.values(vals).filter((v) => isFinite(v)); let lo = Math.min(...arr), hi = Math.max(...arr); if (!(hi > lo)) { hi = lo + 1; } return [lo, hi]; };
+  // links
+  const tl = $('thLink').value, lv = {};
+  for (const n of Object.keys(refs.link)) {
+    const l = net.links[n];
+    lv[n] = tl === 'maxflow' ? maxOf(ser(m, p, 'link', n, 'flow') || [0]) : tl === 'maxcap' ? maxOf(ser(m, p, 'link', n, 'cap') || [0]) : tl === 'slope' ? 100 * l.slope : tl === 'diam' ? l.geom1 * 12
+      : tl === 'none' ? 0 : (ser(m, p, 'link', n, tl) || [])[t];
+  }
+  let [lo, hi] = tl === 'maxcap' || tl === 'cap' ? [0, 1] : scale(lv);
+  for (const [n, pl] of Object.entries(refs.link)) pl.setStyle({ color: tl === 'none' ? '#1f6feb' : ramp((lv[n] - lo) / (hi - lo)) });
+  if (tl !== 'none') leg.push(['Links: ' + $('thLink').selectedOptions[0].text, lo, hi]);
+  // nodes
+  const tn = $('thNode').value, nv = {};
+  for (const n of Object.keys(refs.node)) {
+    const v = net.nodes[n];
+    if (tn === 'type') continue;
+    const d = ser(m, p, 'node', n, tn === 'maxdepth' || tn === 'maxdepthfrac' ? 'depth' : tn) || [];
+    nv[n] = tn === 'maxdepth' ? maxOf(d) : tn === 'maxdepthfrac' ? (v.maxdepth > 0 ? maxOf(d) / v.maxdepth : 0) : tn === 'invert' ? v.invert : d[t];
+  }
+  if (tn !== 'type') {
+    [lo, hi] = tn === 'maxdepthfrac' ? [0, 1] : scale(nv);
+    for (const [n, mk] of Object.entries(refs.node)) if (mk.setStyle) mk.setStyle({ fillColor: ramp((nv[n] - lo) / (hi - lo)) });
+    leg.push(['Nodes: ' + $('thNode').selectedOptions[0].text, lo, hi]);
+  } else for (const [n, mk] of Object.entries(refs.node)) if (mk.setStyle) mk.setStyle({ fillColor: net.nodes[n].type === 'Storage' ? '#8c564b' : '#444' });
+  // subs
+  const ts = $('thSub').value, sv = {};
+  for (const n of Object.keys(refs.sub)) {
+    const s = net.subs[n];
+    if (ts === 'imperv') sv[n] = s.imperv; else if (ts === 'maxrunoff') sv[n] = maxOf(ser(m, p, 'sub', n, 'runoff') || [0]);
+    else if (ts === 'runoff' || ts === 'tss') sv[n] = (ser(m, p, 'sub', n, ts) || [])[t];
+  }
+  if (ts === 'landuse' || ts === 'none') {
+    for (const [n, pg] of Object.entries(refs.sub)) { const lu = ((m.net.subs[n].props['Land Use'] || '').split(' ')[0]) || (n.startsWith('S-ROW') ? 'ROAD' : 'RESIDENTIAL');
+      pg.setStyle(ts === 'none' ? { fillOpacity: 0, color: '#fff' } : { fillOpacity: 0.5, fillColor: LANDUSE_C[lu] || '#bbb', color: '#fff' }); }
+  } else {
+    [lo, hi] = ts === 'imperv' ? [0, 100] : scale(sv);
+    for (const [n, pg] of Object.entries(refs.sub)) pg.setStyle({ fillOpacity: 0.55, fillColor: ramp((sv[n] - lo) / (hi - lo)), color: '#fff' });
+    leg.push(['Subcatchments: ' + $('thSub').selectedOptions[0].text, lo, hi]);
+  }
+  const lg = $('legend'); lg.replaceChildren();
+  const grad = 'linear-gradient(90deg,' + RAMP.join(',') + ')';
+  leg.forEach(([t, a, b]) => { const d = document.createElement('div'); d.style.marginBottom = '4px';
+    const h = document.createElement('div'); h.textContent = t; const bar = document.createElement('div'); bar.className = 'bar'; bar.style.background = grad;
+    const e = document.createElement('div'); e.className = 'ends'; const s1 = document.createElement('span'); s1.textContent = fmt(a, 2); const s2 = document.createElement('span'); s2.textContent = fmt(b, 2); e.append(s1, s2);
+    d.append(h, bar, e); lg.appendChild(d); });
+  if (ts === 'landuse') { const d = document.createElement('div'); d.textContent = 'Subcatchments: gray road · green residential · orange commercial'; lg.appendChild(d); }
+  highlight();
+}
+function highlight() {
+  L_.sel.clearLayers();
+  S.sel.forEach((s, i) => {
+    const c = COLORS[i % COLORS.length];
+    if (s.kind === 'node' && refs.node[s.name]) L.circleMarker(refs.node[s.name].getLatLng(), { radius: 12, color: c, weight: 3, fill: false, interactive: false }).addTo(L_.sel);
+    if (s.kind === 'link' && refs.link[s.name]) L.polyline(refs.link[s.name].getLatLngs(), { color: c, weight: 12, opacity: 0.45, interactive: false }).addTo(L_.sel);
+    if (s.kind === 'sub' && refs.sub[s.name]) L.polygon(refs.sub[s.name].getLatLngs(), { color: c, weight: 3, fill: false, interactive: false }).addTo(L_.sel);
+  });
+  if (S.profPath) { const net = S.model.net; const pts = []; S.profPath.links.forEach((ln) => { const l = net.links[ln]; pts.push(...[net.nodes[l.n1].xy, ...l.verts, net.nodes[l.n2].xy].map(ll)); });
+    if ($('pane-profile').hidden === false && pts.length) L.polyline(pts, { color: '#ffd400', weight: 9, opacity: 0.55, interactive: false }).addTo(L_.sel); }
+}
+
+// ---------- selection & graph ----------
+function pick(kind, name, add) {
+  add = add || $('cbMulti').checked;
+  const ex = S.sel.findIndex((s) => s.kind === kind && s.name === name);
+  if (add) { if (ex >= 0) S.sel.splice(ex, 1); else S.sel.push({ kind, name }); }
+  else S.sel = [{ kind, name }];
+  if (S.sel.length && S.sel.some((s) => s.kind !== S.sel[0].kind)) S.sel = [{ kind, name }];
+  showProps(kind, name); fillVars(); graph(); highlight();
+  if ($('pane-graph').hidden && $('pane-profile').hidden) tab('graph');
+}
+function fillVars() {
+  const kind = S.sel.length ? S.sel[0].kind : null, sv = $('selVar'), cur = sv.value;
+  sv.replaceChildren();
+  if (!kind) return;
+  const avail = Object.keys(VARS[kind]).filter((v) => { const p = S.period; const s0 = S.sel[0]; return ser(S.model, p, kind, s0.name, v); });
+  avail.forEach((v) => sv.appendChild(new Option(VARS[kind][v][0] + ' (' + VARS[kind][v][1] + ')', v)));
+  const pref = { node: 'depth', link: 'flow', sub: 'runoff', sys: 'outflow' }[kind];
+  sv.value = avail.includes(cur) ? cur : (avail.includes(pref) ? pref : avail[0]);
+  const chips = $('chips'); chips.replaceChildren();
+  S.sel.forEach((s, i) => { const c = document.createElement('span'); c.className = 'chip'; c.style.borderColor = COLORS[i % COLORS.length];
+    c.appendChild(document.createTextNode(s.kind === 'sys' ? 'System' : s.name)); const x = document.createElement('button'); x.textContent = '×'; x.title = 'Remove';
+    x.onclick = () => { S.sel.splice(i, 1); fillVars(); graph(); highlight(); }; c.appendChild(x); chips.appendChild(c); });
+}
+function cmpTargets() { // list of {model, period, label}
+  const out = [{ m: S.model, p: S.period, label: '' }];
+  for (const key of S.cmp) { const [mid, pid] = key.split('|'); const m = S.cache[mid]; if (!m) continue; const p = m.periods.find((q) => q.id === pid); if (p) out.push({ m, p, label: m.id === S.model.id ? p.id : m.id }); }
+  return out;
+}
+function fillCmp() {
+  const box = $('cmpBox'); box.replaceChildren();
+  const opts = [];
+  if (S.period.kind === 'design') S.model.periods.forEach((p) => { if (p.id !== S.period.id) opts.push([S.model.id, p.id, p.id]); });
+  else S.catalog.filter((c) => c.id !== S.model.id && c.periods.some((p) => p.id === S.period.id)).forEach((c) => opts.push([c.id, S.period.id, c.id]));
+  [...S.cmp].forEach((k) => { if (!opts.some((o) => o[0] + '|' + o[1] === k)) S.cmp.delete(k); });
+  if (!opts.length) { box.textContent = 'nothing comparable for this period'; return; }
+  opts.forEach(([mid, pid, lbl]) => {
+    const k = mid + '|' + pid, lab = document.createElement('label'); lab.style.marginRight = '8px';
+    const cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = S.cmp.has(k);
+    cb.onchange = async () => { if (cb.checked) { S.cmp.add(k); $('loading').hidden = false; try { await loadModel(mid); } finally { $('loading').hidden = true; } } else S.cmp.delete(k); graph(); profile(); };
+    lab.append(cb, document.createTextNode(' ' + lbl)); box.appendChild(lab);
+  });
+}
+function graph() {
+  const el = $('plotTS'); const v = $('selVar').value;
+  if (!S.sel.length || !v) { Plotly.purge(el); el.textContent = ''; $('statBox').replaceChildren(); const p = document.createElement('p'); p.className = 'muted'; p.textContent = 'Click a node, conduit or subcatchment on the map (or "+ System") to plot its results.'; $('statBox').appendChild(p); return; }
+  const kind = S.sel[0].kind, unit = VARS[kind][v][1], traces = [], tg = cmpTargets(), dash = ['solid', 'dash', 'dot', 'dashdot', 'longdash', 'longdashdot'];
+  const stats = [];
+  S.sel.forEach((s, i) => tg.forEach((T, j) => {
+    const y = ser(T.m, T.p, kind, s.name, v); if (!y) return;
+    const nm = (kind === 'sys' ? 'System' : s.name) + (tg.length > 1 ? ' · ' + (T.label || (S.period.kind === 'design' ? S.period.id : S.model.id)) : '');
+    traces.push({ x: times(T.p), y, name: nm, type: 'scatter', mode: 'lines', line: { color: COLORS[(S.sel.length > 1 ? i : j) % COLORS.length], width: 2, dash: S.sel.length > 1 ? dash[j % dash.length] : 'solid', shape: T.p.kind === 'daily' ? 'hv' : 'linear' } });
+    stats.push([nm, maxOf(y), y.reduce((a, b) => a + b, 0) / y.length]);
+  }));
+  const layout = { margin: { l: 55, r: 50, t: 10, b: 40 }, legend: { orientation: 'h', y: -0.18 }, hovermode: 'x unified', xaxis: { title: S.period.kind === 'design' ? 'Elapsed time (hours)' : '' },
+    yaxis: { title: VARS[kind][v][0] + ' (' + unit + ')', rangemode: 'tozero' }, shapes: [] };
+  if ($('cbRain').checked && !(kind === 'sub' && v === 'rain')) {
+    const r = ser(S.model, S.period, 'sys', null, 'rain'); if (r) { traces.push({ x: times(S.period), y: r, name: 'Rainfall (in/hr)', type: 'bar', yaxis: 'y2', marker: { color: 'rgba(80,120,200,.45)' }, hovertemplate: '%{y:.2f} in/hr' });
+      layout.yaxis2 = { title: 'Rain (in/hr)', overlaying: 'y', side: 'right', autorange: 'reversed', range: [maxOf(r) * 3, 0], showgrid: false }; layout.yaxis.range = [0, Math.max(...traces.filter((t) => t.type !== 'bar').map((t) => maxOf(t.y))) * 1.6 || 1]; }
+  }
+  const x = times(S.period)[S.t]; layout.shapes.push({ type: 'line', x0: x, x1: x, yref: 'paper', y0: 0, y1: 1, line: { color: '#999', width: 1, dash: 'dot' } });
+  if (S.period.kind === 'daily') layout.yaxis.title += ' – daily ' + (v === 'tss' ? 'mean' : 'max');
+  Plotly.react(el, traces, layout, { responsive: true, displaylogo: false });
+  const sb = $('statBox'); sb.replaceChildren();
+  const kv = document.createElement('div'); kv.className = 'kv';
+  stats.slice(0, 12).forEach(([n, mx, av]) => { const d = document.createElement('div'); const b = document.createElement('b'); b.textContent = fmt(mx, 3) + ' ' + unit; const s = document.createElement('span'); s.textContent = 'max · ' + n + ' (mean ' + fmt(av, 3) + ')'; d.append(b, s); kv.appendChild(d); });
+  sb.appendChild(kv);
+}
+
+// ---------- properties ----------
+function showProps(kind, name) {
+  const box = $('propBox'); box.replaceChildren(); const net = S.model.net;
+  const h = document.createElement('h3'); const tb = document.createElement('table'); tb.className = 'props';
+  const add = (k, v) => { const tr = document.createElement('tr'); const a = document.createElement('td'); a.textContent = k; const b = document.createElement('td'); b.textContent = v; tr.append(a, b); tb.appendChild(tr); };
+  if (kind === 'sys') { h.textContent = 'System'; box.append(h); return; }
+  const o = kind === 'node' ? net.nodes[name] : kind === 'link' ? net.links[name] : net.subs[name];
+  if (!o) { h.textContent = name + ' is not in this model'; box.append(h); return; }
+  h.textContent = (kind === 'node' ? o.type : kind === 'link' ? 'Conduit' : 'Subcatchment') + ' ' + name;
+  add('Name', name);
+  if (kind === 'node') add('Rim elevation (ft)', fmt(o.rim, 3));
+  Object.entries(o.props).forEach(([k, v]) => add(k, v));
+  // results in this period
+  const p = S.period, vars = VARS[kind];
+  const h2 = document.createElement('h3'); h2.textContent = 'Results – ' + p.label;
+  const t2 = document.createElement('table'); t2.className = 'props';
+  Object.entries(vars).forEach(([v, [lab, u]]) => { const y = ser(S.model, p, kind, name, v); if (!y) return; const tr = document.createElement('tr'); const a = document.createElement('td'); a.textContent = 'Max ' + lab.toLowerCase(); const b = document.createElement('td'); b.textContent = fmt(maxOf(y), 3) + ' ' + u + '   (now ' + fmt(y[S.t], 3) + ')'; tr.append(a, b); t2.appendChild(tr); });
+  box.append(h, tb, h2, t2);
+  if (kind === 'node') { const b = document.createElement('button'); b.className = 'btn primary'; b.style.marginTop = '10px'; b.textContent = 'Profile from ' + name + ' to outfall';
+    b.onclick = () => { $('selFrom').value = name; $('selTo').value = Object.keys(net.nodes).find((n) => net.nodes[n].type === 'Outfall') || ''; $('selProf').value = '__custom'; tab('profile'); buildPath(); }; box.appendChild(b); }
+}
+
+// ---------- profile ----------
+function fillProfiles() {
+  const net = S.model.net, sp = $('selProf'), cur = sp.value; sp.replaceChildren();
+  (net.profiles || []).forEach((p, i) => sp.appendChild(new Option(p.name + ' (saved in .inp)', 'saved' + i)));
+  // automatic: each upstream end to outfall
+  const ups = Object.keys(net.nodes).filter((n) => !Object.values(net.links).some((l) => l.n2 === n) && Object.values(net.links).some((l) => l.n1 === n));
+  ups.forEach((n) => sp.appendChild(new Option(n + ' → outfall', 'auto:' + n)));
+  sp.appendChild(new Option('Custom (From / To)', '__custom'));
+  sp.value = [...sp.options].some((o) => o.value === cur) ? cur : sp.options[0].value;
+  const names = Object.keys(net.nodes).sort();
+  ['selFrom', 'selTo'].forEach((id) => { const s = $(id), c = s.value; s.replaceChildren(); names.forEach((n) => s.appendChild(new Option(n, n))); if (names.includes(c)) s.value = c; });
+  if (!$('selTo').value || !names.includes($('selTo').value) || $('selTo').value === $('selFrom').value) $('selTo').value = names.find((n) => net.nodes[n].type === 'Outfall');
+  buildPath();
+}
+function downstreamPath(net, from, to) {
+  const path = []; let cur = from, guard = 0;
+  while (cur !== to && guard++ < 500) { const l = Object.entries(net.links).find(([, v]) => v.n1 === cur); if (!l) return null; path.push(l[0]); cur = l[1].n2; }
+  return cur === to ? path : null;
+}
+function buildPath() {
+  const net = S.model.net, v = $('selProf').value; let links = null;
+  if (v.startsWith('saved')) links = net.profiles[+v.slice(5)].links.filter((l) => net.links[l]);
+  else if (v.startsWith('auto:')) { const of = Object.keys(net.nodes).find((n) => net.nodes[n].type === 'Outfall'); links = downstreamPath(net, v.slice(5), of); }
+  else links = downstreamPath(net, $('selFrom').value, $('selTo').value) || downstreamPath(net, $('selTo').value, $('selFrom').value);
+  S.profPath = links && links.length ? { links } : null; profile(); highlight();
+}
+function profile() {
+  const el = $('plotProf'); if ($('pane-profile').hidden) return;
+  if (!S.profPath) { Plotly.purge(el); el.textContent = 'No downstream path between those nodes – pick nodes on the same flow path.'; return; }
+  const net = S.model.net, links = S.profPath.links; const ns = [net.links[links[0]].n1, ...links.map((l) => net.links[l].n2)];
+  const st = [0]; links.forEach((l) => st.push(st[st.length - 1] + net.links[l].length));
+  const tr = [];
+  // pipe band
+  const px = [], pinv = [], pcr = [];
+  links.forEach((ln, i) => { const l = net.links[ln]; px.push(st[i], st[i + 1], null); pinv.push(l.inv1, l.inv2, null); pcr.push(l.inv1 + l.geom1, l.inv2 + l.geom1, null); });
+  tr.push({ x: px, y: pcr, name: 'Pipe crown', mode: 'lines', line: { color: '#555', width: 1.5 }, hoverinfo: 'skip' });
+  tr.push({ x: px, y: pinv, name: 'Pipe invert', mode: 'lines', line: { color: '#555', width: 1.5 }, hoverinfo: 'skip' });
+  links.forEach((ln, i) => { const l = net.links[ln]; tr.push({ x: [st[i], st[i + 1], st[i + 1], st[i], st[i]], y: [l.inv1, l.inv2, l.inv2 + l.geom1, l.inv1 + l.geom1, l.inv1], fill: 'toself', fillcolor: 'rgba(120,120,120,.18)', line: { width: 0 }, mode: 'lines', showlegend: false, hoverinfo: 'text', text: ln + ' · ' + (l.geom1 * 12).toFixed(0) + '" · S=' + (100 * l.slope).toFixed(2) + '%' }); });
+  // structures
+  ns.forEach((n, i) => { const v = net.nodes[n]; tr.push({ x: [st[i], st[i]], y: [v.invert, Math.max(v.rim, v.invert)], mode: 'lines', line: { color: v.type === 'Storage' ? '#8c564b' : '#333', width: v.type === 'Storage' ? 6 : 3 }, showlegend: false, hoverinfo: 'text', text: n + ' · invert ' + v.invert.toFixed(2) + ' · rim ' + v.rim.toFixed(2) }); });
+  tr.push({ x: st, y: ns.map((n) => (net.nodes[n].type === 'Outfall' ? null : net.nodes[n].rim)), name: 'Ground (rim)', mode: 'lines+markers', line: { color: '#7a5c2e', width: 2 }, marker: { size: 5 }, text: ns, hovertemplate: '%{text}<br>rim %{y:.2f} ft<extra></extra>' });
+  const tg = $('cbCmpHGL').checked ? cmpTargets() : cmpTargets().slice(0, 1);
+  tg.forEach((T, j) => {
+    const head = (n) => { const s = ser(T.m, T.p, 'node', n, 'head'); return s ? s : null; };
+    const now = ns.map((n) => { const h = head(n); return h ? Math.max(h[S.t], net.nodes[n].invert) : null; });
+    const lbl = j ? ' · ' + (T.label) : '';
+    tr.push({ x: st, y: now, name: 'HGL ' + tLabel(S.period, S.t) + lbl, mode: 'lines+markers', line: { color: j ? COLORS[(j + 2) % COLORS.length] : '#1f6feb', width: 3 }, fill: j ? 'none' : 'none', text: ns, hovertemplate: '%{text}<br>HGL %{y:.2f} ft<extra></extra>' });
+    if ($('cbMaxHGL').checked) tr.push({ x: st, y: ns.map((n) => { const h = head(n); return h ? maxOf(h) : null; }), name: 'Max HGL' + lbl, mode: 'lines', line: { color: j ? COLORS[(j + 2) % COLORS.length] : '#d62728', width: 1.5, dash: 'dash' }, text: ns, hovertemplate: '%{text}<br>max HGL %{y:.2f} ft<extra></extra>' });
+  });
+  const ann = ns.map((n, i) => ({ x: st[i], y: net.nodes[n].rim, text: n.replace('CB-', ''), showarrow: false, yshift: 12, font: { size: 10 } }));
+  Plotly.react(el, tr, { margin: { l: 55, r: 15, t: 20, b: 45 }, xaxis: { title: 'Distance along profile (ft)' }, yaxis: { title: 'Elevation (ft NAVD88)' }, legend: { orientation: 'h', y: -0.2 }, annotations: ann, hovermode: 'closest' }, { responsive: true, displaylogo: false });
+}
+
+// ---------- report & inp ----------
+function report() {
+  const p = S.period.report || (S.model.periods.find((q) => q.report) || {}).report, sel = $('selRep'), cur = sel.value;
+  sel.replaceChildren(); if (!p) { $('repBox').textContent = 'No report'; return; }
+  Object.keys(p.sections).forEach((k) => sel.appendChild(new Option(k, k))); sel.appendChild(new Option('Full status report (.rpt)', '__full'));
+  sel.value = [...sel.options].some((o) => o.value === cur) ? cur : 'Node Depth Summary' in p.sections ? 'Node Depth Summary' : sel.options[0].value;
+  const note = S.period.report ? '' : '(This storm window is part of the continuous run – report covers the full Jan 2025 – Jun 2026 simulation.)\n\n';
+  $('repBox').textContent = note + (sel.value === '__full' ? p.text : sel.value + '\n' + p.sections[sel.value]);
+}
+function inp() {
+  const txt = S.model.inp; $('inpBox').textContent = txt;
+  const s = $('selSec'); s.replaceChildren(); (txt.match(/^\[[A-Z_a-z]+\]/gm) || []).forEach((h) => s.appendChild(new Option(h, h)));
+}
+function about() {
+  const b = $('aboutBox'); b.replaceChildren();
+  const h = document.createElement('h3'); h.textContent = 'Models in this viewer'; b.appendChild(h);
+  let grp = '';
+  S.catalog.forEach((c) => { if (c.group !== grp) { grp = c.group; const g = document.createElement('h3'); g.textContent = grp; g.style.color = '#5f6b7a'; b.appendChild(g); }
+    const d = document.createElement('div'); d.style.marginBottom = '8px'; const a = document.createElement('a'); a.href = '#'; a.textContent = c.label; a.onclick = (e) => { e.preventDefault(); $('selModel').value = c.id; selectModel(c.id); };
+    const p = document.createElement('div'); p.className = 'muted'; p.textContent = c.desc + ' · periods: ' + c.periods.map((q) => q.id).join(', ');
+    d.append(a, p); b.appendChild(d); });
+  const n = document.createElement('p'); n.className = 'muted';
+  n.textContent = 'Results come from EPA SWMM 5.2 runs of each .inp. Design storms: 5-min results. Continuous models: daily maxima (TSS daily mean) for the full record, 10-min results for the four largest storms. Elevations NAVD88 ft, coordinates EPSG:6434 (ft).';
+  b.appendChild(n);
+}
+
+// ---------- model / period / time ----------
+async function selectModel(id) {
+  $('loading').hidden = false;
+  try {
+    const m = await loadModel(id); S.model = m;
+    const ps = $('selPeriod'), cur = S.period ? S.period.id : null; ps.replaceChildren();
+    m.periods.forEach((p) => ps.appendChild(new Option(p.label, p.id)));
+    ps.value = m.periods.some((p) => p.id === cur) ? cur : (m.periods.find((p) => p.id === '10yr') || m.periods[0]).id;
+    await drawNetwork(m); selectPeriod(ps.value, true); fillProfiles(); inp(); about();
+    S.sel = S.sel.filter((s) => s.kind === 'sys' || (s.kind === 'node' ? m.net.nodes[s.name] : s.kind === 'link' ? m.net.links[s.name] : m.net.subs[s.name]));
+    if (S.sel.length) showProps(S.sel[0].kind, S.sel[0].name); fillVars(); graph();
+    try { history.replaceState(null, '', '#' + id); } catch (e) {}
+  } catch (e) { $('loading').textContent = 'Failed to load: ' + e.message; return; }
+  $('loading').hidden = true;
+}
+function selectPeriod(pid, keepT) {
+  const p = S.model.periods.find((q) => q.id === pid); const oldN = S.period ? S.period.n : 0; S.period = p;
+  const sl = $('slider'); sl.max = p.n - 1;
+  if (!keepT || S.t >= p.n || oldN !== p.n) { const r = ser(S.model, p, 'sys', null, 'outflow') || []; let im = 0; r.forEach((v, i) => { if (v > r[im]) im = i; }); S.t = im; }
+  sl.value = S.t; $('tlabel').textContent = tLabel(p, S.t);
+  fillCmp(); theme(); fillVars(); graph(); profile(); report();
+}
+function setT(i) { S.t = i; $('slider').value = i; $('tlabel').textContent = tLabel(S.period, i); theme(); profile();
+  const el = $('plotTS'); if (el.layout) { const x = times(S.period)[i]; Plotly.relayout(el, { 'shapes[0].x0': x, 'shapes[0].x1': x }); }
+  if (S.sel.length && !$('pane-props').hidden) showProps(S.sel[0].kind, S.sel[0].name); }
+function tab(name) {
+  document.querySelectorAll('.tabs button').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.tab === name)));
+  document.querySelectorAll('.pane').forEach((p) => { p.hidden = p.id !== 'pane-' + name; });
+  if (name === 'graph') { graph(); } if (name === 'profile') profile(); highlight();
+  setTimeout(() => { ['plotTS', 'plotProf'].forEach((id) => { const e = $(id); if (e.layout) Plotly.Plots.resize(e); }); map.invalidateSize(); }, 30);
+}
+
+// ---------- wire up ----------
+async function init() {
+  initMap();
+  document.querySelectorAll('.tabs button').forEach((b) => (b.onclick = () => tab(b.dataset.tab)));
+  ['thLink', 'thNode', 'thSub'].forEach((id) => ($(id).onchange = theme));
+  ['cbBg', 'cbSubs', 'cbConn'].forEach((id) => ($(id).onchange = toggleLayers)); $('cbLbl').onchange = labels;
+  $('selModel').onchange = (e) => selectModel(e.target.value);
+  $('selPeriod').onchange = (e) => selectPeriod(e.target.value);
+  $('slider').oninput = (e) => setT(+e.target.value);
+  $('btnPlay').onclick = () => { if (S.playing) { clearInterval(S.playing); S.playing = null; $('btnPlay').textContent = '▶'; return; }
+    $('btnPlay').textContent = '❚❚'; S.playing = setInterval(() => setT((S.t + 1) % S.period.n), 120); };
+  $('selVar').onchange = graph; $('cbRain').onchange = graph;
+  $('btnSys').onclick = () => { S.sel = [{ kind: 'sys', name: 'system' }]; showProps('sys'); fillVars(); graph(); highlight(); tab('graph'); };
+  $('btnClear').onclick = () => { S.sel = []; fillVars(); graph(); highlight(); };
+  $('selProf').onchange = buildPath; $('btnProf').onclick = () => { $('selProf').value = '__custom'; buildPath(); };
+  $('cbMaxHGL').onchange = profile; $('cbCmpHGL').onchange = profile;
+  $('selRep').onchange = report;
+  $('selSec').onchange = (e) => { const pre = $('inpBox'), txt = S.model.inp, i = txt.indexOf(e.target.value); const lines = txt.slice(0, i).split('\n').length - 1;
+    pre.scrollTop = lines * 16.7; pre.scrollIntoView({ block: 'nearest' }); };
+  const copy = async (txt, msgEl) => { try { await navigator.clipboard.writeText(txt); if (msgEl) msgEl.textContent = 'Copied'; } catch (e) { if (msgEl) msgEl.textContent = 'Copy not allowed here – select the text instead'; } };
+  $('btnCopyInp').onclick = () => copy(S.model.inp, $('inpMsg')); $('btnCopyRep').onclick = () => copy($('repBox').textContent, null);
+  $('inpBox').style.maxHeight = '70vh'; $('repBox').style.maxHeight = '70vh';
+  try {
+    S.catalog = await (await fetch('data/catalog.json')).json();
+    let grp = null, og = null; const sm = $('selModel');
+    S.catalog.forEach((c) => { if (c.group !== grp) { grp = c.group; og = document.createElement('optgroup'); og.label = grp; sm.appendChild(og); } og.appendChild(new Option(c.label, c.id)); });
+    const h = (location.hash || '').slice(1); const start = S.catalog.some((c) => c.id === h) ? h : S.catalog[0].id; sm.value = start;
+    await selectModel(start);
+    pick('node', Object.keys(S.model.net.nodes).find((n) => S.model.net.nodes[n].type === 'Outfall'), false);
+  } catch (e) { $('loading').hidden = false; $('loading').textContent = 'Failed to load data: ' + e.message; }
+  window.addEventListener('hashchange', () => { const h = location.hash.slice(1); if (S.catalog.some((c) => c.id === h) && (!S.model || S.model.id !== h)) { $('selModel').value = h; selectModel(h); } });
+}
+init();
+})();
+</script>
+</body>
+</html>

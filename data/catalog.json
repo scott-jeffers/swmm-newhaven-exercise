@@ -1,0 +1,250 @@
+[
+ {
+  "id": "baseline",
+  "label": "Baseline \u2013 design storms",
+  "group": "Baseline (your edited model)",
+  "desc": "Your edited WestHaven_JonesHill.inp run for each NOAA Atlas 14 24-hr Type II design storm (switch storms under Period).",
+  "periods": [
+   {
+    "id": "1yr",
+    "label": "1-yr 24-hr NOAA 14 / Type II (2.86 in)",
+    "kind": "design"
+   },
+   {
+    "id": "2yr",
+    "label": "2-yr 24-hr NOAA 14 / Type II (3.48 in)",
+    "kind": "design"
+   },
+   {
+    "id": "5yr",
+    "label": "5-yr 24-hr NOAA 14 / Type II (4.48 in)",
+    "kind": "design"
+   },
+   {
+    "id": "10yr",
+    "label": "10-yr 24-hr NOAA 14 / Type II (5.32 in)",
+    "kind": "design"
+   },
+   {
+    "id": "25yr",
+    "label": "25-yr 24-hr NOAA 14 / Type II (6.48 in)",
+    "kind": "design"
+   },
+   {
+    "id": "50yr",
+    "label": "50-yr 24-hr NOAA 14 / Type II (7.33 in)",
+    "kind": "design"
+   },
+   {
+    "id": "100yr",
+    "label": "100-yr 24-hr NOAA 14 / Type II (8.25 in)",
+    "kind": "design"
+   }
+  ],
+  "size": 3539293
+ },
+ {
+  "id": "S0",
+  "label": "S0 \u2013 No sumps (conveyance only)",
+  "group": "Street-cleaning scenarios (continuous TSS)",
+  "desc": "The baseline model as most people build it: catch basins are plain junctions, so every pound of TSS washed off the street goes straight to the outfall.",
+  "periods": [
+   {
+    "id": "record",
+    "label": "Full record Jan 2025 \u2013 Jun 2026 (daily max; TSS daily mean)",
+    "kind": "daily"
+   },
+   {
+    "id": "ev20250216",
+    "label": "Storm Feb 16 2025 (1.44 in that day, 10-min)",
+    "kind": "event"
+   },
+   {
+    "id": "ev20250305",
+    "label": "Storm Mar 05 2025 (1.42 in that day, 10-min)",
+    "kind": "event"
+   },
+   {
+    "id": "ev20251030",
+    "label": "Storm Oct 30 2025 (1.97 in that day, 10-min)",
+    "kind": "event"
+   },
+   {
+    "id": "ev20260316",
+    "label": "Storm Mar 16 2026 (1.68 in that day, 10-min)",
+    "kind": "event"
+   }
+  ],
+  "size": 1978845
+ },
+ {
+  "id": "S1",
+  "label": "S1 \u2013 Full cleaning",
+  "group": "Street-cleaning scenarios (continuous TSS)",
+  "desc": "All 7 catch basins vacuumed on schedule: every sump keeps its full 2 ft of storage.",
+  "periods": [
+   {
+    "id": "record",
+    "label": "Full record Jan 2025 \u2013 Jun 2026 (daily max; TSS daily mean)",
+    "kind": "daily"
+   },
+   {
+    "id": "ev20250216",
+    "label": "Storm Feb 16 2025 (1.44 in that day, 10-min)",
+    "kind": "event"
+   },
+   {
+    "id": "ev20250305",
+    "label": "Storm Mar 05 2025 (1.42 in that day, 10-min)",
+    "kind": "event"
+   },
+   {
+    "id": "ev20251030",
+    "label": "Storm Oct 30 2025 (1.97 in that day, 10-min)",
+    "kind": "event"
+   },
+   {
+    "id": "ev20260316",
+    "label": "Storm Mar 16 2026 (1.68 in that day, 10-min)",
+    "kind": "event"
+   }
+  ],
+  "size": 1980326
+ },
+ {
+  "id": "S2",
+  "label": "S2 \u2013 Hybrid cleaning",
+  "group": "Street-cleaning scenarios (continuous TSS)",
+  "desc": "Only the two downstream basins (CB-48326, CB-48324) are cleaned; the 5 upstream sumps are 75% full of sediment (0.5 ft left).",
+  "periods": [
+   {
+    "id": "record",
+    "label": "Full record Jan 2025 \u2013 Jun 2026 (daily max; TSS daily mean)",
+    "kind": "daily"
+   },
+   {
+    "id": "ev20250216",
+    "label": "Storm Feb 16 2025 (1.44 in that day, 10-min)",
+    "kind": "event"
+   },
+   {
+    "id": "ev20250305",
+    "label": "Storm Mar 05 2025 (1.42 in that day, 10-min)",
+    "kind": "event"
+   },
+   {
+    "id": "ev20251030",
+    "label": "Storm Oct 30 2025 (1.97 in that day, 10-min)",
+    "kind": "event"
+   },
+   {
+    "id": "ev20260316",
+    "label": "Storm Mar 16 2026 (1.68 in that day, 10-min)",
+    "kind": "event"
+   }
+  ],
+  "size": 1982182
+ },
+ {
+  "id": "S3",
+  "label": "S3 \u2013 No cleaning",
+  "group": "Street-cleaning scenarios (continuous TSS)",
+  "desc": "No vacuuming: all 7 sumps are 75% full of sediment (0.5 ft of storage left).",
+  "periods": [
+   {
+    "id": "record",
+    "label": "Full record Jan 2025 \u2013 Jun 2026 (daily max; TSS daily mean)",
+    "kind": "daily"
+   },
+   {
+    "id": "ev20250216",
+    "label": "Storm Feb 16 2025 (1.44 in that day, 10-min)",
+    "kind": "event"
+   },
+   {
+    "id": "ev20250305",
+    "label": "Storm Mar 05 2025 (1.42 in that day, 10-min)",
+    "kind": "event"
+   },
+   {
+    "id": "ev20251030",
+    "label": "Storm Oct 30 2025 (1.97 in that day, 10-min)",
+    "kind": "event"
+   },
+   {
+    "id": "ev20260316",
+    "label": "Storm Mar 16 2026 (1.68 in that day, 10-min)",
+    "kind": "event"
+   }
+  ],
+  "size": 1981347
+ },
+ {
+  "id": "S4",
+  "label": "S4 \u2013 No cleaning + street sweeping",
+  "group": "Street-cleaning scenarios (continuous TSS)",
+  "desc": "Sumps neglected as in S3, but the streets are swept every 14 days. Can sweeping stand in for basin cleaning?",
+  "periods": [
+   {
+    "id": "record",
+    "label": "Full record Jan 2025 \u2013 Jun 2026 (daily max; TSS daily mean)",
+    "kind": "daily"
+   },
+   {
+    "id": "ev20250216",
+    "label": "Storm Feb 16 2025 (1.44 in that day, 10-min)",
+    "kind": "event"
+   },
+   {
+    "id": "ev20250305",
+    "label": "Storm Mar 05 2025 (1.42 in that day, 10-min)",
+    "kind": "event"
+   },
+   {
+    "id": "ev20251030",
+    "label": "Storm Oct 30 2025 (1.97 in that day, 10-min)",
+    "kind": "event"
+   },
+   {
+    "id": "ev20260316",
+    "label": "Storm Mar 16 2026 (1.68 in that day, 10-min)",
+    "kind": "event"
+   }
+  ],
+  "size": 1981086
+ },
+ {
+  "id": "S5",
+  "label": "S5 \u2013 Full cleaning + street sweeping",
+  "group": "Street-cleaning scenarios (continuous TSS)",
+  "desc": "Best case: all sumps cleaned and streets swept every 14 days.",
+  "periods": [
+   {
+    "id": "record",
+    "label": "Full record Jan 2025 \u2013 Jun 2026 (daily max; TSS daily mean)",
+    "kind": "daily"
+   },
+   {
+    "id": "ev20250216",
+    "label": "Storm Feb 16 2025 (1.44 in that day, 10-min)",
+    "kind": "event"
+   },
+   {
+    "id": "ev20250305",
+    "label": "Storm Mar 05 2025 (1.42 in that day, 10-min)",
+    "kind": "event"
+   },
+   {
+    "id": "ev20251030",
+    "label": "Storm Oct 30 2025 (1.97 in that day, 10-min)",
+    "kind": "event"
+   },
+   {
+    "id": "ev20260316",
+    "label": "Storm Mar 16 2026 (1.68 in that day, 10-min)",
+    "kind": "event"
+   }
+  ],
+  "size": 1979938
+ }
+]

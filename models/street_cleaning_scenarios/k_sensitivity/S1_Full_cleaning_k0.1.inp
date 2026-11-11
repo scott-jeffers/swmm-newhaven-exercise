@@ -1,0 +1,709 @@
+[TITLE]
+S1 - Full cleaning (k=0.1) | All 7 catch basins vacuumed on schedule: every sump keeps its full 2 ft of storage.
+Continuous TSS simulation, HVN hourly rain Jan-2025 to Jun-2026. Based on user baseline WestHaven_JonesHill.inp
+
+[OPTIONS]
+;;Option             Value
+FLOW_UNITS           CFS
+INFILTRATION         CURVE_NUMBER
+FLOW_ROUTING         DYNWAVE
+LINK_OFFSETS         ELEVATION
+MIN_SLOPE            0
+ALLOW_PONDING        NO
+SKIP_STEADY_STATE    NO
+
+START_DATE           01/01/2025
+START_TIME           00:00:00
+REPORT_START_DATE    01/01/2025
+REPORT_START_TIME    00:00:00
+END_DATE             07/01/2026
+END_TIME             00:00:00
+SWEEP_START          01/01
+SWEEP_END            12/31
+DRY_DAYS             5
+REPORT_STEP          00:05:00
+WET_STEP             00:05:00
+DRY_STEP             01:00:00
+ROUTING_STEP         0:00:10
+RULE_STEP            00:00:00
+
+INERTIAL_DAMPING     PARTIAL
+NORMAL_FLOW_LIMITED  BOTH
+FORCE_MAIN_EQUATION  H-W
+VARIABLE_STEP        0.75
+LENGTHENING_STEP     0
+MIN_SURFAREA         12.566
+MAX_TRIALS           8
+HEAD_TOLERANCE       0.005
+SYS_FLOW_TOL         5
+LAT_FLOW_TOL         5
+MINIMUM_STEP         0.5
+THREADS              1
+
+[EVAPORATION]
+;;CT monthly pan-adjusted (in/day)
+MONTHLY 0.03 0.05 0.08 0.12 0.15 0.18 0.19 0.16 0.12 0.08 0.05 0.03
+DRY_ONLY NO
+
+[RAINGAGES]
+;;Name Format Interval SCF Source
+RG1 VOLUME 1:00 1.0 FILE "HVN_2025-2026_hourly.dat" HVN IN
+
+[SUBCATCHMENTS]
+;;Name           Rain Gage        Outlet           Area     %Imperv  Width    %Slope   CurbLen  SnowPack        
+;;-------------- ---------------- ---------------- -------- -------- -------- -------- -------- ----------------
+;Right-of-way (road) | low pt 8.8 ft, flow length 252 ft, overland to outlet 64 ft
+S-ROW1           RG1              CB-48322         0.3775   80.93    65.16    2.23     0                        
+;Right-of-way (road) | low pt 8.4 ft, flow length 44 ft, overland to outlet 43 ft
+S-ROW2           RG1              CB-48323         0.1672   68.28    167.05   2.42     0                        
+;Right-of-way (road) | low pt 7.8 ft, flow length 43 ft, overland to outlet 44 ft
+S-ROW3           RG1              CB-48327         0.1086   71.06    111.15   3.67     0                        
+;Right-of-way (road) | low pt 7.3 ft, flow length 52 ft, overland to outlet 9 ft
+S-ROW4           RG1              CB-48324         0.0871   87.44    72.31    3.35     0                        
+;Right-of-way (road) | low pt 8.8 ft, flow length 424 ft, overland to outlet 37 ft
+S-ROW5           RG1              CB-48326         0.5107   76.60    52.52    7.58     0                        
+;Right-of-way (road) | low pt 9.8 ft, flow length 384 ft, overland to outlet 66 ft
+S-ROW6           RG1              CB-48322         0.4665   54.54    52.91    7.83     0                        
+;Right-of-way (road) | low pt 10.4 ft, flow length 448 ft, overland to outlet 236 ft
+S-ROW7           RG1              CB-48322         0.5415   84.71    52.63    6.00     0                        
+;Right-of-way (road) | low pt 7.6 ft, flow length 188 ft, overland to outlet 40 ft
+S-ROW8           RG1              CB-48325         0.3909   91.13    90.40    4.81     0                        
+;22 ANN ST | low pt 20.7 ft, flow length 73 ft, overland to outlet 284 ft
+S-020-0057       RG1              S-ROW7           0.0888   46.68    52.70    4.98     0                        
+;33 WOODLAWN ST | low pt 28.3 ft, flow length 91 ft, overland to outlet 133 ft
+S-019-0069       RG1              S-ROW5           0.1679   25.58    80.75    6.64     0                        
+;32 CARROLL ST | low pt 28.3 ft, flow length 92 ft, overland to outlet 350 ft
+S-020-0074       RG1              S-ROW6           0.1513   29.11    71.37    5.05     0                        
+;PLATT AV | low pt 11.0 ft, flow length 41 ft, overland to outlet 213 ft
+S-020-0078       RG1              S-ROW8           0.0659   9.03     70.80    14.21    0                        
+;30 WOODLAWN ST | low pt 28.6 ft, flow length 64 ft, overland to outlet 294 ft
+S-019-0066       RG1              S-ROW5           0.1349   45.79    91.39    6.90     0                        
+;180 PLATT AV | low pt 10.5 ft, flow length 111 ft, overland to outlet 335 ft
+S-020-0054       RG1              S-ROW1           0.2735   14.62    106.98   6.27     0                        
+;34 ANN ST | low pt 26.6 ft, flow length 71 ft, overland to outlet 355 ft
+S-020-0060       RG1              S-ROW7           0.1264   35.23    77.29    5.34     0                        
+;196 PLATT AV | low pt 9.6 ft, flow length 132 ft, overland to outlet 65 ft
+S-020-0069       RG1              CB-48322         0.1515   26.34    50.01    8.06     0                        
+;33 CARROLL ST | low pt 30.7 ft, flow length 72 ft, overland to outlet 356 ft
+S-019-0059       RG1              S-ROW6           0.1667   20.87    100.97   6.75     0                        
+;200 PLATT AV | low pt 10.1 ft, flow length 159 ft, overland to outlet 20 ft
+S-020-0070       RG1              CB-48322         0.1791   17.76    49.02    7.48     0                        
+;18 CARROLL ST | low pt 18.4 ft, flow length 97 ft, overland to outlet 181 ft
+S-020-0071       RG1              S-ROW6           0.1388   26.57    62.53    6.92     0                        
+;23 CARROLL ST | low pt 24.2 ft, flow length 54 ft, overland to outlet 251 ft
+S-019-0061       RG1              S-ROW6           0.1337   42.48    108.60   6.27     0                        
+;212 PLATT AV | low pt 10.3 ft, flow length 146 ft, overland to outlet 42 ft
+S-020-0076       RG1              CB-48323         0.1776   14.25    52.82    6.59     0                        
+;841 JONES HILL RD | low pt 9.5 ft, flow length 119 ft, overland to outlet 26 ft
+S-019-0073       RG1              CB-48325         1.0553   99.69    387.85   8.49     0                        
+;14 WOODLAWN ST | low pt 18.2 ft, flow length 50 ft, overland to outlet 116 ft
+S-019-0063       RG1              S-ROW5           0.1148   38.78    100.07   6.45     0                        
+;29 CARROLL ST | low pt 28.3 ft, flow length 80 ft, overland to outlet 299 ft
+S-019-0060       RG1              S-ROW6           0.1263   26.03    68.40    6.70     0                        
+;24 ANN ST | low pt 22.1 ft, flow length 73 ft, overland to outlet 308 ft
+S-020-0058       RG1              S-ROW7           0.1130   45.47    67.32    5.11     0                        
+;34 WOODLAWN ST | low pt 30.6 ft, flow length 78 ft, overland to outlet 342 ft
+S-019-0067       RG1              S-ROW5           0.1959   32.33    109.52   6.23     0                        
+;12 WOODLAWN ST | low pt 9.6 ft, flow length 118 ft, overland to outlet 21 ft
+S-020-0077       RG1              CB-48327         0.2596   44.52    95.61    7.20     0                        
+;22 CARROLL ST | low pt 22.7 ft, flow length 67 ft, overland to outlet 235 ft
+S-020-0072       RG1              S-ROW6           0.1357   26.74    87.78    6.90     0                        
+;23 WOODLAWN ST | low pt 23.0 ft, flow length 97 ft, overland to outlet 143 ft
+S-019-0071       RG1              S-ROW5           0.1645   19.23    74.00    6.16     0                        
+;19 CARROLL ST | low pt 19.1 ft, flow length 98 ft, overland to outlet 202 ft
+S-019-0062       RG1              S-ROW6           0.1408   58.79    62.26    6.42     0                        
+;33 ANN ST | low pt 27.8 ft, flow length 112 ft, overland to outlet 340 ft
+S-020-0062       RG1              S-ROW7           0.1982   35.27    77.18    3.12     0                        
+;188 PLATT AV | low pt 10.4 ft, flow length 127 ft, overland to outlet 163 ft
+S-020-0067       RG1              S-ROW1           0.1513   17.22    51.91    4.94     0                        
+;14 ANN ST | low pt 14.9 ft, flow length 108 ft, overland to outlet 238 ft
+S-020-0055       RG1              S-ROW7           0.2351   38.38    94.95    6.09     0                        
+;24 WOODLAWN ST | low pt 26.5 ft, flow length 72 ft, overland to outlet 197 ft
+S-019-0065       RG1              S-ROW5           0.1363   32.74    82.93    5.75     0                        
+;17 WOODLAWN ST | low pt 21.2 ft, flow length 92 ft, overland to outlet 124 ft
+S-019-0072       RG1              S-ROW5           0.1732   18.54    81.68    5.19     0                        
+;27 ANN ST | low pt 27.4 ft, flow length 30 ft, overland to outlet 277 ft
+S-020-0063       RG1              S-ROW7           0.1428   48.39    207.31   3.25     0                        
+;13 ANN ST | low pt 18.1 ft, flow length 42 ft, overland to outlet 120 ft
+S-020-0066       RG1              S-ROW7           0.1148   52.95    118.96   4.30     0                        
+;36 ANN ST | low pt 28.5 ft, flow length 96 ft, overland to outlet 461 ft
+S-020-0061       RG1              S-ROW7           0.0984   31.93    44.83    3.58     0                        
+;192 PLATT AV | low pt 9.8 ft, flow length 88 ft, overland to outlet 90 ft
+S-020-0068       RG1              S-ROW1           0.1232   57.70    61.26    5.88     0                        
+;17 ANN ST | low pt 18.2 ft, flow length 47 ft, overland to outlet 190 ft
+S-020-0065       RG1              S-ROW7           0.1652   35.09    154.29   6.45     0                        
+;21 ANN ST | low pt 22.4 ft, flow length 74 ft, overland to outlet 217 ft
+S-020-0064       RG1              S-ROW7           0.1848   28.52    108.51   5.91     0                        
+;37 WOODLAWN ST | low pt 31.5 ft, flow length 99 ft, overland to outlet 144 ft
+S-019-0068       RG1              S-ROW5           0.1930   59.73    84.83    7.15     0                        
+;28 CARROLL ST | low pt 26.4 ft, flow length 54 ft, overland to outlet 297 ft
+S-020-0073       RG1              S-ROW6           0.1304   25.46    104.73   4.70     0                        
+;208 PLATT AV | low pt 10.7 ft, flow length 126 ft, overland to outlet 82 ft
+S-020-0075       RG1              CB-48323         0.1882   28.62    64.96    5.89     0                        
+;20 WOODLAWN ST | low pt 23.2 ft, flow length 59 ft, overland to outlet 145 ft
+S-019-0064       RG1              S-ROW5           0.1396   22.90    102.78   6.91     0                        
+;27 WOODLAWN ST | low pt 25.4 ft, flow length 107 ft, overland to outlet 124 ft
+S-019-0070       RG1              S-ROW5           0.1649   28.87    66.87    6.56     0                        
+;28 ANN ST | low pt 24.5 ft, flow length 94 ft, overland to outlet 324 ft
+S-020-0059       RG1              S-ROW7           0.1130   40.15    52.57    6.04     0                        
+;18 ANN ST | low pt 19.8 ft, flow length 90 ft, overland to outlet 262 ft
+S-020-0056       RG1              S-ROW7           0.0891   56.62    43.29    4.11     0
+
+[SUBAREAS]
+;;Subcatchment   N-Imperv   N-Perv     S-Imperv   S-Perv     PctZero    RouteTo    PctRouted 
+;;-------------- ---------- ---------- ---------- ---------- ---------- ---------- ----------
+S-ROW1           0.012      0.15       0.05       0.15       25         OUTLET    
+S-ROW2           0.012      0.15       0.05       0.15       25         OUTLET    
+S-ROW3           0.012      0.15       0.05       0.15       25         OUTLET    
+S-ROW4           0.012      0.15       0.05       0.15       25         OUTLET    
+S-ROW5           0.012      0.15       0.05       0.15       25         OUTLET    
+S-ROW6           0.012      0.15       0.05       0.15       25         OUTLET    
+S-ROW7           0.012      0.15       0.05       0.15       25         OUTLET    
+S-ROW8           0.012      0.15       0.05       0.15       25         OUTLET    
+S-020-0057       0.012      0.15       0.05       0.15       25         OUTLET    
+S-019-0069       0.012      0.15       0.05       0.15       25         OUTLET    
+S-020-0074       0.012      0.15       0.05       0.15       25         OUTLET    
+S-020-0078       0.012      0.15       0.05       0.15       25         OUTLET    
+S-019-0066       0.012      0.15       0.05       0.15       25         OUTLET    
+S-020-0054       0.012      0.15       0.05       0.15       25         OUTLET    
+S-020-0060       0.012      0.15       0.05       0.15       25         OUTLET    
+S-020-0069       0.012      0.15       0.05       0.15       25         OUTLET    
+S-019-0059       0.012      0.15       0.05       0.15       25         OUTLET    
+S-020-0070       0.012      0.15       0.05       0.15       25         OUTLET    
+S-020-0071       0.012      0.15       0.05       0.15       25         OUTLET    
+S-019-0061       0.012      0.15       0.05       0.15       25         OUTLET    
+S-020-0076       0.012      0.15       0.05       0.15       25         OUTLET    
+S-019-0073       0.012      0.15       0.05       0.15       25         OUTLET    
+S-019-0063       0.012      0.15       0.05       0.15       25         OUTLET    
+S-019-0060       0.012      0.15       0.05       0.15       25         OUTLET    
+S-020-0058       0.012      0.15       0.05       0.15       25         OUTLET    
+S-019-0067       0.012      0.15       0.05       0.15       25         OUTLET    
+S-020-0077       0.012      0.15       0.05       0.15       25         OUTLET    
+S-020-0072       0.012      0.15       0.05       0.15       25         OUTLET    
+S-019-0071       0.012      0.15       0.05       0.15       25         OUTLET    
+S-019-0062       0.012      0.15       0.05       0.15       25         OUTLET    
+S-020-0062       0.012      0.15       0.05       0.15       25         OUTLET    
+S-020-0067       0.012      0.15       0.05       0.15       25         OUTLET    
+S-020-0055       0.012      0.15       0.05       0.15       25         OUTLET    
+S-019-0065       0.012      0.15       0.05       0.15       25         OUTLET    
+S-019-0072       0.012      0.15       0.05       0.15       25         OUTLET    
+S-020-0063       0.012      0.15       0.05       0.15       25         OUTLET    
+S-020-0066       0.012      0.15       0.05       0.15       25         OUTLET    
+S-020-0061       0.012      0.15       0.05       0.15       25         OUTLET    
+S-020-0068       0.012      0.15       0.05       0.15       25         OUTLET    
+S-020-0065       0.012      0.15       0.05       0.15       25         OUTLET    
+S-020-0064       0.012      0.15       0.05       0.15       25         OUTLET    
+S-019-0068       0.012      0.15       0.05       0.15       25         OUTLET    
+S-020-0073       0.012      0.15       0.05       0.15       25         OUTLET    
+S-020-0075       0.012      0.15       0.05       0.15       25         OUTLET    
+S-019-0064       0.012      0.15       0.05       0.15       25         OUTLET    
+S-019-0070       0.012      0.15       0.05       0.15       25         OUTLET    
+S-020-0059       0.012      0.15       0.05       0.15       25         OUTLET    
+S-020-0056       0.012      0.15       0.05       0.15       25         OUTLET
+
+[INFILTRATION]
+;;Subcatchment   Param1     Param2     Param3     Param4     Param5    
+;;-------------- ---------- ---------- ---------- ---------- ----------
+S-ROW1           67.7       0.5        7          7          0         
+S-ROW2           67.7       0.5        7          7          0         
+S-ROW3           68.8       0.5        7          7          0         
+S-ROW4           68.8       0.5        7          7          0         
+S-ROW5           67.7       0.5        7          7          0         
+S-ROW6           67.7       0.5        7          7          0         
+S-ROW7           67.7       0.5        7          7          0         
+S-ROW8           68.8       0.5        7          7          0         
+S-020-0057       67.7       0.5        7          7          0         
+S-019-0069       67.7       0.5        7          7          0         
+S-020-0074       67.7       0.5        7          7          0         
+S-020-0078       68.8       0.5        7          7          0         
+S-019-0066       67.7       0.5        7          7          0         
+S-020-0054       67.7       0.5        7          7          0         
+S-020-0060       67.7       0.5        7          7          0         
+S-020-0069       67.7       0.5        7          7          0         
+S-019-0059       67.7       0.5        7          7          0         
+S-020-0070       67.7       0.5        7          7          0         
+S-020-0071       67.7       0.5        7          7          0         
+S-019-0061       67.7       0.5        7          7          0         
+S-020-0076       67.7       0.5        7          7          0         
+S-019-0073       68.8       0.5        7          7          0         
+S-019-0063       67.7       0.5        7          7          0         
+S-019-0060       67.7       0.5        7          7          0         
+S-020-0058       67.7       0.5        7          7          0         
+S-019-0067       67.7       0.5        7          7          0         
+S-020-0077       67.7       0.5        7          7          0         
+S-020-0072       67.7       0.5        7          7          0         
+S-019-0071       67.7       0.5        7          7          0         
+S-019-0062       67.7       0.5        7          7          0         
+S-020-0062       67.7       0.5        7          7          0         
+S-020-0067       67.7       0.5        7          7          0         
+S-020-0055       67.7       0.5        7          7          0         
+S-019-0065       67.7       0.5        7          7          0         
+S-019-0072       67.7       0.5        7          7          0         
+S-020-0063       67.7       0.5        7          7          0         
+S-020-0066       67.7       0.5        7          7          0         
+S-020-0061       67.7       0.5        7          7          0         
+S-020-0068       67.7       0.5        7          7          0         
+S-020-0065       67.7       0.5        7          7          0         
+S-020-0064       67.7       0.5        7          7          0         
+S-019-0068       67.7       0.5        7          7          0         
+S-020-0073       67.7       0.5        7          7          0         
+S-020-0075       67.7       0.5        7          7          0         
+S-019-0064       67.7       0.5        7          7          0         
+S-019-0070       67.7       0.5        7          7          0         
+S-020-0059       67.7       0.5        7          7          0         
+S-020-0056       67.7       0.5        7          7          0
+
+[JUNCTIONS]
+;;Name           Elevation  MaxDepth   InitDepth  SurDepth   Aponded   
+;;-------------- ---------- ---------- ---------- ---------- ----------
+
+[OUTFALLS]
+;;Name           Elevation  Type       Stage Data       Gated    Route To        
+;;-------------- ---------- ---------- ---------------- -------- ----------------
+;Headwall | GIS: 170-HE-21708 | receiving channel DEM 5.19 ft
+OF-21708         4.685      FREE                        NO
+
+[STORAGE]
+;;Name Elev MaxDepth InitDepth Shape Coeff Expon Const SurDepth Fevap
+;catch basin CB-48322: sump 2.0 ft below lowest pipe invert 7.342
+CB-48322 5.342 3.420 2.000 FUNCTIONAL 0 0 16.0 0 0
+;catch basin CB-48323: sump 2.0 ft below lowest pipe invert 6.606
+CB-48323 4.606 3.799 2.000 FUNCTIONAL 0 0 16.0 0 0
+;catch basin CB-48324: sump 2.0 ft below lowest pipe invert 4.875
+CB-48324 2.875 4.442 2.000 FUNCTIONAL 0 0 16.0 0 0
+;catch basin CB-48325: sump 2.0 ft below lowest pipe invert 5.750
+CB-48325 3.750 4.102 2.000 FUNCTIONAL 0 0 16.0 0 0
+;catch basin CB-48326: sump 2.0 ft below lowest pipe invert 4.946
+CB-48326 2.946 5.023 2.000 FUNCTIONAL 0 0 16.0 0 0
+;catch basin CB-48327: sump 2.0 ft below lowest pipe invert 6.163
+CB-48327 4.163 4.495 2.000 FUNCTIONAL 0 0 16.0 0 0
+;catch basin CB-U21: sump 2.0 ft below lowest pipe invert 11.013
+CB-U21 9.013 7.000 2.000 FUNCTIONAL 0 0 16.0 0 0
+
+[CONDUITS]
+;;Name           From Node        To Node          Length     Roughness  InOffset   OutOffset  InitFlow   MaxFlow   
+;;-------------- ---------------- ---------------- ---------- ---------- ---------- ---------- ---------- ----------
+;Reinforced Concrete (RCP) 24in | GIS: 170-CC-62438 | slope 0.20%
+P-62438          CB-48324         OF-21708         95.12      0.013      4.875      4.685      0          0         
+;Reinforced Concrete (RCP) 24in | GIS: 170-CC-62439 | slope 0.20%
+P-62439          CB-48326         CB-48324         35.32      0.013      4.946      4.875      0          0         
+;Reinforced Concrete (RCP) 24in | GIS: 170-CC-62440 | slope 6.63%
+P-62440          CB-U21           CB-48326         91.52      0.013      11.013     4.946      0          0         
+;Corrugated Metal (CMP) 15in | GIS: 170-CC-62441 | slope 0.35%
+P-62441          CB-48325         CB-48326         15.50      0.024      5.750      5.696      0          0         
+;High Density Polyethylene (HDPE) 12in | GIS: 170-CC-62442 | slope 0.45%
+P-62442          CB-48327         CB-48326         48.21      0.012      6.163      5.946      0          0         
+;High Density Polyethylene (HDPE) 12in | GIS: 170-CC-62443 | slope 0.45%
+P-62443          CB-48323         CB-48327         98.47      0.012      6.606      6.163      0          0         
+;High Density Polyethylene (HDPE) 12in | GIS: 170-CC-62444 | slope 0.45%
+P-62444          CB-48322         CB-48323         163.60     0.012      7.342      6.606      0          0
+
+[XSECTIONS]
+;;Link           Shape        Geom1            Geom2      Geom3      Geom4      Barrels    Culvert   
+;;-------------- ------------ ---------------- ---------- ---------- ---------- ---------- ----------
+P-62438          CIRCULAR     2.000            0          0          0          1                    
+P-62439          CIRCULAR     2.000            0          0          0          1                    
+P-62440          CIRCULAR     2.000            0          0          0          1                    
+P-62441          CIRCULAR     1.250            0          0          0          1                    
+P-62442          CIRCULAR     1.000            0          0          0          1                    
+P-62443          CIRCULAR     1.000            0          0          0          1                    
+P-62444          CIRCULAR     1.000            0          0          0          1
+
+[POLLUTANTS]
+;;Name Units Crain Cgw Crdii Kdecay SnowOnly CoPollut CoFrac Cdwf Cinit
+TSS MG/L 0 0 0 0 NO * 0 0 0
+
+[LANDUSES]
+;;Name SweepInterval(days) Availability LastSwept(days)
+ROAD 0 0 0
+RESIDENTIAL 0 0 0
+COMMERCIAL 0 0 0
+
+[COVERAGES]
+;;Subcatchment LandUse Percent
+S-ROW1 ROAD 100
+S-ROW2 ROAD 100
+S-ROW3 ROAD 100
+S-ROW4 ROAD 100
+S-ROW5 ROAD 100
+S-ROW6 ROAD 100
+S-ROW7 ROAD 100
+S-ROW8 ROAD 100
+S-020-0057 RESIDENTIAL 100
+S-019-0069 RESIDENTIAL 100
+S-020-0074 RESIDENTIAL 100
+S-020-0078 RESIDENTIAL 100
+S-019-0066 RESIDENTIAL 100
+S-020-0054 RESIDENTIAL 100
+S-020-0060 RESIDENTIAL 100
+S-020-0069 RESIDENTIAL 100
+S-019-0059 RESIDENTIAL 100
+S-020-0070 RESIDENTIAL 100
+S-020-0071 RESIDENTIAL 100
+S-019-0061 RESIDENTIAL 100
+S-020-0076 RESIDENTIAL 100
+S-019-0073 COMMERCIAL 100
+S-019-0063 RESIDENTIAL 100
+S-019-0060 RESIDENTIAL 100
+S-020-0058 RESIDENTIAL 100
+S-019-0067 RESIDENTIAL 100
+S-020-0077 RESIDENTIAL 100
+S-020-0072 RESIDENTIAL 100
+S-019-0071 RESIDENTIAL 100
+S-019-0062 RESIDENTIAL 100
+S-020-0062 RESIDENTIAL 100
+S-020-0067 RESIDENTIAL 100
+S-020-0055 RESIDENTIAL 100
+S-019-0065 RESIDENTIAL 100
+S-019-0072 RESIDENTIAL 100
+S-020-0063 RESIDENTIAL 100
+S-020-0066 RESIDENTIAL 100
+S-020-0061 RESIDENTIAL 100
+S-020-0068 RESIDENTIAL 100
+S-020-0065 RESIDENTIAL 100
+S-020-0064 RESIDENTIAL 100
+S-019-0068 RESIDENTIAL 100
+S-020-0073 RESIDENTIAL 100
+S-020-0075 RESIDENTIAL 100
+S-019-0064 RESIDENTIAL 100
+S-019-0070 RESIDENTIAL 100
+S-020-0059 RESIDENTIAL 100
+S-020-0056 RESIDENTIAL 100
+
+[BUILDUP]
+;;LandUse Pollutant Function Max(lb/ac) Rate(1/day) C3 PerUnit
+ROAD TSS EXP 80 0.4 0 AREA
+RESIDENTIAL TSS EXP 40 0.4 0 AREA
+COMMERCIAL TSS EXP 60 0.4 0 AREA
+
+[WASHOFF]
+;;LandUse Pollutant Function C1 C2 SweepRmvl(%) BmpRmvl(%)
+ROAD TSS EXP 0.95 1.5 0 0
+RESIDENTIAL TSS EXP 0.95 1.5 0 0
+COMMERCIAL TSS EXP 0.95 1.5 0 0
+
+[TREATMENT]
+;;Node Pollutant Function
+CB-48322 TSS C = TSS * EXP(-0.1*HRT)
+CB-48323 TSS C = TSS * EXP(-0.1*HRT)
+CB-48324 TSS C = TSS * EXP(-0.1*HRT)
+CB-48325 TSS C = TSS * EXP(-0.1*HRT)
+CB-48326 TSS C = TSS * EXP(-0.1*HRT)
+CB-48327 TSS C = TSS * EXP(-0.1*HRT)
+CB-U21 TSS C = TSS * EXP(-0.1*HRT)
+
+[REPORT]
+;;Reporting Options
+SUBCATCHMENTS ALL
+NODES ALL
+LINKS ALL
+
+[TAGS]
+Node       CB-48322         Inlet           
+Node       CB-48323         Inlet           
+Node       CB-48324         Inlet           
+Node       CB-48325         Inlet           
+Node       CB-48326         Inlet           
+Node       CB-48327         Inlet           
+Node       CB-U21           Inlet           
+Node       OF-21708         Outfall         
+Link       P-62438          GIS             
+Link       P-62439          GIS             
+Link       P-62440          GIS             
+Link       P-62441          GIS             
+Link       P-62442          GIS             
+Link       P-62443          GIS             
+Link       P-62444          GIS
+
+[MAP]
+DIMENSIONS 939439.438 654262.886 941855.938 656084.636
+Units      Feet
+
+[COORDINATES]
+;;Node           X-Coord            Y-Coord           
+;;-------------- ------------------ ------------------
+CB-48322         941321.552         655182.720        
+CB-48323         941220.468         655311.354        
+CB-48324         941193.684         655439.804        
+CB-48325         941147.997         655454.059        
+CB-48326         941158.477         655442.646        
+CB-48327         941169.792         655395.783        
+CB-U21           941067.596         655438.315        
+OF-21708         941287.419         655455.965
+
+[VERTICES]
+;;Link           X-Coord            Y-Coord           
+;;-------------- ------------------ ------------------
+
+[Polygons]
+;;Subcatchment   X-Coord            Y-Coord           
+;;-------------- ------------------ ------------------
+S-ROW1           941621.719         654986.680        
+S-ROW1           941586.310         655019.792        
+S-ROW1           941540.010         655053.395        
+S-ROW1           941492.210         655082.297        
+S-ROW1           941439.510         655106.799        
+S-ROW1           941388.209         655134.901        
+S-ROW1           941340.225         655163.494        
+S-ROW1           941298.214         655192.602        
+S-ROW1           941356.988         655210.408        
+S-ROW1           941420.278         655168.215        
+S-ROW1           941572.541         655083.828        
+S-ROW1           941656.210         655023.090        
+S-ROW2           941356.988         655210.408        
+S-ROW2           941298.214         655192.602        
+S-ROW2           941266.008         655231.307        
+S-ROW2           941230.608         655272.009        
+S-ROW2           941203.008         655311.111        
+S-ROW2           941249.670         655327.816        
+S-ROW2           941279.939         655278.284        
+S-ROW3           941249.670         655327.816        
+S-ROW3           941203.008         655311.111        
+S-ROW3           941179.007         655353.913        
+S-ROW3           941157.908         655401.711        
+S-ROW3           941201.056         655413.120        
+S-ROW4           941201.056         655413.120        
+S-ROW4           941157.908         655401.711        
+S-ROW4           941129.006         655442.517        
+S-ROW4           941183.628         655496.589        
+S-ROW5           941129.006         655442.517        
+S-ROW5           941157.908         655401.711        
+S-ROW5           941057.718         655335.800        
+S-ROW5           940969.464         655274.306        
+S-ROW5           940866.492         655205.208        
+S-ROW5           940789.729         655155.134        
+S-ROW5           940756.009         655193.723        
+S-ROW5           940857.725         655261.032        
+S-ROW5           940957.726         655325.432        
+S-ROW5           941009.007         655361.518        
+S-ROW6           941266.008         655231.307        
+S-ROW6           941298.214         655192.602        
+S-ROW6           941171.717         655111.196        
+S-ROW6           940959.611         654971.711        
+S-ROW6           940923.411         655007.713        
+S-ROW6           941128.009         655142.310        
+S-ROW7           941492.210         655082.297        
+S-ROW7           941539.999         655053.388        
+S-ROW7           941456.511         655000.396        
+S-ROW7           941182.262         654818.315        
+S-ROW7           941136.613         654788.702        
+S-ROW7           941105.113         654827.003        
+S-ROW7           941367.228         655001.210        
+S-ROW8           941129.006         655442.517        
+S-ROW8           941157.005         655615.919        
+S-ROW8           941091.604         655664.023        
+S-ROW8           941119.803         655690.186        
+S-ROW8           941168.204         655657.920        
+S-ROW8           941178.904         655662.920        
+S-ROW8           941186.403         655718.421        
+S-ROW8           941182.903         655726.221        
+S-ROW8           941217.566         655813.039        
+S-ROW8           941250.000         655800.000        
+S-ROW8           941199.221         655613.997        
+S-ROW8           941183.628         655496.589        
+S-020-0057       941394.012         654838.394        
+S-020-0057       941361.612         654817.195        
+S-020-0057       941307.325         654901.379        
+S-020-0057       941339.312         654922.598        
+S-019-0069       940793.414         655362.815        
+S-019-0069       940857.708         655261.021        
+S-019-0069       940806.908         655227.422        
+S-019-0069       940742.707         655330.626        
+S-020-0074       941023.721         655013.794        
+S-020-0074       941078.412         654930.907        
+S-020-0074       941031.637         654900.124        
+S-020-0074       940959.611         654971.711        
+S-020-0078       941178.904         655662.920        
+S-020-0078       941168.204         655657.920        
+S-020-0078       941119.803         655690.186        
+S-020-0078       941119.304         655690.922        
+S-020-0078       941119.704         655694.522        
+S-020-0078       941125.004         655702.022        
+S-020-0078       941169.503         655728.221        
+S-020-0078       941178.207         655728.519        
+S-020-0078       941182.903         655726.221        
+S-020-0078       941186.403         655718.421        
+S-019-0066       940917.216         655239.207        
+S-019-0066       940971.909         655156.215        
+S-019-0066       940923.809         655124.616        
+S-019-0066       940866.509         655205.219        
+S-020-0054       941586.310         655019.792        
+S-020-0054       941621.711         654986.691        
+S-020-0054       941510.212         654913.692        
+S-020-0054       941456.511         655000.396        
+S-020-0054       941540.010         655053.395        
+S-020-0060       941279.513         654762.997        
+S-020-0060       941233.514         654732.197        
+S-020-0060       941179.712         654816.601        
+S-020-0060       941225.312         654846.900        
+S-020-0069       941340.225         655163.494        
+S-020-0069       941388.209         655134.901        
+S-020-0069       941311.710         655083.103        
+S-020-0069       941269.610         655056.003        
+S-020-0069       941241.610         655097.205        
+S-019-0059       940923.809         655124.616        
+S-019-0059       940978.909         655044.214        
+S-019-0059       940923.411         655007.713        
+S-019-0059       940854.910         655080.517        
+S-020-0070       941298.214         655192.602        
+S-020-0070       941318.809         655177.405        
+S-020-0070       941340.209         655163.503        
+S-020-0070       941199.610         655069.206        
+S-020-0070       941171.710         655111.207        
+S-020-0071       941171.717         655111.196        
+S-020-0071       941226.710         655028.404        
+S-020-0071       941175.911         654995.005        
+S-020-0071       941120.710         655077.608        
+S-019-0061       941021.808         655189.016        
+S-019-0061       941075.194         655107.535        
+S-019-0061       941025.193         655074.638        
+S-019-0061       940971.909         655156.215        
+S-020-0076       941215.819         655291.848        
+S-020-0076       941230.608         655272.009        
+S-020-0076       941140.909         655210.411        
+S-020-0076       941100.709         655182.312        
+S-020-0076       941072.009         655224.413        
+S-020-0076       941203.008         655311.111        
+S-019-0073       941157.005         655615.919        
+S-019-0073       941129.006         655442.517        
+S-019-0073       941050.407         655390.618        
+S-019-0073       941009.007         655361.518        
+S-019-0073       940943.706         655462.223        
+S-019-0073       940951.806         655467.523        
+S-019-0073       940904.705         655561.626        
+S-019-0073       941030.904         655631.624        
+S-019-0073       941091.604         655664.023        
+S-019-0063       941057.718         655335.800        
+S-019-0063       941099.808         655272.114        
+S-019-0063       941112.908         655251.413        
+S-019-0063       941072.009         655224.413        
+S-019-0063       941016.308         655306.917        
+S-019-0060       940971.915         655156.207        
+S-019-0060       941025.193         655074.638        
+S-019-0060       940978.909         655044.214        
+S-019-0060       940923.809         655124.616        
+S-020-0058       941361.612         654817.195        
+S-020-0058       941321.213         654790.596        
+S-020-0058       941265.712         654873.799        
+S-020-0058       941307.312         654901.399        
+S-019-0067       940923.809         655124.616        
+S-019-0067       940854.910         655080.517        
+S-019-0067       940789.709         655155.121        
+S-019-0067       940866.509         655205.219        
+S-020-0077       941179.007         655353.913        
+S-020-0077       941203.008         655311.111        
+S-020-0077       941112.908         655251.413        
+S-020-0077       941099.808         655272.114        
+S-020-0077       941057.718         655335.800        
+S-020-0077       941157.908         655401.711        
+S-020-0077       941166.907         655379.014        
+S-020-0072       941120.715         655077.601        
+S-020-0072       941175.911         654995.005        
+S-020-0072       941126.811         654962.206        
+S-020-0072       941070.810         655044.809        
+S-019-0071       940957.707         655325.419        
+S-019-0071       940907.508         655293.120        
+S-019-0071       940843.207         655395.824        
+S-019-0071       940891.907         655427.924        
+S-019-0062       941072.009         655224.413        
+S-019-0062       941128.009         655142.310        
+S-019-0062       941075.194         655107.535        
+S-019-0062       941021.808         655189.016        
+S-020-0062       941111.217         654951.897        
+S-020-0062       941168.112         654868.902        
+S-020-0062       941105.113         654827.003        
+S-020-0062       941031.637         654900.124        
+S-020-0062       941078.412         654930.907        
+S-020-0067       941439.510         655106.799        
+S-020-0067       941466.210         655093.698        
+S-020-0067       941492.210         655082.297        
+S-020-0067       941367.210         655001.199        
+S-020-0067       941339.210         655041.701        
+S-020-0055       941456.511         655000.396        
+S-020-0055       941510.212         654913.692        
+S-020-0055       941426.712         654859.594        
+S-020-0055       941371.111         654943.698        
+S-019-0065       940966.614         655272.310        
+S-019-0065       941021.808         655189.016        
+S-019-0065       940971.909         655156.215        
+S-019-0065       940917.208         655239.219        
+S-019-0072       940943.714         655462.211        
+S-019-0072       941009.007         655361.518        
+S-019-0072       940957.707         655325.419        
+S-019-0072       940891.907         655427.924        
+S-020-0063       941162.918         654986.295        
+S-020-0063       941219.312         654903.002        
+S-020-0063       941168.112         654868.902        
+S-020-0063       941111.211         654951.906        
+S-020-0066       941311.715         655083.095        
+S-020-0066       941339.210         655041.701        
+S-020-0066       941367.210         655001.199        
+S-020-0066       941324.611         654972.900        
+S-020-0066       941269.610         655056.003        
+S-020-0061       941179.718         654816.593        
+S-020-0061       941233.514         654732.197        
+S-020-0061       941205.014         654713.198        
+S-020-0061       941136.613         654788.702        
+S-020-0061       941162.613         654805.201        
+S-020-0068       941388.221         655134.895        
+S-020-0068       941439.510         655106.799        
+S-020-0068       941339.210         655041.701        
+S-020-0068       941311.710         655083.103        
+S-020-0065       941241.610         655097.205        
+S-020-0065       941324.611         654972.900        
+S-020-0065       941285.311         654946.800        
+S-020-0065       941230.410         655030.804        
+S-020-0065       941226.710         655028.404        
+S-020-0065       941199.610         655069.206        
+S-020-0064       941230.417         655030.794        
+S-020-0064       941285.311         654946.800        
+S-020-0064       941219.312         654903.002        
+S-020-0064       941162.911         654986.305        
+S-020-0064       941205.011         655014.405        
+S-019-0068       940742.713         655330.618        
+S-019-0068       940806.908         655227.422        
+S-019-0068       940756.009         655193.723        
+S-019-0068       940744.809         655206.523        
+S-019-0068       940712.608         655246.325        
+S-019-0068       940679.408         655290.227        
+S-020-0073       941126.805         654962.214        
+S-020-0073       941078.412         654930.907        
+S-020-0073       941023.711         655013.810        
+S-020-0073       941070.810         655044.809        
+S-020-0075       941247.508         655251.308        
+S-020-0075       941266.008         655231.307        
+S-020-0075       941128.009         655142.310        
+S-020-0075       941100.709         655182.312        
+S-020-0075       941140.909         655210.411        
+S-020-0075       941230.608         655272.009        
+S-019-0064       941072.009         655224.413        
+S-019-0064       941021.808         655189.016        
+S-019-0064       940966.608         655272.318        
+S-019-0064       941016.308         655306.917        
+S-019-0070       940843.217         655395.808        
+S-019-0070       940907.508         655293.120        
+S-019-0070       940857.708         655261.021        
+S-019-0070       940793.407         655362.825        
+S-020-0059       941321.213         654790.596        
+S-020-0059       941279.513         654762.997        
+S-020-0059       941225.312         654846.900        
+S-020-0059       941265.726         654873.778        
+S-020-0056       941426.712         654859.594        
+S-020-0056       941394.012         654838.394        
+S-020-0056       941339.312         654922.598        
+S-020-0056       941371.111         654943.698
+
+[SYMBOLS]
+;;Gage           X-Coord            Y-Coord           
+;;-------------- ------------------ ------------------
+RG1              941141.663         655629.780
+
+[BACKDROP]
+FILE       "Background_Aerial.jpg"
+DIMENSIONS 939439.438 654262.886 941855.938 656084.636
+
+[PROFILES]
+;;Name           Links     
+;;-------------- ----------
+"profile1        " P-62444 P-62443 P-62442 P-62439 P-62438
+

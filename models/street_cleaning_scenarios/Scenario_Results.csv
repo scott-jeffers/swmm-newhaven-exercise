@@ -1,0 +1,7 @@
+id,name,description,sump_depth,sweep_days,washoff_lb,swept_lb,trapped_lb,escaped_lb,capture_pct,escaped_vs_S0_pct,runoff_in,flood_lb,quality_error_pct,model_file,storm_escaped_lb
+S0,No sumps (conveyance only),"The baseline model as most people build it: catch basins are plain junctions, so every pound of TSS washed off the street goes straight to the outfall.",none,0,4439,0,0,4441,0.0,100.0,20.239,0.0,-0.053,S0_No_sumps.inp,312.8
+S1,Full cleaning,All 7 catch basins vacuumed on schedule: every sump keeps its full 2 ft of storage.,all 2.0 ft,0,4439,0,2500,1939,56.3,43.7,20.239,0.0,0.001,S1_Full_cleaning.inp,241.8
+S2,Hybrid cleaning,"Only the two downstream basins (CB-48326, CB-48324) are cleaned; the 5 upstream sumps are 75% full of sediment (0.5 ft left).",upstream 0.5 ft / downstream 2.0 ft,0,4439,0,1587,2853,35.8,64.2,20.239,0.0,-0.04,S2_Hybrid_cleaning.inp,280.5
+S3,No cleaning,No vacuuming: all 7 sumps are 75% full of sediment (0.5 ft of storage left).,all 0.5 ft,0,4439,0,895,3546,20.2,79.8,20.239,0.0,-0.044,S3_No_cleaning.inp,295.5
+S4,No cleaning + street sweeping,"Sumps neglected as in S3, but the streets are swept every 14 days. Can sweeping stand in for basin cleaning?",all 0.5 ft,14,4193,2689,849,3345,20.3,75.3,20.239,0.0,-0.043,S4_No_cleaning_street_sweeping.inp,254.3
+S5,Full cleaning + street sweeping,Best case: all sumps cleaned and streets swept every 14 days.,all 2.0 ft,14,4193,2689,2372,1821,56.6,41.0,20.239,0.0,0.002,S5_Full_cleaning_street_sweeping.inp,207.7
