@@ -20,7 +20,9 @@ header select { background:#223140; color:#e8eef5; border:1px solid #33475a; bor
 #timebox { display:flex; align-items:center; gap:8px; flex:1 1 320px; min-width:260px; }
 #timebox input { flex:1; }
 #tlabel { font-variant-numeric:tabular-nums; min-width:150px; color:#e8eef5; font-size:12px; }
-header a { color:#8cc4ff; font-size:12px; }
+.topnav { display:flex; gap:14px; margin-left:auto; }
+.topnav a { color:#c9d6e3; text-decoration:none; font-size:13px; padding:3px 1px; border-bottom:2px solid transparent; }
+.topnav a.on { color:#fff; border-bottom-color:#5aa2ff; }
 main { display:grid; grid-template-columns: 1fr minmax(380px, 40%); min-height:0; }
 #mapwrap { position:relative; min-height:0; }
 #map { position:absolute; inset:0; background:#c9d3dc; }
@@ -66,6 +68,7 @@ pre { background:#0f1720; color:#d6e2ee; padding:10px; border-radius:6px; overfl
 .kv b { display:block; font-size:15px; font-variant-numeric:tabular-nums; }
 .kv span { color:var(--muted); font-size:11px; }
 @media (max-width: 900px) {
+  header h1 { display:none; } .topnav { margin-left:0; width:100%; }
   #legend { font-size:10px; min-width:120px; padding:4px 6px; bottom:18px; }
   #app { height:auto; min-height:100vh; }
   main { grid-template-columns: 1fr; }
@@ -86,7 +89,7 @@ pre { background:#0f1720; color:#d6e2ee; padding:10px; border-radius:6px; overfl
       <input type="range" id="slider" min="0" max="0" value="0" aria-label="Time step">
       <span id="tlabel">—</span>
     </div>
-    <a href="https://github.com/scott-jeffers/swmm-newhaven-exercise">Model files on GitHub ↗</a>
+    <nav class="topnav"><a href="report.html">Study report</a><a href="index.html" class="on">Model viewer</a><a href="https://github.com/scott-jeffers/swmm-newhaven-exercise">GitHub</a></nav>
   </header>
   <main>
     <div id="mapwrap">
@@ -366,7 +369,7 @@ function graph() {
     yaxis: { title: VARS[kind][v][0] + ' (' + unit + ')', rangemode: 'tozero' }, shapes: [] };
   if ($('cbRain').checked && !(kind === 'sub' && v === 'rain')) {
     const r = ser(S.model, S.period, 'sys', null, 'rain'); if (r) { traces.push({ x: times(S.period), y: r, name: 'Rainfall (in/hr)', type: 'bar', yaxis: 'y2', marker: { color: 'rgba(80,120,200,.45)' }, hovertemplate: '%{y:.2f} in/hr' });
-      layout.yaxis2 = { title: 'Rain (in/hr)', overlaying: 'y', side: 'right', autorange: 'reversed', range: [maxOf(r) * 3, 0], showgrid: false }; layout.yaxis.range = [0, Math.max(...traces.filter((t) => t.type !== 'bar').map((t) => maxOf(t.y))) * 1.6 || 1]; }
+      layout.yaxis2 = { title: 'Rain (in/hr)', overlaying: 'y', side: 'right', range: [maxOf(r) * 3, 0], showgrid: false }; layout.yaxis.range = [0, Math.max(...traces.filter((t) => t.type !== 'bar').map((t) => maxOf(t.y))) * 1.6 || 1]; }
   }
   const x = times(S.period)[S.t]; layout.shapes.push({ type: 'line', x0: x, x1: x, yref: 'paper', y0: 0, y1: 1, line: { color: '#999', width: 1, dash: 'dot' } });
   if (S.period.kind === 'daily') layout.yaxis.title += ' – daily ' + (v === 'tss' ? 'mean' : 'max');
@@ -489,7 +492,7 @@ async function selectModel(id) {
     await drawNetwork(m); selectPeriod(ps.value, true); fillProfiles(); inp(); about();
     S.sel = S.sel.filter((s) => s.kind === 'sys' || (s.kind === 'node' ? m.net.nodes[s.name] : s.kind === 'link' ? m.net.links[s.name] : m.net.subs[s.name]));
     if (S.sel.length) showProps(S.sel[0].kind, S.sel[0].name); fillVars(); graph();
-    try { history.replaceState(null, '', '#' + id); } catch (e) {}
+    try { const cur = location.hash.slice(1).split('--'); if (cur[0] !== id) history.replaceState(null, '', '#' + id); } catch (e) {}
   } catch (e) { $('loading').textContent = 'Failed to load: ' + e.message; return; }
   $('loading').hidden = true;
 }
@@ -536,11 +539,13 @@ async function init() {
     S.catalog = await (await fetch('data/catalog.json')).json();
     let grp = null, og = null; const sm = $('selModel');
     S.catalog.forEach((c) => { if (c.group !== grp) { grp = c.group; og = document.createElement('optgroup'); og.label = grp; sm.appendChild(og); } og.appendChild(new Option(c.label, c.id)); });
-    const h = (location.hash || '').slice(1); const start = S.catalog.some((c) => c.id === h) ? h : S.catalog[0].id; sm.value = start;
+    const [h, hp] = (location.hash || '').slice(1).split('--'); const start = S.catalog.some((c) => c.id === h) ? h : S.catalog[0].id; sm.value = start;
     await selectModel(start);
+    if (hp && S.model.periods.some((p) => p.id === hp)) { $('selPeriod').value = hp; selectPeriod(hp); }
     pick('node', Object.keys(S.model.net.nodes).find((n) => S.model.net.nodes[n].type === 'Outfall'), false);
   } catch (e) { $('loading').hidden = false; $('loading').textContent = 'Failed to load data: ' + e.message; }
-  window.addEventListener('hashchange', () => { const h = location.hash.slice(1); if (S.catalog.some((c) => c.id === h) && (!S.model || S.model.id !== h)) { $('selModel').value = h; selectModel(h); } });
+  window.addEventListener('hashchange', async () => { const [h, hp] = location.hash.slice(1).split('--'); if (S.catalog.some((c) => c.id === h) && (!S.model || S.model.id !== h)) { $('selModel').value = h; await selectModel(h); }
+    if (hp && S.model.periods.some((p) => p.id === hp)) { $('selPeriod').value = hp; selectPeriod(hp); } });
 }
 init();
 })();

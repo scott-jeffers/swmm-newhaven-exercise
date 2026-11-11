@@ -1,6 +1,8 @@
 # SWMM New Haven exercise – West Haven, CT (Jones Hill Rd / Platt Ave)
 
-**Live viewer:** https://scott-jeffers.github.io/swmm-newhaven-exercise/
+**Study report:** https://scott-jeffers.github.io/swmm-newhaven-exercise/report.html: the catch-basin and street-cleaning findings, with charts and an interactive basin map.
+
+**Model viewer:** https://scott-jeffers.github.io/swmm-newhaven-exercise/: every model on the aerial map, with graphs and profiles. Deep links work, for example `#S1` or `#S1--ev20251030`.
 
 A browser-based EPA SWMM 5.2 results viewer. You can:
 
@@ -21,7 +23,7 @@ Open any `.inp` in EPA SWMM 5.2 or PCSWMM. The rain files and background image s
 
 ## Site files
 
-`index.html` plus `data/*.json` (results extracted from each run's `.out`/`.rpt`). It is a static site with no build step. Leaflet and Plotly load from public CDNs.
+`report.html` (study report) and `index.html` (viewer), plus `data/*.json` (results extracted from each run's `.out`/`.rpt`). It is a static site with no build step. Leaflet and Plotly load from public CDNs.
 
 ## Data sources and caveats
 
