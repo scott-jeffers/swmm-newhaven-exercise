@@ -83,13 +83,14 @@ pre { background:#0f1720; color:#d6e2ee; padding:10px; border-radius:6px; overfl
   <header>
     <h1>West Haven SWMM Model Viewer</h1>
     <label>Model (.inp)<select id="selModel" aria-label="Model"></select></label>
+    <a class="tbtn" id="hdrDl" href="#" download title="Download this model's .inp file" style="text-decoration:none;align-self:flex-end">⬇ .inp</a>
     <label>Period / storm<select id="selPeriod" aria-label="Period"></select></label>
     <div id="timebox">
       <button class="tbtn" id="btnPlay" title="Animate">▶</button>
       <input type="range" id="slider" min="0" max="0" value="0" aria-label="Time step">
       <span id="tlabel">—</span>
     </div>
-    <nav class="topnav"><a href="report.html">Study report</a><a href="index.html" class="on">Model viewer</a><a href="https://github.com/scott-jeffers/swmm-newhaven-exercise">GitHub</a></nav>
+    <nav class="topnav"><a href="report.html">Study report</a><a href="index.html" class="on">Model viewer</a><a href="exercises.html">Exercises</a><a href="https://github.com/scott-jeffers/swmm-newhaven-exercise">GitHub</a></nav>
   </header>
   <main>
     <div id="mapwrap">
@@ -146,6 +147,7 @@ pre { background:#0f1720; color:#d6e2ee; padding:10px; border-radius:6px; overfl
         <pre id="repBox"></pre>
       </section>
       <section class="pane" id="pane-inp" hidden>
+        <div class="row"><a class="btn primary" id="dlInp" href="#" download style="text-decoration:none">⬇ Download this .inp</a><a class="btn" id="dlZip" href="#" download style="text-decoration:none">⬇ Model package (.zip, with rain file &amp; background)</a></div>
         <div class="row"><label>Jump to <select id="selSec"></select></label><button class="btn" id="btnCopyInp">Copy .inp text</button><span class="muted" id="inpMsg"></span></div>
         <pre id="inpBox"></pre>
       </section>
@@ -168,6 +170,9 @@ const VARS = {
 const GRP = { node: 'nodes', link: 'links', sub: 'subs', sys: 'sys' };
 const COLORS = ['#1f77b4', '#d62728', '#2ca02c', '#ff7f0e', '#9467bd', '#8c564b', '#e377c2', '#17becf', '#7f7f7f', '#bcbd22'];
 const RAMP = ['#2c7bb6', '#00a6ca', '#00ccbc', '#90eb9d', '#ffff8c', '#f9d057', '#f29e2e', '#e76818', '#d7191c'];
+const FILES = { baseline: 'models/baseline/WestHaven_JonesHill.inp', S0: 'models/street_cleaning_scenarios/S0_No_sumps.inp', S1: 'models/street_cleaning_scenarios/S1_Full_cleaning.inp', S2: 'models/street_cleaning_scenarios/S2_Hybrid_cleaning.inp', S3: 'models/street_cleaning_scenarios/S3_No_cleaning.inp', S4: 'models/street_cleaning_scenarios/S4_No_cleaning_street_sweeping.inp', S5: 'models/street_cleaning_scenarios/S5_Full_cleaning_street_sweeping.inp' };
+const ZIPS = { baseline: 'models/WestHaven_baseline.zip' };
+const zipOf = (id) => ZIPS[id] || 'models/WestHaven_street_cleaning_scenarios.zip';
 const S = { catalog: [], cache: {}, model: null, period: null, t: 0, sel: [], playing: null, cmp: new Set(), profPath: null };
 
 // ---------- helpers ----------
@@ -466,6 +471,7 @@ function report() {
 }
 function inp() {
   const txt = S.model.inp; $('inpBox').textContent = txt;
+  const f = FILES[S.model.id]; ['dlInp', 'hdrDl'].forEach((id) => { $(id).href = f; $(id).setAttribute('download', f.split('/').pop()); }); $('dlZip').href = zipOf(S.model.id);
   const s = $('selSec'); s.replaceChildren(); (txt.match(/^\[[A-Z_a-z]+\]/gm) || []).forEach((h) => s.appendChild(new Option(h, h)));
 }
 function about() {
@@ -475,7 +481,10 @@ function about() {
   S.catalog.forEach((c) => { if (c.group !== grp) { grp = c.group; const g = document.createElement('h3'); g.textContent = grp; g.style.color = '#5f6b7a'; b.appendChild(g); }
     const d = document.createElement('div'); d.style.marginBottom = '8px'; const a = document.createElement('a'); a.href = '#'; a.textContent = c.label; a.onclick = (e) => { e.preventDefault(); $('selModel').value = c.id; selectModel(c.id); };
     const p = document.createElement('div'); p.className = 'muted'; p.textContent = c.desc + ' · periods: ' + c.periods.map((q) => q.id).join(', ');
-    d.append(a, p); b.appendChild(d); });
+    const dl = document.createElement('a'); dl.href = FILES[c.id]; dl.setAttribute('download', FILES[c.id].split('/').pop()); dl.textContent = '⬇ ' + FILES[c.id].split('/').pop(); dl.className = 'btn'; dl.style.cssText = 'display:inline-block;margin-top:4px;text-decoration:none;font-size:12px';
+    d.append(a, p, dl); b.appendChild(d); });
+  const z = document.createElement('p'); z.className = 'muted'; z.append('Packages with rain files & background: ');
+  [['models/WestHaven_baseline.zip', 'baseline (.zip)'], ['models/WestHaven_street_cleaning_scenarios.zip', 'street-cleaning scenarios (.zip)'], ['models/exercises/SWMM_exercises_all_solutions.zip', 'teaching exercises (.zip)']].forEach(([h, l], i) => { const a = document.createElement('a'); a.href = h; a.setAttribute('download', ''); a.textContent = '⬇ ' + l; if (i) z.append(' · '); z.append(a); }); b.appendChild(z);
   const n = document.createElement('p'); n.className = 'muted';
   n.textContent = 'Results come from EPA SWMM 5.2 runs of each .inp. Design storms: 5-min results. Continuous models: daily maxima (TSS daily mean) for the full record, 10-min results for the four largest storms. Elevations NAVD88 ft, coordinates EPSG:6434 (ft).';
   b.appendChild(n);

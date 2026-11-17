@@ -68,20 +68,21 @@ footer a { color:var(--muted); }
 </style>
 </head>
 <body>
-<nav class="nav"><span class="brand">West Haven SWMM Study</span><a href="report.html" class="on">Study report</a><a href="index.html">Model viewer</a><a href="https://github.com/scott-jeffers/swmm-newhaven-exercise">GitHub</a></nav>
+<nav class="nav"><span class="brand">West Haven SWMM Study</span><a href="report.html" class="on">Study report</a><a href="index.html">Model viewer</a><a href="exercises.html">Exercises</a><a href="https://github.com/scott-jeffers/swmm-newhaven-exercise">GitHub</a></nav>
 <div class="wrap">
   <header class="hero">
     <div class="eyebrow">Stormwater modeling · EPA SWMM 5.2</div>
     <h1>How much sediment do clean catch basins keep out of the water?</h1>
     <p class="lede">With every catch basin vacuumed, the sumps trap <span class="num" data-k="S1.capture_pct">—</span>% of the TSS washed off the Platt Ave neighborhood. Left 75% full of sediment, they trap only <span class="num" data-k="S3.capture_pct">—</span>%, so <span class="num" data-k="calc.full_vs_none">—</span> lb more sediment reaches the outfall over 18 months.</p>
     <p class="meta">West Haven, CT · OF-21708 system: 7 catch basins, 48 subcatchments, 9.65 ac · Tweed-New Haven hourly rainfall, Jan 2025 – Jun 2026 · TSS = total suspended solids</p>
+    <div class="callout" style="border-left-color:#c62828;background:#fdf1f1" id="correction"><b>Correction (Nov 17, 2026): the sump capture numbers on this page are overstated.</b> These scenarios use the treatment expression <code>C = TSS·exp(−0.5·HRT)</code>, as in the preliminary study. SWMM applies a treatment expression at every routing step, so the HRT form compounds and over-removes. <a href="exercises.html#ex4">Exercise 4</a> shows this in a simple batch reactor. Re-running with the correct first-order form <code>exp(−0.5·DT/3600)</code> gives sump capture of about <b>7.3%</b> (Full), <b>4.2%</b> (Hybrid) and <b>2.5%</b> (No cleaning) instead of 56 / 36 / 20%. The ranking is the same; the size of the benefit is much smaller, and now below the 25% MassDEP credit. The figures below have not yet been regenerated.</div>
     <div class="kpis">
       <div class="kpi"><div class="lbl">TSS washed off streets &amp; lots</div><div class="big"><span data-k="S0.washoff_lb">—</span> lb</div><div class="lbl">18 months, all scenarios without sweeping</div></div>
       <div class="kpi"><div class="lbl">Reaches outfall · Full cleaning</div><div class="big" style="color:var(--c1)"><span data-k="S1.escaped_lb">—</span> lb</div><div class="lbl"><span data-k="S1.capture_pct">—</span>% trapped</div></div>
       <div class="kpi"><div class="lbl">Reaches outfall · Hybrid</div><div class="big" style="color:var(--c2)"><span data-k="S2.escaped_lb">—</span> lb</div><div class="lbl"><span data-k="S2.capture_pct">—</span>% trapped</div></div>
       <div class="kpi"><div class="lbl">Reaches outfall · No cleaning</div><div class="big" style="color:var(--c3)"><span data-k="S3.escaped_lb">—</span> lb</div><div class="lbl"><span data-k="S3.capture_pct">—</span>% trapped</div></div>
     </div>
-    <nav class="toc"><a href="#question">1 · Question</a><a href="#method">2 · Method</a><a href="#fate">3 · Results</a><a href="#basins">4 · Which basins</a><a href="#storm">5 · One storm</a><a href="#monthly">6 · 18 months</a><a href="#calibration">7 · Calibration</a><a href="#discuss">8 · Discussion</a></nav>
+    <nav class="toc"><a href="#downloads">⬇ Downloads</a><a href="#question">1 · Question</a><a href="#method">2 · Method</a><a href="#fate">3 · Results</a><a href="#basins">4 · Which basins</a><a href="#storm">5 · One storm</a><a href="#monthly">6 · 18 months</a><a href="#calibration">7 · Calibration</a><a href="#discuss">8 · Discussion</a></nav>
   </header>
 
   <section id="question">
@@ -195,6 +196,13 @@ ROAD       TSS     EXP      0.95  1.5   50   0</pre>
     </ul>
     <div class="tbl"><table id="filesTbl"><thead><tr><th>ID</th><th>Scenario</th><th>Sumps</th><th class="r">Sweep (days)</th><th>Model file</th><th class="r">Quality error %</th></tr></thead><tbody></tbody></table></div>
   </details>
+
+  <section id="downloads">
+    <h2><span class="n">⬇</span>Download the models</h2>
+    <p>Every model on this site is a plain EPA SWMM 5.2 <code>.inp</code> file. Each package includes its rainfall file and the aerial background, so it opens and runs as-is.</p>
+    <p><a class="explore" href="models/WestHaven_baseline.zip" download>⬇ Baseline model + design storms (.zip)</a><a class="explore" href="models/WestHaven_street_cleaning_scenarios.zip" download>⬇ Street-cleaning scenarios S0–S5 + k-sensitivity (.zip)</a><a class="explore" href="models/exercises/SWMM_exercises_all_solutions.zip" download>⬇ Teaching exercise solutions (.zip)</a></p>
+    <p class="small">Single files: <a href="models/baseline/WestHaven_JonesHill.inp" download>WestHaven_JonesHill.inp</a> · <a href="https://github.com/scott-jeffers/swmm-newhaven-exercise/tree/main/models">browse all files on GitHub</a></p>
+  </section>
 
   <footer>Built with EPA SWMM 5.2 (pyswmm). Imagery: Esri World Imagery. Rainfall: NOAA Atlas 14 &amp; Iowa Environmental Mesonet. Soils: NRCS SDA. Model files: <a href="https://github.com/scott-jeffers/swmm-newhaven-exercise/tree/main/models">github.com/scott-jeffers/swmm-newhaven-exercise</a>. Water-quality parameters are illustrative teaching values, not calibrated.</footer>
 </div>

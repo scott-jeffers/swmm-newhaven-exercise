@@ -1,0 +1,60 @@
+[TITLE]
+;;Project Title/Notes
+Exercise 4b - same tank with C = TSS*EXP(-0.5*HRT): shows why HRT compounds
+
+[OPTIONS]
+FLOW_UNITS           CFS
+INFILTRATION         HORTON
+FLOW_ROUTING         DYNWAVE
+LINK_OFFSETS         DEPTH
+MIN_SLOPE            0
+ALLOW_PONDING        NO
+START_DATE           01/01/2026
+START_TIME           00:00:00
+REPORT_START_DATE    01/01/2026
+REPORT_START_TIME    00:00:00
+END_DATE             01/01/2026
+END_TIME             12:00:00
+DRY_DAYS             0
+REPORT_STEP          00:10:00
+WET_STEP             00:01:00
+DRY_STEP             00:05:00
+ROUTING_STEP         0:00:05
+VARIABLE_STEP        0.75
+
+[STORAGE]
+;;Name  InvertElev  MaxDepth  InitDepth  Shape  Coeff  Expon  Const  SurDepth  Fevap
+;10 ft x 10 ft tank holding 3 ft of water; the outlet pipe sits 4 ft up, so nothing flows out
+TANK  100  6  3  FUNCTIONAL  0  0  100  0  0
+
+[OUTFALLS]
+;;Name  Elevation  Type  StageData  Gated
+OUT1  95  FREE  NO
+
+[CONDUITS]
+;;Name  FromNode  ToNode  Length  Roughness  InOffset  OutOffset  InitFlow  MaxFlow
+C1  TANK  OUT1  50  0.013  4  0  0  0
+
+[XSECTIONS]
+C1  CIRCULAR  1  0  0  0  1
+
+[POLLUTANTS]
+;;Name  Units  Crain  Cgw  Crdii  Kdecay(1/day)  SnowOnly  CoPollut  CoFrac  Cdwf  Cinit(mg/L)
+TSS  MG/L  0  0  0  0  NO  *  0  0  100
+
+[TREATMENT]
+;;Node  Pollutant  Function
+TANK  TSS  C = TSS * EXP(-0.5*HRT)
+
+[REPORT]
+SUBCATCHMENTS ALL
+NODES ALL
+LINKS ALL
+
+[MAP]
+DIMENSIONS -50 -100 250 100
+Units Feet
+
+[COORDINATES]
+TANK  0  0
+OUT1  200  0

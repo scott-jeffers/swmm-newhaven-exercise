@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SWMM Exercises – Step by Step</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root { --bg:#fbfaf7; --panel:#fff; --line:#e6e2da; --fg:#1f2328; --muted:#5d6670; --accent:#1f6feb; --warm:#a3541a; --ok:#1a7f37; }
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.65 Inter, -apple-system, "Segoe UI", Roboto, sans-serif; }
+.nav { position:sticky; top:0; z-index:1000; display:flex; align-items:center; gap:18px; padding:10px 20px; background:#17212b; color:#e8eef5; font-size:14px; }
+.nav .brand { font-weight:600; margin-right:auto; }
+.nav a { color:#c9d6e3; text-decoration:none; padding:4px 2px; border-bottom:2px solid transparent; }
+.nav a.on { color:#fff; border-bottom-color:#5aa2ff; }
+.layout { display:grid; grid-template-columns: 230px minmax(0, 1fr); gap:36px; max-width:1180px; margin:0 auto; padding:0 22px 80px; }
+.toc { position:sticky; top:64px; align-self:start; padding-top:40px; font-size:14px; }
+.toc a { display:block; color:var(--muted); text-decoration:none; padding:5px 0 5px 10px; border-left:2px solid var(--line); }
+.toc a:hover { color:var(--fg); border-left-color:var(--fg); }
+.toc .dl { margin-top:18px; }
+main { min-width:0; max-width:860px; }
+.hero { padding:44px 0 6px; }
+.eyebrow { text-transform:uppercase; letter-spacing:.12em; font-size:12px; color:var(--warm); font-weight:600; }
+h1 { font-family:"Source Serif 4", Georgia, serif; font-weight:600; font-size:clamp(30px,5vw,42px); line-height:1.15; margin:10px 0 14px; }
+h2 { font-family:"Source Serif 4", Georgia, serif; font-weight:600; font-size:28px; line-height:1.25; margin:0 0 6px; }
+h3 { font-size:16px; margin:22px 0 8px; }
+.ex { margin-top:56px; padding-top:8px; border-top:1px solid var(--line); scroll-margin-top:60px; }
+.ex .num { color:var(--warm); font-family:"Source Serif 4", Georgia, serif; }
+.goal { font-size:17px; color:#2c333a; }
+.learn { display:flex; flex-wrap:wrap; gap:6px; margin:8px 0 4px; }
+.learn span { font-size:12.5px; background:#eef3f8; border-radius:999px; padding:2px 10px; color:#2a4157; }
+ol.steps { counter-reset:s; list-style:none; padding:0; margin:12px 0; }
+ol.steps > li { counter-increment:s; position:relative; padding:12px 14px 12px 50px; margin:0 0 10px; background:var(--panel); border:1px solid var(--line); border-radius:10px; }
+ol.steps > li::before { content:counter(s); position:absolute; left:12px; top:12px; width:26px; height:26px; border-radius:50%; background:#17212b; color:#fff; font-size:13px; font-weight:600; display:flex; align-items:center; justify-content:center; }
+ol.steps b { font-weight:600; }
+.path { font-family:ui-monospace, Menlo, Consolas, monospace; font-size:13px; background:#f1efe9; padding:1px 6px; border-radius:4px; }
+table { border-collapse:collapse; font-size:13.5px; font-variant-numeric:tabular-nums; margin:8px 0; }
+th, td { padding:5px 10px; border-bottom:1px solid var(--line); text-align:left; }
+th { color:var(--muted); font-weight:500; font-size:12.5px; }
+.tbl { overflow-x:auto; }
+.check { background:#f2f8f3; border:1px solid #cfe6d4; border-radius:10px; padding:14px 16px; margin:16px 0; }
+.check h3 { margin-top:0; color:var(--ok); }
+.tip { border-left:3px solid var(--warm); background:#fff8f0; padding:10px 14px; border-radius:0 8px 8px 0; margin:14px 0; font-size:15px; }
+.warn { border-left:3px solid #c62828; background:#fdf1f1; padding:10px 14px; border-radius:0 8px 8px 0; margin:14px 0; font-size:15px; }
+.plot { width:100%; height:340px; }
+.dlrow { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0; }
+a.dlbtn { display:inline-flex; align-items:center; gap:6px; font-size:13.5px; font-weight:500; text-decoration:none; color:#fff; background:#17212b; padding:7px 12px; border-radius:8px; }
+a.dlbtn.alt { background:#fff; color:var(--fg); border:1px solid var(--line); }
+a.dlbtn:hover { opacity:.9; }
+.refs { font-size:13.5px; color:var(--muted); }
+.refs a { color:var(--accent); }
+.res { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:10px; margin:14px 0; }
+.res a { display:block; background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:12px 14px; text-decoration:none; color:var(--fg); }
+.res a b { display:block; font-size:14.5px; } .res a span { font-size:13px; color:var(--muted); }
+pre { background:#11181f; color:#d6e2ee; border-radius:8px; padding:12px 14px; overflow:auto; font:12.5px/1.5 ui-monospace, Menlo, Consolas, monospace; }
+details { margin:10px 0; } summary { cursor:pointer; font-weight:600; font-size:14.5px; }
+.eq { font-family:"Source Serif 4", Georgia, serif; font-size:21px; text-align:center; margin:10px 0; }
+footer { margin-top:70px; padding-top:18px; border-top:1px solid var(--line); font-size:13px; color:var(--muted); }
+@media (max-width:900px) { .layout { grid-template-columns:1fr; } .toc { display:none; } .nav .brand { display:none; } }
+</style>
+</head>
+<body>
+<nav class="nav"><span class="brand">West Haven SWMM Study</span><a href="report.html">Study report</a><a href="index.html">Model viewer</a><a href="exercises.html" class="on">Exercises</a><a href="https://github.com/scott-jeffers/swmm-newhaven-exercise">GitHub</a></nav>
+<div class="layout">
+<aside class="toc">
+  <a href="#start">Before you start</a>
+  <a href="#ex1">1 · One subcatchment</a>
+  <a href="#ex2">2 · A line of pipes</a>
+  <a href="#ex3">3 · Adding TSS</a>
+  <a href="#ex4">4 · The batch reactor</a>
+  <a href="#ex5">5 · Catch basins as reactors</a>
+  <a href="#resources">EPA SWMM resources</a>
+  <div class="dl"><a class="dlbtn" href="models/exercises/SWMM_exercises_all_solutions.zip" download>⬇ All solutions (.zip)</a></div>
+</aside>
+<main>
+  <header class="hero" id="start">
+    <div class="eyebrow">Hands-on · EPA SWMM 5.2</div>
+    <h1>SWMM step by step: from one subcatchment to a catch-basin reactor</h1>
+    <p class="goal">Five short exercises that build on each other. Each one tells you exactly what to click and type, shows the result you should get, and has a solution <code>.inp</code> to download if you get stuck.</p>
+    <h3>Before you start</h3>
+    <ol class="steps">
+      <li><b>Install EPA SWMM 5.2</b> from the <a href="https://www.epa.gov/water-research/storm-water-management-model-swmm">EPA SWMM page</a> (Windows). Any 5.2.x release works.</li>
+      <li><b>Set the defaults once:</b> <span class="path">Project ▸ Defaults</span>. On the <i>Node/Link</i> tab set <b>Flow Units = CFS</b>, <b>Link Offsets = DEPTH</b>, <b>Routing Model = Dynamic Wave</b>. On the <i>Subcatchments</i> tab set <b>Infiltration Model = HORTON</b>. Tick <b>Save as defaults for all new projects</b>.</li>
+      <li><b>Know the browser:</b> the <i>Data</i> tab on the left lists every object type. Double-click any object (on the map or in the list) to open its property editor.</li>
+    </ol>
+    <div class="tip">Every solution file opens directly in SWMM: <span class="path">File ▸ Open</span>, pick the <code>.inp</code>, then click the lightning-bolt <b>Run</b> button.</div>
+  </header>
+
+  <!-- ================= EX 1 ================= -->
+  <section class="ex" id="ex1">
+    <h2><span class="num">1</span> · One subcatchment</h2>
+    <p class="goal">Turn rainfall into runoff for a single 5-acre lot and see how imperviousness changes the hydrograph.</p>
+    <div class="learn"><span>Time series</span><span>Rain gage</span><span>Subcatchment</span><span>Outfall</span><span>Running & graphs</span></div>
+    <ol class="steps">
+      <li><b>New project:</b> <span class="path">File ▸ New</span>. Then <span class="path">View ▸ Dimensions</span>: set the map to 0–1000 ft (X) and 0–600 ft (Y), units Feet.</li>
+      <li><b>Create the storm.</b> <span class="path">Data ▸ Time Series ▸ +</span>. Name it <code>Storm</code> and enter this 2-hour hyetograph (in/hr, 10-min steps, 1.45 in total). Leave the Date column blank.
+        <div class="tbl"><table><tr><th>Time</th><td>0:00</td><td>0:10</td><td>0:20</td><td>0:30</td><td>0:40</td><td>0:50</td><td>1:00</td><td>1:10</td><td>1:20</td><td>1:30</td><td>1:40</td><td>1:50</td><td>2:00</td></tr>
+        <tr><th>in/hr</th><td>0.3</td><td>0.6</td><td>1.2</td><td>2.4</td><td>1.2</td><td>0.9</td><td>0.6</td><td>0.5</td><td>0.4</td><td>0.3</td><td>0.2</td><td>0.1</td><td>0</td></tr></table></div>
+        Click <b>View</b> in the editor to see the hyetograph.</li>
+      <li><b>Add a rain gage</b> (toolbar gage icon, click on the map). Set <b>Name = RG1</b>, <b>Rain Format = INTENSITY</b>, <b>Time Interval = 0:10</b>, <b>Data Source = TIMESERIES</b>, <b>Series Name = Storm</b>.</li>
+      <li><b>Add an outfall</b> (outfall icon) named <code>OUT1</code>: <b>Invert El. = 0</b>, <b>Type = FREE</b>.</li>
+      <li><b>Draw the subcatchment</b> (subcatchment icon): click four corners and right-click to close. Then set its properties:
+        <div class="tbl"><table><tr><th>Name</th><th>Rain Gage</th><th>Outlet</th><th>Area</th><th>Width</th><th>% Slope</th><th>% Imperv</th></tr><tr><td>S1</td><td>RG1</td><td>OUT1</td><td>5 ac</td><td>500 ft</td><td>1.0</td><td>50</td></tr>
+        <tr><th>N-Imperv</th><th>N-Perv</th><th>Dstore-Imperv</th><th>Dstore-Perv</th><th>%Zero-Imperv</th><th colspan="2">Infiltration (Horton)</th></tr><tr><td>0.012</td><td>0.15</td><td>0.05 in</td><td>0.10 in</td><td>25</td><td colspan="2">Max 3.0, Min 0.5 in/hr, Decay 4 /hr, Dry 7 d</td></tr></table></div></li>
+      <li><b>Simulation options:</b> <span class="path">Data ▸ Options ▸ Dates</span>: start 01/01/2026 00:00, end 01/01/2026 06:00. <span class="path">Time Steps</span>: reporting 0:01:00, routing 5 s.</li>
+      <li><b>Run</b> (⚡). The status window should show continuity errors well under 1%.</li>
+      <li><b>Look at the results:</b> <span class="path">Report ▸ Graph ▸ Time Series</span>, then add <b>Subcatchment S1 · Runoff</b>. Open <span class="path">Report ▸ Summary ▸ Subcatchment Runoff</span>.</li>
+      <li><b>Experiment:</b> change <b>% Imperv</b> to 90, run again and compare.</li>
+    </ol>
+    <div class="check"><h3>✓ Check your results</h3>
+      <div id="p1" class="plot"></div>
+      <div class="tbl"><table><tr><th></th><th>Peak runoff</th><th>Runoff depth</th><th>Runoff coefficient</th></tr>
+      <tr><td>50% impervious</td><td>5.98 cfs</td><td>0.72 in</td><td>0.50</td></tr><tr><td>90% impervious</td><td>10.26 cfs</td><td>1.28 in</td><td>0.88</td></tr></table></div>
+      <p class="refs">Ask the class: why does the 90% case peak higher <i>and</i> earlier?</p>
+    </div>
+    <div class="dlrow"><a class="dlbtn" href="models/exercises/Ex1_one_subcatchment.inp" download>⬇ Solution: Ex1 (.inp)</a><a class="dlbtn alt" href="models/exercises/Ex1b_one_subcatchment_90pct_imperv.inp" download>⬇ Ex1b – 90% impervious</a></div>
+    <p class="refs">Read more on the <a href="https://swmm-manual.netlify.app/">online SWMM manual</a>: User's Manual Ch. 6 (Working with Objects) and Ch. 9 (Viewing Results); Reference Manual Vol. I Ch. 3 (Surface Runoff) and Ch. 4 (Infiltration).</p>
+  </section>
+
+  <!-- ================= EX 2 ================= -->
+  <section class="ex" id="ex2">
+    <h2><span class="num">2</span> · A straight line of junctions, pipes and an outfall</h2>
+    <p class="goal">Route runoff from three subcatchments through three pipes, draw a profile, then undersize a pipe and watch the system back up.</p>
+    <div class="learn"><span>Junctions</span><span>Conduits</span><span>Cross-sections</span><span>Dynamic wave</span><span>Profile plots</span><span>Surcharge & flooding</span></div>
+    <ol class="steps">
+      <li><b>Start from Exercise 1</b> (or a new project with the same <code>Storm</code> time series and rain gage <code>RG1</code>). Set the map to X −100 to 1600 ft, Y −300 to 700 ft. Delete S1.</li>
+      <li><b>Add three junctions</b> in a row, left to right, 400 ft apart, then the outfall to their right:
+        <div class="tbl"><table><tr><th>Node</th><th>Invert El. (ft)</th><th>Max. Depth (ft)</th><th>Rim (ft)</th></tr>
+        <tr><td>J1</td><td>100</td><td>6</td><td>106</td></tr><tr><td>J2</td><td>98</td><td>6</td><td>104</td></tr><tr><td>J3</td><td>96</td><td>6</td><td>102</td></tr><tr><td>OUT1 (outfall, FREE)</td><td>94</td><td>–</td><td>–</td></tr></table></div></li>
+      <li><b>Connect them with conduits</b> (conduit icon: click the upstream node, then the downstream node). All are <b>Circular</b>, <b>Length 400 ft</b>, <b>Roughness 0.013</b>, offsets 0. That gives a 0.5% slope.
+        <div class="tbl"><table><tr><th>Conduit</th><th>From → To</th><th>Diameter (Max. Depth)</th></tr><tr><td>C1</td><td>J1 → J2</td><td>1.5 ft (18")</td></tr><tr><td>C2</td><td>J2 → J3</td><td>2.0 ft (24")</td></tr><tr><td>C3</td><td>J3 → OUT1</td><td>2.5 ft (30")</td></tr></table></div></li>
+      <li><b>Add three subcatchments</b> above the pipes: S1 → outlet J1, S2 → J2, S3 → J3. Each one is <b>4 ac, Width 400 ft, 1.5% slope, 60% impervious</b>, with the same N, Dstore and Horton values as Exercise 1.</li>
+      <li><b>Check the options:</b> Routing = <b>Dynamic Wave</b>, routing step 5 s, end time 06:00. <b>Run</b>.</li>
+      <li><b>Graph flows:</b> <span class="path">Report ▸ Graph ▸ Time Series</span>, add C1, C2 and C3 · Flow. Flow grows downstream as each subcatchment joins.</li>
+      <li><b>Profile plot:</b> <span class="path">Report ▸ Graph ▸ Profile</span>, Start node <b>J1</b>, End node <b>OUT1</b>, <b>Find Path</b>. Save it as "Main line". Drag the time slider (<span class="path">Map browser ▸ Time</span>) to animate the water surface.</li>
+      <li><b>Break it on purpose:</b> change C3 to <b>1.5 ft (18")</b> and run again. Open <span class="path">Report ▸ Summary ▸ Node Flooding</span> and <span class="path">Conduit Surcharge</span>.</li>
+    </ol>
+    <div class="check"><h3>✓ Check your results</h3>
+      <div id="p2a" class="plot"></div>
+      <div id="p2b" class="plot"></div>
+      <div class="tbl"><table><tr><th></th><th>C1 peak</th><th>C2 peak</th><th>C3 peak</th><th>Flooding</th></tr>
+      <tr><td>Ex2 (30" C3)</td><td>5.7 cfs</td><td>11.4 cfs</td><td>17.0 cfs</td><td>none</td></tr>
+      <tr><td>Ex2b (18" C3)</td><td>5.7 cfs</td><td>11.5 cfs</td><td>13.8 cfs (capped)</td><td>J3 3.4 cfs, J2 2.3, J1 2.5 (backwater)</td></tr></table></div>
+      <p class="refs">Ask the class: why do J1 and J2 flood when only C3 was changed?</p>
+    </div>
+    <div class="dlrow"><a class="dlbtn" href="models/exercises/Ex2_pipe_line.inp" download>⬇ Solution: Ex2 (.inp)</a><a class="dlbtn alt" href="models/exercises/Ex2b_pipe_line_undersized_C3.inp" download>⬇ Ex2b – undersized C3</a></div>
+    <p class="refs">Reference Manual Vol. II (Hydraulics), Ch. 2 (SWMM's Hydraulic Model) and Ch. 3 (Dynamic Wave Analysis), on the <a href="https://swmm-manual.netlify.app/">online SWMM manual</a>.</p>
+  </section>
+
+  <!-- ================= EX 3 ================= -->
+  <section class="ex" id="ex3">
+    <h2><span class="num">3</span> · Adding water quality (TSS)</h2>
+    <p class="goal">Let dirt build up on the land for a week, then wash it off in the storm and follow it to the outfall.</p>
+    <div class="learn"><span>Pollutants</span><span>Land uses</span><span>Buildup</span><span>Washoff</span><span>Pollutographs</span><span>Mass balance</span></div>
+    <ol class="steps">
+      <li><b>Start from Exercise 2</b> (30" C3).</li>
+      <li><b>Add a pollutant:</b> <span class="path">Data ▸ Quality ▸ Pollutants ▸ +</span>. Name <code>TSS</code>, Units <b>MG/L</b>. Leave all concentrations at 0.</li>
+      <li><b>Add a land use:</b> <span class="path">Data ▸ Quality ▸ Land Uses ▸ +</span>. Name <code>Residential</code>.
+        <br>• <i>Buildup</i> tab: Function <b>EXP</b>, Max. Buildup <b>50</b>, Rate Constant <b>0.5</b> (1/day), Normalizer <b>AREA</b> (lb/ac).
+        <br>• <i>Washoff</i> tab: Function <b>EXP</b>, Coefficient <b>1.0</b>, Exponent <b>1.5</b>.</li>
+      <li><b>Assign it:</b> open each subcatchment, click <b>Land Uses</b> and give <code>Residential</code> 100%. You can select all three and use <span class="path">Edit ▸ Group Edit</span>.</li>
+      <li><b>Give the dirt time to build up:</b> <span class="path">Options ▸ Dates</span>: <b>Antecedent Dry Days = 7</b>. Extend the end time to <b>23:59</b>.</li>
+      <li><b>Run</b>, then graph <b>Node OUT1 · TSS</b> together with <b>Node OUT1 · Total Inflow</b>. Look at the <i>Runoff Quality</i> and <i>Quality Routing</i> continuity in the status report.</li>
+    </ol>
+    <div class="check"><h3>✓ Check your results</h3>
+      <div id="p3" class="plot"></div>
+      <p>About <b>291 lb</b> of TSS washes off and reaches the outfall. The concentration peaks at about <b>200 mg/L</b> just after the rain peak: the "first flush".</p>
+      <p class="refs">Ask the class: what happens to the washoff if you change Antecedent Dry Days to 1?</p>
+    </div>
+    <div class="dlrow"><a class="dlbtn" href="models/exercises/Ex3_pipe_line_TSS.inp" download>⬇ Solution: Ex3 (.inp)</a></div>
+    <p class="refs">Reference Manual Vol. III (Water Quality), Ch. 3 (Pollutant Buildup) and Ch. 4 (Surface Washoff), on the <a href="https://swmm-manual.netlify.app/">online SWMM manual</a>.</p>
+  </section>
+
+  <!-- ================= EX 4 ================= -->
+  <section class="ex" id="ex4">
+    <h2><span class="num">4</span> · The batch reactor: a storage node with treatment</h2>
+    <p class="goal">A closed tank with no inflow or outflow is a textbook batch reactor. SWMM should reproduce first-order settling exactly. It does, if you write the treatment expression the right way.</p>
+    <div class="learn"><span>Storage units</span><span>Initial concentration</span><span>Treatment expressions</span><span>DT vs HRT</span></div>
+    <div class="eq">C(t) = C<sub>0</sub> · e<sup>−k t</sup>, &nbsp; C<sub>0</sub> = 100 mg/L, k = 0.5 /hr</div>
+    <ol class="steps">
+      <li><b>New project.</b> Add a <b>Storage Unit</b> <code>TANK</code>: Invert El. <b>100</b>, Max. Depth <b>6</b>, Initial Depth <b>3</b>, Storage Curve <b>FUNCTIONAL</b> with Coefficient 0, Exponent 0, Constant <b>100</b>. That makes a 10 × 10 ft tank holding 3 ft of water.</li>
+      <li><b>Give it an exit that never flows:</b> add outfall <code>OUT1</code> (Invert 95), and a conduit <code>C1</code> TANK → OUT1, 1 ft circular, 50 ft long, <b>Inlet Offset = 4 ft</b>. The pipe sits above the 3-ft water surface, so the tank is closed.</li>
+      <li><b>Pollutant with a starting concentration:</b> add <code>TSS</code> (MG/L) with <b>Init. Concen. = 100</b>. The initial concentration fills every node, including the tank.</li>
+      <li><b>Treatment:</b> open TANK ▸ <b>Treatment</b> ▸ TSS, and enter <pre>C = TSS * EXP(-0.5*DT/3600)</pre> <code>DT</code> is the routing time step in seconds, so each step applies e<sup>−k·Δt</sup>. Over time that compounds to exactly e<sup>−kt</sup>.</li>
+      <li><b>Options:</b> end time 12:00, reporting step 0:10. <b>Run</b>, then graph <b>Node TANK · TSS</b>.</li>
+      <li><b>Now try the tempting version:</b> change the expression to <code>C = TSS * EXP(-0.5*HRT)</code> and run again (file Ex4b).</li>
+    </ol>
+    <div class="check"><h3>✓ Check your results</h3>
+      <div id="p4" class="plot"></div>
+      <p>With <code>DT/3600</code>: 100 → 60.7 → 36.8 → 22.3 mg/L at 1, 2 and 3 hr, matching the analytic curve. The pollutant's built-in <b>Decay Coeff.</b> = 12 /day (= 0.5 /hr) gives the same curve (Ex4c).</p>
+    </div>
+    <div class="warn"><b>The HRT pitfall.</b> SWMM evaluates a treatment expression <i>at every routing step</i> on the water already in the node. <code>HRT</code> is the age of that water, not the length of the step. So <code>exp(−k·HRT)</code> is applied again and again, and the tank drops to zero within the first hour. Use <code>exp(−k·DT/3600)</code> (or Kdecay) for first-order decay. Our West Haven street-cleaning scenarios used the HRT form; see the note on the <a href="report.html">study report</a>.</div>
+    <div class="dlrow"><a class="dlbtn" href="models/exercises/Ex4_batch_reactor.inp" download>⬇ Solution: Ex4 (.inp)</a><a class="dlbtn alt" href="models/exercises/Ex4b_batch_reactor_HRT_pitfall.inp" download>⬇ Ex4b – HRT pitfall</a><a class="dlbtn alt" href="models/exercises/Ex4c_batch_reactor_Kdecay.inp" download>⬇ Ex4c – Kdecay</a></div>
+    <p class="refs">Reference Manual Vol. III, Ch. 5 (Transport and Treatment); User's Manual, Treatment Editor (Appendix C), on the <a href="https://swmm-manual.netlify.app/">online SWMM manual</a>.</p>
+  </section>
+
+  <!-- ================= EX 5 ================= -->
+  <section class="ex" id="ex5">
+    <h2><span class="num">5</span> · Catch basins as reactors: converting junctions to storage nodes</h2>
+    <p class="goal">A real catch basin has a sump below the outlet pipe that always holds water. Model it by turning each junction into a storage node with a 2-ft sump and the treatment from Exercise 4.</p>
+    <div class="learn"><span>Converting nodes</span><span>Conduit offsets</span><span>Dead storage</span><span>Reactors in series</span></div>
+    <ol class="steps">
+      <li><b>Start from Exercise 3.</b></li>
+      <li><b>Convert J1, J2, J3 to storage units.</b> Right-click a junction and choose <b>Convert To ▸ Storage Unit</b>. If your SWMM version doesn't offer it, delete the junction, add a Storage Unit with the same name in the same place, and reconnect the conduits.</li>
+      <li><b>Drop the floor 2 ft to make the sump.</b> For each storage unit: Invert El. = old invert − 2 (J1 <b>98</b>, J2 <b>96</b>, J3 <b>94</b>), Max. Depth <b>8</b>, Initial Depth <b>2</b> (the sump starts full of water), Storage Curve FUNCTIONAL, Constant <b>16</b> (a 4 × 4 ft box).</li>
+      <li><b>Keep the pipes where they were with offsets</b> (Link Offsets = DEPTH): C1 Inlet Offset 2, Outlet Offset 2; C2 Inlet 2, Outlet 2; C3 Inlet 2 (outlet stays 0 at the outfall).</li>
+      <li><b>Add treatment</b> to each storage unit: <code>TSS: C = TSS * EXP(-0.5*DT/3600)</code>.</li>
+      <li><b>Run</b>, then graph <b>Node J1 · TSS</b> and <b>OUT1 · TSS</b>, and compare <i>Mass Reacted</i> in the Quality Routing Continuity with Exercise 3 (0 lb).</li>
+    </ol>
+    <div class="check"><h3>✓ Check your results</h3>
+      <div id="p5" class="plot"></div>
+      <p><b>During the storm</b>, water flows through each 32 ft³ sump in seconds. Settling barely acts: only about <b>1.2 lb of 291 lb</b> (0.4%) reacts. <b>After the storm</b>, the dirty water left in each sump is a batch reactor. J1's TSS falls by e<sup>−0.5·2</sup> ≈ 0.37 every 2 hours, exactly as in Exercise 4.</p>
+      <p class="refs">Ask the class: what parameter, other than k, would make a sump trap more during the storm? (Hint: surface area vs. flow, i.e. overflow rate.) How would you check it in the field?</p>
+    </div>
+    <div class="dlrow"><a class="dlbtn" href="models/exercises/Ex5_catch_basins_as_reactors.inp" download>⬇ Solution: Ex5 (.inp)</a><a class="dlbtn alt" href="index.html">See the full West Haven model in the viewer →</a></div>
+    <p class="refs">Reference Manual Vol. II Addendum, Ch. 3 (Storage Unit Geometry); Vol. III, Ch. 5 (Transport and Treatment), on the <a href="https://swmm-manual.netlify.app/">online SWMM manual</a>.</p>
+  </section>
+
+  <!-- ================= RESOURCES ================= -->
+  <section class="ex" id="resources">
+    <h2>EPA SWMM resources</h2>
+    <div class="res">
+      <a href="https://swmm-manual.netlify.app/"><b>SWMM manual online ↗</b><span>Searchable SWMM 5.2 User's Manual and Reference Manuals Vol. I–III, including the Vol. II addendum.</span></a>
+      <a href="https://www.epa.gov/water-research/storm-water-management-model-swmm"><b>EPA SWMM home ↗</b><span>Download SWMM, release notes, manuals and the Applications Manual.</span></a>
+      <a href="https://www.epa.gov/system/files/documents/2022-04/swmm-users-manual-version-5.2.pdf"><b>SWMM 5.2 User's Manual (PDF) ↗</b><span>EPA/600/R-22/030, Feb 2022.</span></a>
+      <a href="https://usepa.github.io/SWMM-GUI/d4/d05/md_user-guide_2user-guide.html"><b>SWMM GUI tutorials & user guide ↗</b><span>EPA's online guide for the SWMM interface.</span></a>
+      <a href="https://github.com/USEPA/Stormwater-Management-Model"><b>SWMM source code (GitHub) ↗</b><span>The computational engine, if you want to see how treatment is applied.</span></a>
+      <a href="https://github.com/scott-jeffers/swmm-newhaven-exercise/tree/main/models"><b>This course's models ↗</b><span>All exercise, baseline and scenario .inp files.</span></a>
+    </div>
+    <div class="dlrow"><a class="dlbtn" href="models/exercises/SWMM_exercises_all_solutions.zip" download>⬇ All exercise solutions (.zip)</a><a class="dlbtn alt" href="models/WestHaven_baseline.zip" download>⬇ West Haven baseline (.zip)</a><a class="dlbtn alt" href="models/WestHaven_street_cleaning_scenarios.zip" download>⬇ Street-cleaning scenarios (.zip)</a></div>
+  </section>
+  <footer>Exercise models built and checked with EPA SWMM 5.2 (pyswmm). All solution files ran with no errors or warnings and continuity errors under 1%.</footer>
+</main>
+</div>
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<script>
+(async () => {
+const R = await (await fetch('data/exercises.json')).json();
+const cfg = { responsive: true, displaylogo: false };
+const font = { family: 'Inter, sans-serif', size: 12, color: '#3b434b' };
+const base = (extra) => Object.assign({ font, margin: { l: 55, r: 55, t: 30, b: 45 }, hovermode: 'x unified', legend: { orientation: 'h', y: -0.22 }, paper_bgcolor: 'rgba(0,0,0,0)', plot_bgcolor: '#fff' }, extra);
+const rain = (k) => ({ type: 'bar', x: R[k].t, y: R[k].S_S1.rain, name: 'Rain (in/hr)', yaxis: 'y2', marker: { color: 'rgba(90,130,200,.3)' }, hovertemplate: '%{y:.2f} in/hr<extra>rain</extra>' });
+const y2 = { overlaying: 'y', side: 'right', range: [8, 0], title: 'Rain (in/hr)', showgrid: false };
+// Ex1
+Plotly.newPlot('p1', [rain('Ex1_one_subcatchment'),
+  { x: R.Ex1_one_subcatchment.t, y: R.Ex1_one_subcatchment.S_S1.runoff, name: '50% impervious', line: { color: '#1f77b4', width: 2.5 } },
+  { x: R.Ex1b_one_subcatchment_90pct_imperv.t, y: R.Ex1b_one_subcatchment_90pct_imperv.S_S1.runoff, name: '90% impervious', line: { color: '#d62728', width: 2.5 } }],
+  base({ title: { text: 'S1 runoff', font: { size: 13 } }, xaxis: { title: 'hours', range: [0, 4] }, yaxis: { title: 'Runoff (cfs)', range: [0, 18] }, yaxis2: y2 }), cfg);
+// Ex2 flows
+const e2 = R.Ex2_pipe_line;
+Plotly.newPlot('p2a', [rain('Ex2_pipe_line'), ...['C1', 'C2', 'C3'].map((c, i) => ({ x: e2.t, y: e2['L_' + c].flow, name: c, line: { color: ['#2ca02c', '#ff7f0e', '#1f77b4'][i], width: 2.5 } }))],
+  base({ title: { text: 'Conduit flows (Ex2)', font: { size: 13 } }, xaxis: { title: 'hours', range: [0, 4] }, yaxis: { title: 'Flow (cfs)', range: [0, 28] }, yaxis2: y2 }), cfg);
+// Ex2 profile max HGL
+const st = [0, 400, 800, 1200], nodes = ['J1', 'J2', 'J3', 'OUT1'], inv = [100, 98, 96, 94], rim = [106, 104, 102, null], dia = { a: [1.5, 2.0, 2.5], b: [1.5, 2.0, 1.5] };
+const maxH = (k) => nodes.map((n) => Math.max(...R[k]['N_' + n].head));
+const pipe = (d, name, color) => ({ x: [0, 400, null, 400, 800, null, 800, 1200], y: [100 + d[0], 98 + d[0], null, 98 + d[1], 96 + d[1], null, 96 + d[2], 94 + d[2]], name, mode: 'lines', line: { color, width: 1.5, dash: 'dot' } });
+Plotly.newPlot('p2b', [
+  { x: st, y: inv, name: 'Pipe invert', mode: 'lines', line: { color: '#555', width: 2 } },
+  pipe(dia.a, 'Crown – 30" C3', '#888'), pipe(dia.b, 'Crown – 18" C3', '#c97d7d'),
+  { x: st.slice(0, 3), y: rim.slice(0, 3), name: 'Ground (rim)', mode: 'lines+markers', line: { color: '#7a5c2e', width: 2 } },
+  { x: st, y: maxH('Ex2_pipe_line'), name: 'Max HGL – Ex2', mode: 'lines+markers', line: { color: '#1f77b4', width: 3 } },
+  { x: st, y: maxH('Ex2b_pipe_line_undersized_C3'), name: 'Max HGL – Ex2b (18" C3)', mode: 'lines+markers', line: { color: '#d62728', width: 3 } }],
+  base({ title: { text: 'Profile J1 → OUT1: maximum hydraulic grade line', font: { size: 13 } }, hovermode: 'closest', xaxis: { title: 'distance (ft)', tickvals: st, ticktext: nodes }, yaxis: { title: 'elevation (ft)' } }), cfg);
+// Ex3
+const e3 = R.Ex3_pipe_line_TSS;
+Plotly.newPlot('p3', [{ x: e3.t, y: e3.L_C3.flow, name: 'Flow at outfall (cfs)', yaxis: 'y2', line: { color: '#9bb7d4', width: 2 }, fill: 'tozeroy', fillcolor: 'rgba(155,183,212,.25)' },
+  { x: e3.t, y: e3.N_OUT1.tss, name: 'TSS at OUT1 (mg/L)', line: { color: '#a3541a', width: 2.5 } }],
+  base({ title: { text: 'Pollutograph at the outfall', font: { size: 13 } }, xaxis: { title: 'hours', range: [0, 5] }, yaxis: { title: 'TSS (mg/L)' }, yaxis2: { overlaying: 'y', side: 'right', title: 'Flow (cfs)', showgrid: false } }), cfg);
+// Ex4
+const e4 = R.Ex4_batch_reactor, tt = e4.t;
+Plotly.newPlot('p4', [
+  { x: tt, y: tt.map((t) => 100 * Math.exp(-0.5 * t)), name: 'Analytic 100·e^(−0.5t)', line: { color: '#111', width: 6, dash: 'dot' }, opacity: 0.35 },
+  { x: tt, y: e4.N_TANK.tss, name: 'SWMM: exp(−0.5·DT/3600)', line: { color: '#1f77b4', width: 2.5 } },
+  { x: R.Ex4c_batch_reactor_Kdecay.t, y: R.Ex4c_batch_reactor_Kdecay.N_TANK.tss, name: 'SWMM: Kdecay 12/day', line: { color: '#2ca02c', width: 2, dash: 'dash' } },
+  { x: R.Ex4b_batch_reactor_HRT_pitfall.t, y: R.Ex4b_batch_reactor_HRT_pitfall.N_TANK.tss, name: 'SWMM: exp(−0.5·HRT) ✗', line: { color: '#d62728', width: 2.5 } }],
+  base({ title: { text: 'TSS in the closed tank', font: { size: 13 } }, xaxis: { title: 'hours' }, yaxis: { title: 'TSS (mg/L)', range: [0, 105] } }), cfg);
+// Ex5
+const e5 = R.Ex5_catch_basins_as_reactors;
+Plotly.newPlot('p5', [
+  { x: e5.t, y: e5.N_J1.tss, name: 'Sump J1 (Ex5)', line: { color: '#8c564b', width: 2.5 } },
+  { x: e5.t, y: e5.N_OUT1.tss, name: 'Outfall (Ex5, with sumps)', line: { color: '#1f77b4', width: 2 } },
+  { x: e3.t, y: e3.N_OUT1.tss, name: 'Outfall (Ex3, no sumps)', line: { color: '#999', width: 2, dash: 'dash' } }],
+  base({ title: { text: 'TSS: flow-through during the storm, batch decay after it', font: { size: 13 } }, xaxis: { title: 'hours', range: [0, 14] }, yaxis: { title: 'TSS (mg/L)', type: 'log', range: [-2, 2.5] } }), cfg);
+})();
+</script>
+</body>
+</html>
