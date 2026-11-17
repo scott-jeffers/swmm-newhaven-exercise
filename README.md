@@ -28,6 +28,11 @@ Open any `.inp` in EPA SWMM 5.2 or PCSWMM. The rain files and background image s
 
 `report.html` (study report) and `index.html` (viewer), plus `data/*.json` (results extracted from each run's `.out`/`.rpt`). It is a static site with no build step. Leaflet and Plotly load from public CDNs.
 
+## Related tools
+
+- [GStorm: design storm maker](https://gstorm.netlify.app/), a rainfall design storm generator for building SWMM rain gage time series.
+- [SWMM manual online](https://swmm-manual.netlify.app/)
+
 ## Data sources and caveats
 
 - **Elevations:** from the project DEM, NAVD88 ft. Pipe inverts were estimated because there was no invert data.

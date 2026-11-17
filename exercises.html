@@ -78,6 +78,7 @@ footer { margin-top:70px; padding-top:18px; border-top:1px solid var(--line); fo
   <a href="#ex4">4 · The batch reactor</a>
   <a href="#ex5">5 · Catch basins as reactors</a>
   <a href="#resources">EPA SWMM resources</a>
+  <a href="https://gstorm.netlify.app/">GStorm: design storms ↗</a>
   <div class="dl"><a class="dlbtn" href="models/exercises/SWMM_exercises_all_solutions.zip" download>⬇ All solutions (.zip)</a></div>
 </aside>
 <main>
@@ -104,7 +105,8 @@ footer { margin-top:70px; padding-top:18px; border-top:1px solid var(--line); fo
       <li><b>Create the storm.</b> <span class="path">Data ▸ Time Series ▸ +</span>. Name it <code>Storm</code> and enter this 2-hour hyetograph (in/hr, 10-min steps, 1.45 in total). Leave the Date column blank.
         <div class="tbl"><table><tr><th>Time</th><td>0:00</td><td>0:10</td><td>0:20</td><td>0:30</td><td>0:40</td><td>0:50</td><td>1:00</td><td>1:10</td><td>1:20</td><td>1:30</td><td>1:40</td><td>1:50</td><td>2:00</td></tr>
         <tr><th>in/hr</th><td>0.3</td><td>0.6</td><td>1.2</td><td>2.4</td><td>1.2</td><td>0.9</td><td>0.6</td><td>0.5</td><td>0.4</td><td>0.3</td><td>0.2</td><td>0.1</td><td>0</td></tr></table></div>
-        Click <b>View</b> in the editor to see the hyetograph.</li>
+        Click <b>View</b> in the editor to see the hyetograph.
+        <div class="tip" style="margin:10px 0 0">Want a real design storm instead of this simple one? Generate a hyetograph with <a href="https://gstorm.netlify.app/">GStorm, the design storm maker ↗</a>, then paste its times and intensities into this time series.</div></li>
       <li><b>Add a rain gage</b> (toolbar gage icon, click on the map). Set <b>Name = RG1</b>, <b>Rain Format = INTENSITY</b>, <b>Time Interval = 0:10</b>, <b>Data Source = TIMESERIES</b>, <b>Series Name = Storm</b>.</li>
       <li><b>Add an outfall</b> (outfall icon) named <code>OUT1</code>: <b>Invert El. = 0</b>, <b>Type = FREE</b>.</li>
       <li><b>Draw the subcatchment</b> (subcatchment icon): click four corners and right-click to close. Then set its properties:
@@ -243,6 +245,7 @@ footer { margin-top:70px; padding-top:18px; border-top:1px solid var(--line); fo
   <section class="ex" id="resources">
     <h2>EPA SWMM resources</h2>
     <div class="res">
+      <a href="https://gstorm.netlify.app/"><b>GStorm: design storm maker ↗</b><span>Rainfall design storm generator: build a storm hyetograph to use as a SWMM rain gage time series.</span></a>
       <a href="https://swmm-manual.netlify.app/"><b>SWMM manual online ↗</b><span>Searchable SWMM 5.2 User's Manual and Reference Manuals Vol. I–III, including the Vol. II addendum.</span></a>
       <a href="https://www.epa.gov/water-research/storm-water-management-model-swmm"><b>EPA SWMM home ↗</b><span>Download SWMM, release notes, manuals and the Applications Manual.</span></a>
       <a href="https://www.epa.gov/system/files/documents/2022-04/swmm-users-manual-version-5.2.pdf"><b>SWMM 5.2 User's Manual (PDF) ↗</b><span>EPA/600/R-22/030, Feb 2022.</span></a>
