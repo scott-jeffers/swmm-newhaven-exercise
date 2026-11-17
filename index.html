@@ -67,6 +67,14 @@ pre { background:#0f1720; color:#d6e2ee; padding:10px; border-radius:6px; overfl
 .kv div { background:#f6f8fa; border:1px solid var(--line); border-radius:6px; padding:6px 8px; }
 .kv b { display:block; font-size:15px; font-variant-numeric:tabular-nums; }
 .kv span { color:var(--muted); font-size:11px; }
+.embed header h1, .embed .topnav { display:none; }
+.embed header { padding:6px 10px; gap:6px 10px; }
+.embed main { grid-template-columns: minmax(0,1fr) minmax(300px, 46%); }
+.embed #mapwrap { height:auto; } .embed #side { min-height:0; border-top:0; border-left:1px solid var(--line); } .embed .pane { overflow:auto; }
+.embed #app { height:100vh; min-height:0; }
+.embed .plot.tall { height:300px; } .embed .plot { height:280px; }
+#fullLink { display:none; } .embed #fullLink { display:inline; color:#8cc4ff; font-size:12px; align-self:flex-end; }
+@media (max-width: 640px) { .embed main { grid-template-columns:1fr; grid-template-rows: 45% 55%; } .embed #side { border-left:0; border-top:1px solid var(--line); } }
 @media (max-width: 900px) {
   header h1 { display:none; } .topnav { margin-left:0; width:100%; }
   #legend { font-size:10px; min-width:120px; padding:4px 6px; bottom:18px; }
@@ -83,6 +91,7 @@ pre { background:#0f1720; color:#d6e2ee; padding:10px; border-radius:6px; overfl
   <header>
     <h1>West Haven SWMM Model Viewer</h1>
     <label>Model (.inp)<select id="selModel" aria-label="Model"></select></label>
+    <a id="fullLink" href="index.html" target="_top">Open full viewer ↗</a>
     <a class="tbtn" id="hdrDl" href="#" download title="Download this model's .inp file" style="text-decoration:none;align-self:flex-end">⬇ .inp</a>
     <label>Period / storm<select id="selPeriod" aria-label="Period"></select></label>
     <div id="timebox">
@@ -171,8 +180,12 @@ const GRP = { node: 'nodes', link: 'links', sub: 'subs', sys: 'sys' };
 const COLORS = ['#1f77b4', '#d62728', '#2ca02c', '#ff7f0e', '#9467bd', '#8c564b', '#e377c2', '#17becf', '#7f7f7f', '#bcbd22'];
 const RAMP = ['#2c7bb6', '#00a6ca', '#00ccbc', '#90eb9d', '#ffff8c', '#f9d057', '#f29e2e', '#e76818', '#d7191c'];
 const FILES = { baseline: 'models/baseline/WestHaven_JonesHill.inp', S0: 'models/street_cleaning_scenarios/S0_No_sumps.inp', S1: 'models/street_cleaning_scenarios/S1_Full_cleaning.inp', S2: 'models/street_cleaning_scenarios/S2_Hybrid_cleaning.inp', S3: 'models/street_cleaning_scenarios/S3_No_cleaning.inp', S4: 'models/street_cleaning_scenarios/S4_No_cleaning_street_sweeping.inp', S5: 'models/street_cleaning_scenarios/S5_Full_cleaning_street_sweeping.inp' };
+const EXF = { Ex1: 'Ex1_one_subcatchment', Ex1b: 'Ex1b_one_subcatchment_90pct_imperv', Ex2: 'Ex2_pipe_line', Ex2b: 'Ex2b_pipe_line_undersized_C3', Ex3: 'Ex3_pipe_line_TSS', Ex4: 'Ex4_batch_reactor', Ex4b: 'Ex4b_batch_reactor_HRT_pitfall', Ex4c: 'Ex4c_batch_reactor_Kdecay', Ex5: 'Ex5_catch_basins_as_reactors' };
+Object.entries(EXF).forEach(([k, v]) => { FILES[k] = 'models/exercises/' + v + '.inp'; });
 const ZIPS = { baseline: 'models/WestHaven_baseline.zip' };
-const zipOf = (id) => ZIPS[id] || 'models/WestHaven_street_cleaning_scenarios.zip';
+const zipOf = (id) => ZIPS[id] || (EXF[id] ? 'models/exercises/SWMM_exercises_all_solutions.zip' : 'models/WestHaven_street_cleaning_scenarios.zip');
+const EMBED = /[?&]embed/.test(location.search);
+if (EMBED) document.documentElement.classList.add('embed');
 const S = { catalog: [], cache: {}, model: null, period: null, t: 0, sel: [], playing: null, cmp: new Set(), profPath: null };
 
 // ---------- helpers ----------
@@ -202,7 +215,7 @@ const ll = (xy) => L.latLng(xy[1] - Y0, xy[0] - X0);
 function initMap() {
   map = L.map('map', { crs: L.CRS.Simple, minZoom: -6, maxZoom: 4, zoomSnap: 0.25, attributionControl: true, preferCanvas: false, zoomControl: false });
   L.control.zoom({ position: 'topright' }).addTo(map);
-  if (window.innerWidth < 900) $('maptools').open = false;
+  if (window.innerWidth < 900 || EMBED) $('maptools').open = false;
   map.attributionControl.setPrefix('').addAttribution('Imagery: Esri World Imagery · EPSG:6434 ft');
   Object.values(L_).forEach((g) => g.addTo(map));
 }
@@ -214,6 +227,8 @@ async function drawNetwork(m) {
       bgLayer = L.imageOverlay(url, [ll([net.backdrop[0], net.backdrop[1]]), ll([net.backdrop[2], net.backdrop[3]])], { opacity: 0.95 });
       if ($('cbBg').checked) bgLayer.addTo(map); bgLayer.bringToBack(); } catch (e) { console.log('backdrop', e); }
   }
+  if (bgLayer) { if (net.backdrop && $('cbBg').checked) { bgLayer.addTo(map); bgLayer.bringToBack(); } else map.removeLayer(bgLayer); }
+  map.getContainer().style.background = net.backdrop ? '#c9d3dc' : '#eef1f4';
   Object.values(L_).forEach((g) => g.clearLayers()); refs.node = {}; refs.link = {}; refs.sub = {};
   for (const [n, s] of Object.entries(net.subs)) {
     if (!s.poly.length) continue;
@@ -240,12 +255,13 @@ async function drawNetwork(m) {
   }
   for (const [n, g] of Object.entries(net.gages || {})) L.marker(ll(g.xy), { icon: L.divIcon({ className: '', html: '<div class="gage" title="Rain gage ' + n + '">🌧</div>', iconSize: [18, 18] }) }).bindTooltip('Rain gage ' + n).addTo(L_.other);
   toggleLayers(); labels();
-  if (!S.fitted) { map.fitBounds(L.featureGroup([L_.subs, L_.nodes].flatMap((g) => g.getLayers())).getBounds().pad(0.08)); S.fitted = true; }
+  const fb = L.featureGroup([L_.subs, L_.nodes].flatMap((g) => g.getLayers())).getBounds(); const key = fb.toBBoxString();
+  if (S.fitKey !== key) { map.fitBounds(fb.pad(net.backdrop ? 0.08 : 0.25)); S.fitKey = key; }
 }
 function centroid(poly) { let x = 0, y = 0; poly.forEach((p) => { x += p[0]; y += p[1]; }); return [x / poly.length, y / poly.length]; }
 function toggleLayers() {
   const on = (g, c) => (c ? map.addLayer(g) : map.removeLayer(g));
-  if (bgLayer) on(bgLayer, $('cbBg').checked); on(L_.subs, $('cbSubs').checked); on(L_.conn, $('cbConn').checked);
+  if (bgLayer) on(bgLayer, $('cbBg').checked && !!(S.model && S.model.net.backdrop)); on(L_.subs, $('cbSubs').checked); on(L_.conn, $('cbConn').checked);
 }
 function labels() {
   const show = $('cbLbl').checked;
@@ -267,7 +283,7 @@ function theme() {
   }
   let [lo, hi] = tl === 'maxcap' || tl === 'cap' ? [0, 1] : scale(lv);
   for (const [n, pl] of Object.entries(refs.link)) pl.setStyle({ color: tl === 'none' ? '#1f6feb' : ramp((lv[n] - lo) / (hi - lo)) });
-  if (tl !== 'none') leg.push(['Links: ' + $('thLink').selectedOptions[0].text, lo, hi]);
+  if (tl !== 'none' && Object.keys(refs.link).length) leg.push(['Links: ' + $('thLink').selectedOptions[0].text, lo, hi]);
   // nodes
   const tn = $('thNode').value, nv = {};
   for (const n of Object.keys(refs.node)) {
@@ -294,7 +310,7 @@ function theme() {
   } else {
     [lo, hi] = ts === 'imperv' ? [0, 100] : scale(sv);
     for (const [n, pg] of Object.entries(refs.sub)) pg.setStyle({ fillOpacity: 0.55, fillColor: ramp((sv[n] - lo) / (hi - lo)), color: '#fff' });
-    leg.push(['Subcatchments: ' + $('thSub').selectedOptions[0].text, lo, hi]);
+    if (Object.keys(refs.sub).length) leg.push(['Subcatchments: ' + $('thSub').selectedOptions[0].text, lo, hi]);
   }
   const lg = $('legend'); lg.replaceChildren();
   const grad = 'linear-gradient(90deg,' + RAMP.join(',') + ')';
@@ -348,7 +364,9 @@ function cmpTargets() { // list of {model, period, label}
 function fillCmp() {
   const box = $('cmpBox'); box.replaceChildren();
   const opts = [];
-  if (S.period.kind === 'design') S.model.periods.forEach((p) => { if (p.id !== S.period.id) opts.push([S.model.id, p.id, p.id]); });
+  if (S.period.kind === 'design') { S.model.periods.forEach((p) => { if (p.id !== S.period.id) opts.push([S.model.id, p.id, p.id]); });
+    const FAM = { Ex1: 'a', Ex1b: 'a', Ex2: 'b', Ex2b: 'b', Ex3: 'b', Ex5: 'b', Ex4: 'c', Ex4b: 'c', Ex4c: 'c' }; const f0 = FAM[S.model.id];
+    if (f0) S.catalog.filter((c) => FAM[c.id] === f0 && c.id !== S.model.id).forEach((c) => opts.push([c.id, S.period.id, c.id])); }
   else S.catalog.filter((c) => c.id !== S.model.id && c.periods.some((p) => p.id === S.period.id)).forEach((c) => opts.push([c.id, S.period.id, c.id]));
   [...S.cmp].forEach((k) => { if (!opts.some((o) => o[0] + '|' + o[1] === k)) S.cmp.delete(k); });
   if (!opts.length) { box.textContent = 'nothing comparable for this period'; return; }
@@ -366,14 +384,14 @@ function graph() {
   const stats = [];
   S.sel.forEach((s, i) => tg.forEach((T, j) => {
     const y = ser(T.m, T.p, kind, s.name, v); if (!y) return;
-    const nm = (kind === 'sys' ? 'System' : s.name) + (tg.length > 1 ? ' · ' + (T.label || (S.period.kind === 'design' ? S.period.id : S.model.id)) : '');
+    const nm = (kind === 'sys' ? 'System' : s.name) + (tg.length > 1 ? ' · ' + (T.label || (S.period.kind === 'design' && S.model.periods.length > 1 ? S.period.id : S.model.id)) : '');
     traces.push({ x: times(T.p), y, name: nm, type: 'scatter', mode: 'lines', line: { color: COLORS[(S.sel.length > 1 ? i : j) % COLORS.length], width: 2, dash: S.sel.length > 1 ? dash[j % dash.length] : 'solid', shape: T.p.kind === 'daily' ? 'hv' : 'linear' } });
     stats.push([nm, maxOf(y), y.reduce((a, b) => a + b, 0) / y.length]);
   }));
-  const layout = { margin: { l: 55, r: 50, t: 10, b: 40 }, legend: { orientation: 'h', y: -0.18 }, hovermode: 'x unified', xaxis: { title: S.period.kind === 'design' ? 'Elapsed time (hours)' : '' },
+  const layout = { margin: { l: 55, r: 50, t: 10, b: 40 }, legend: { orientation: 'h', y: -0.3 }, hovermode: 'x unified', xaxis: { title: S.period.kind === 'design' ? 'Elapsed time (hours)' : '' },
     yaxis: { title: VARS[kind][v][0] + ' (' + unit + ')', rangemode: 'tozero' }, shapes: [] };
   if ($('cbRain').checked && !(kind === 'sub' && v === 'rain')) {
-    const r = ser(S.model, S.period, 'sys', null, 'rain'); if (r) { traces.push({ x: times(S.period), y: r, name: 'Rainfall (in/hr)', type: 'bar', yaxis: 'y2', marker: { color: 'rgba(80,120,200,.45)' }, hovertemplate: '%{y:.2f} in/hr' });
+    const r = ser(S.model, S.period, 'sys', null, 'rain'); if (r && maxOf(r) > 0) { traces.push({ x: times(S.period), y: r, name: 'Rainfall (in/hr)', type: 'bar', yaxis: 'y2', marker: { color: 'rgba(80,120,200,.45)' }, hovertemplate: '%{y:.2f} in/hr' });
       layout.yaxis2 = { title: 'Rain (in/hr)', overlaying: 'y', side: 'right', range: [maxOf(r) * 3, 0], showgrid: false }; layout.yaxis.range = [0, Math.max(...traces.filter((t) => t.type !== 'bar').map((t) => maxOf(t.y))) * 1.6 || 1]; }
   }
   const x = times(S.period)[S.t]; layout.shapes.push({ type: 'line', x0: x, x1: x, yref: 'paper', y0: 0, y1: 1, line: { color: '#999', width: 1, dash: 'dot' } });
@@ -457,7 +475,7 @@ function profile() {
     if ($('cbMaxHGL').checked) tr.push({ x: st, y: ns.map((n) => { const h = head(n); return h ? maxOf(h) : null; }), name: 'Max HGL' + lbl, mode: 'lines', line: { color: j ? COLORS[(j + 2) % COLORS.length] : '#d62728', width: 1.5, dash: 'dash' }, text: ns, hovertemplate: '%{text}<br>max HGL %{y:.2f} ft<extra></extra>' });
   });
   const ann = ns.map((n, i) => ({ x: st[i], y: net.nodes[n].rim, text: n.replace('CB-', ''), showarrow: false, yshift: 12, font: { size: 10 } }));
-  Plotly.react(el, tr, { margin: { l: 55, r: 15, t: 20, b: 45 }, xaxis: { title: 'Distance along profile (ft)' }, yaxis: { title: 'Elevation (ft NAVD88)' }, legend: { orientation: 'h', y: -0.2 }, annotations: ann, hovermode: 'closest' }, { responsive: true, displaylogo: false });
+  Plotly.react(el, tr, { margin: { l: 55, r: 15, t: 20, b: 45 }, xaxis: { title: 'Distance along profile (ft)' }, yaxis: { title: 'Elevation (ft NAVD88)' }, legend: { orientation: 'h', y: -0.3 }, annotations: ann, hovermode: 'closest' }, { responsive: true, displaylogo: false });
 }
 
 // ---------- report & inp ----------
@@ -551,7 +569,12 @@ async function init() {
     const [h, hp] = (location.hash || '').slice(1).split('--'); const start = S.catalog.some((c) => c.id === h) ? h : S.catalog[0].id; sm.value = start;
     await selectModel(start);
     if (hp && S.model.periods.some((p) => p.id === hp)) { $('selPeriod').value = hp; selectPeriod(hp); }
-    pick('node', Object.keys(S.model.net.nodes).find((n) => S.model.net.nodes[n].type === 'Outfall'), false);
+    const parts = (location.hash || '').slice(1).split('--'); const el = parts[2], vv = parts[3]; const net = S.model.net;
+    if (el && net.nodes[el]) pick('node', el, false); else if (el && net.links[el]) pick('link', el, false); else if (el && net.subs[el]) pick('sub', el, false);
+    else pick('node', Object.keys(net.nodes).find((n) => net.nodes[n].type === 'Storage' && !net.links[n]) && Object.keys(net.nodes).length < 3 ? Object.keys(net.nodes).find((n) => net.nodes[n].type === 'Storage') : Object.keys(net.nodes).find((n) => net.nodes[n].type === 'Outfall'), false);
+    if (vv && [...$('selVar').options].some((o) => o.value === vv)) { $('selVar').value = vv; graph(); }
+    (parts[4] || '').split(',').filter(Boolean).forEach(async (c) => { if (S.catalog.some((x) => x.id === c)) { await loadModel(c); S.cmp.add(c + '|' + S.period.id); fillCmp(); graph(); } });
+    if (EMBED) { const a = $('fullLink'); if (a) a.href = 'index.html' + location.hash; }
   } catch (e) { $('loading').hidden = false; $('loading').textContent = 'Failed to load data: ' + e.message; }
   window.addEventListener('hashchange', async () => { const [h, hp] = location.hash.slice(1).split('--'); if (S.catalog.some((c) => c.id === h) && (!S.model || S.model.id !== h)) { $('selModel').value = h; await selectModel(h); }
     if (hp && S.model.periods.some((p) => p.id === hp)) { $('selPeriod').value = hp; selectPeriod(hp); } });

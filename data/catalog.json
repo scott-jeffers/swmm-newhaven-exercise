@@ -246,5 +246,131 @@
    }
   ],
   "size": 1979938
+ },
+ {
+  "id": "Ex1",
+  "label": "Ex1 \u2013 One subcatchment (50% imperv)",
+  "group": "Teaching exercises",
+  "desc": "One 5-ac subcatchment draining to an outfall.",
+  "periods": [
+   {
+    "id": "run",
+    "label": "Design storm run (1.45 in, 2 hr)",
+    "kind": "design"
+   }
+  ],
+  "size": 31840
+ },
+ {
+  "id": "Ex1b",
+  "label": "Ex1b \u2013 One subcatchment (90% imperv)",
+  "group": "Teaching exercises",
+  "desc": "Same lot at 90% impervious.",
+  "periods": [
+   {
+    "id": "run",
+    "label": "Design storm run (1.45 in, 2 hr)",
+    "kind": "design"
+   }
+  ],
+  "size": 32323
+ },
+ {
+  "id": "Ex2",
+  "label": "Ex2 \u2013 Pipe line J1\u2013J3",
+  "group": "Teaching exercises",
+  "desc": "Three subcatchments, three junctions, three conduits (18/24/30 in), outfall.",
+  "periods": [
+   {
+    "id": "run",
+    "label": "Design storm run (1.45 in, 2 hr)",
+    "kind": "design"
+   }
+  ],
+  "size": 117551
+ },
+ {
+  "id": "Ex2b",
+  "label": "Ex2b \u2013 Pipe line, C3 undersized",
+  "group": "Teaching exercises",
+  "desc": "C3 cut to 18 in: surcharge and backwater flooding.",
+  "periods": [
+   {
+    "id": "run",
+    "label": "Design storm run (1.45 in, 2 hr)",
+    "kind": "design"
+   }
+  ],
+  "size": 121481
+ },
+ {
+  "id": "Ex3",
+  "label": "Ex3 \u2013 Pipe line + TSS",
+  "group": "Teaching exercises",
+  "desc": "Ex2 with TSS buildup/washoff after 7 dry days.",
+  "periods": [
+   {
+    "id": "run",
+    "label": "Design storm run (1.45 in, 2 hr)",
+    "kind": "design"
+   }
+  ],
+  "size": 428189
+ },
+ {
+  "id": "Ex4",
+  "label": "Ex4 \u2013 Batch reactor (DT form)",
+  "group": "Teaching exercises",
+  "desc": "Closed tank, C = TSS*EXP(-0.5*DT/3600).",
+  "periods": [
+   {
+    "id": "run",
+    "label": "Batch test (no inflow, 12 hr)",
+    "kind": "design"
+   }
+  ],
+  "size": 24439
+ },
+ {
+  "id": "Ex4b",
+  "label": "Ex4b \u2013 Batch reactor (HRT pitfall)",
+  "group": "Teaching exercises",
+  "desc": "Same tank with EXP(-0.5*HRT): over-removal.",
+  "periods": [
+   {
+    "id": "run",
+    "label": "Batch test (no inflow, 12 hr)",
+    "kind": "design"
+   }
+  ],
+  "size": 24390
+ },
+ {
+  "id": "Ex4c",
+  "label": "Ex4c \u2013 Batch reactor (Kdecay)",
+  "group": "Teaching exercises",
+  "desc": "Same tank with pollutant Kdecay = 12/day.",
+  "periods": [
+   {
+    "id": "run",
+    "label": "Batch test (no inflow, 12 hr)",
+    "kind": "design"
+   }
+  ],
+  "size": 24323
+ },
+ {
+  "id": "Ex5",
+  "label": "Ex5 \u2013 Catch basins as storage reactors",
+  "group": "Teaching exercises",
+  "desc": "Ex3 with J1\u2013J3 as storage units with 2-ft sumps + settling.",
+  "periods": [
+   {
+    "id": "run",
+    "label": "Design storm run (1.45 in, 2 hr)",
+    "kind": "design"
+   }
+  ],
+  "size": 432449
  }
 ]

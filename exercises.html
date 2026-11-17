@@ -45,6 +45,12 @@ th { color:var(--muted); font-weight:500; font-size:12.5px; }
 .tip { border-left:3px solid var(--warm); background:#fff8f0; padding:10px 14px; border-radius:0 8px 8px 0; margin:14px 0; font-size:15px; }
 .warn { border-left:3px solid #c62828; background:#fdf1f1; padding:10px 14px; border-radius:0 8px 8px 0; margin:14px 0; font-size:15px; }
 .plot { width:100%; height:340px; }
+.mv { margin:16px 0 6px; border:1px solid var(--line); border-radius:12px; overflow:hidden; background:#fff; }
+.mv .bar { display:flex; justify-content:space-between; align-items:center; gap:10px; padding:8px 12px; background:#17212b; color:#e8eef5; font-size:13.5px; }
+.mv .bar a { color:#8cc4ff; text-decoration:none; font-size:12.5px; }
+.mv iframe { display:block; width:100%; height:620px; border:0; }
+.mv .hint { font-size:12.5px; color:var(--muted); padding:6px 12px 8px; border-top:1px solid var(--line); }
+@media (max-width:640px) { .mv iframe { height:720px; } }
 .dlrow { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0; }
 a.dlbtn { display:inline-flex; align-items:center; gap:6px; font-size:13.5px; font-weight:500; text-decoration:none; color:#fff; background:#17212b; padding:7px 12px; border-radius:8px; }
 a.dlbtn.alt { background:#fff; color:var(--fg); border:1px solid var(--line); }
@@ -115,6 +121,9 @@ footer { margin-top:70px; padding-top:18px; border-top:1px solid var(--line); fo
       <tr><td>50% impervious</td><td>5.98 cfs</td><td>0.72 in</td><td>0.50</td></tr><tr><td>90% impervious</td><td>10.26 cfs</td><td>1.28 in</td><td>0.88</td></tr></table></div>
       <p class="refs">Ask the class: why does the 90% case peak higher <i>and</i> earlier?</p>
     </div>
+    <div class="mv"><div class="bar"><span>🗺 Explore this model: map, graphs, profile, report, .inp</span><a href="index.html#Ex1--run--S1--runoff--Ex1b" target="_blank">Open full screen ↗</a></div>
+      <iframe loading="lazy" title="SWMM model viewer – ex1" src="index.html?embed=1#Ex1--run--S1--runoff--Ex1b"></iframe>
+      <div class="hint">S1 runoff, compared with Ex1b (90% impervious). Click the outfall or subcatchment, or switch the model at the top.</div></div>
     <div class="dlrow"><a class="dlbtn" href="models/exercises/Ex1_one_subcatchment.inp" download>⬇ Solution: Ex1 (.inp)</a><a class="dlbtn alt" href="models/exercises/Ex1b_one_subcatchment_90pct_imperv.inp" download>⬇ Ex1b – 90% impervious</a></div>
     <p class="refs">Read more on the <a href="https://swmm-manual.netlify.app/">online SWMM manual</a>: User's Manual Ch. 6 (Working with Objects) and Ch. 9 (Viewing Results); Reference Manual Vol. I Ch. 3 (Surface Runoff) and Ch. 4 (Infiltration).</p>
   </section>
@@ -145,6 +154,9 @@ footer { margin-top:70px; padding-top:18px; border-top:1px solid var(--line); fo
       <tr><td>Ex2b (18" C3)</td><td>5.7 cfs</td><td>11.5 cfs</td><td>13.8 cfs (capped)</td><td>J3 3.4 cfs, J2 2.3, J1 2.5 (backwater)</td></tr></table></div>
       <p class="refs">Ask the class: why do J1 and J2 flood when only C3 was changed?</p>
     </div>
+    <div class="mv"><div class="bar"><span>🗺 Explore this model: map, graphs, profile, report, .inp</span><a href="index.html#Ex2b--run--J3--depth--Ex2" target="_blank">Open full screen ↗</a></div>
+      <iframe loading="lazy" title="SWMM model viewer – ex2" src="index.html?embed=1#Ex2b--run--J3--depth--Ex2"></iframe>
+      <div class="hint">J3 depth in the undersized case (Ex2b) vs Ex2. Open the <b>Profile</b> tab and press ▶ to watch the system back up.</div></div>
     <div class="dlrow"><a class="dlbtn" href="models/exercises/Ex2_pipe_line.inp" download>⬇ Solution: Ex2 (.inp)</a><a class="dlbtn alt" href="models/exercises/Ex2b_pipe_line_undersized_C3.inp" download>⬇ Ex2b – undersized C3</a></div>
     <p class="refs">Reference Manual Vol. II (Hydraulics), Ch. 2 (SWMM's Hydraulic Model) and Ch. 3 (Dynamic Wave Analysis), on the <a href="https://swmm-manual.netlify.app/">online SWMM manual</a>.</p>
   </section>
@@ -169,6 +181,9 @@ footer { margin-top:70px; padding-top:18px; border-top:1px solid var(--line); fo
       <p>About <b>291 lb</b> of TSS washes off and reaches the outfall. The concentration peaks at about <b>200 mg/L</b> just after the rain peak: the "first flush".</p>
       <p class="refs">Ask the class: what happens to the washoff if you change Antecedent Dry Days to 1?</p>
     </div>
+    <div class="mv"><div class="bar"><span>🗺 Explore this model: map, graphs, profile, report, .inp</span><a href="index.html#Ex3--run--OUT1--tss" target="_blank">Open full screen ↗</a></div>
+      <iframe loading="lazy" title="SWMM model viewer – ex3" src="index.html?embed=1#Ex3--run--OUT1--tss"></iframe>
+      <div class="hint">Outfall TSS. Click a subcatchment and choose "TSS washoff concentration", or color the map by TSS at time and press ▶.</div></div>
     <div class="dlrow"><a class="dlbtn" href="models/exercises/Ex3_pipe_line_TSS.inp" download>⬇ Solution: Ex3 (.inp)</a></div>
     <p class="refs">Reference Manual Vol. III (Water Quality), Ch. 3 (Pollutant Buildup) and Ch. 4 (Surface Washoff), on the <a href="https://swmm-manual.netlify.app/">online SWMM manual</a>.</p>
   </section>
@@ -192,6 +207,9 @@ footer { margin-top:70px; padding-top:18px; border-top:1px solid var(--line); fo
       <p>With <code>DT/3600</code>: 100 → 60.7 → 36.8 → 22.3 mg/L at 1, 2 and 3 hr, matching the analytic curve. The pollutant's built-in <b>Decay Coeff.</b> = 12 /day (= 0.5 /hr) gives the same curve (Ex4c).</p>
     </div>
     <div class="warn"><b>The HRT pitfall.</b> SWMM evaluates a treatment expression <i>at every routing step</i> on the water already in the node. <code>HRT</code> is the age of that water, not the length of the step. So <code>exp(−k·HRT)</code> is applied again and again, and the tank drops to zero within the first hour. Use <code>exp(−k·DT/3600)</code> (or Kdecay) for first-order decay. Our West Haven street-cleaning scenarios used the HRT form; see the note on the <a href="report.html">study report</a>.</div>
+    <div class="mv"><div class="bar"><span>🗺 Explore this model: map, graphs, profile, report, .inp</span><a href="index.html#Ex4--run--TANK--tss--Ex4b,Ex4c" target="_blank">Open full screen ↗</a></div>
+      <iframe loading="lazy" title="SWMM model viewer – ex4" src="index.html?embed=1#Ex4--run--TANK--tss--Ex4b,Ex4c"></iframe>
+      <div class="hint">TSS in the tank: DT form (Ex4) vs HRT pitfall (Ex4b) vs Kdecay (Ex4c). See the <b>.inp file</b> tab for the [TREATMENT] line.</div></div>
     <div class="dlrow"><a class="dlbtn" href="models/exercises/Ex4_batch_reactor.inp" download>⬇ Solution: Ex4 (.inp)</a><a class="dlbtn alt" href="models/exercises/Ex4b_batch_reactor_HRT_pitfall.inp" download>⬇ Ex4b – HRT pitfall</a><a class="dlbtn alt" href="models/exercises/Ex4c_batch_reactor_Kdecay.inp" download>⬇ Ex4c – Kdecay</a></div>
     <p class="refs">Reference Manual Vol. III, Ch. 5 (Transport and Treatment); User's Manual, Treatment Editor (Appendix C), on the <a href="https://swmm-manual.netlify.app/">online SWMM manual</a>.</p>
   </section>
@@ -214,6 +232,9 @@ footer { margin-top:70px; padding-top:18px; border-top:1px solid var(--line); fo
       <p><b>During the storm</b>, water flows through each 32 ft³ sump in seconds. Settling barely acts: only about <b>1.2 lb of 291 lb</b> (0.4%) reacts. <b>After the storm</b>, the dirty water left in each sump is a batch reactor. J1's TSS falls by e<sup>−0.5·2</sup> ≈ 0.37 every 2 hours, exactly as in Exercise 4.</p>
       <p class="refs">Ask the class: what parameter, other than k, would make a sump trap more during the storm? (Hint: surface area vs. flow, i.e. overflow rate.) How would you check it in the field?</p>
     </div>
+    <div class="mv"><div class="bar"><span>🗺 Explore this model: map, graphs, profile, report, .inp</span><a href="index.html#Ex5--run--J1--tss--Ex3" target="_blank">Open full screen ↗</a></div>
+      <iframe loading="lazy" title="SWMM model viewer – ex5" src="index.html?embed=1#Ex5--run--J1--tss--Ex3"></iframe>
+      <div class="hint">Sump J1 TSS (Ex5) vs the plain junction J1 (Ex3). The <b>Profile</b> tab shows the sumps below the pipes.</div></div>
     <div class="dlrow"><a class="dlbtn" href="models/exercises/Ex5_catch_basins_as_reactors.inp" download>⬇ Solution: Ex5 (.inp)</a><a class="dlbtn alt" href="index.html">See the full West Haven model in the viewer →</a></div>
     <p class="refs">Reference Manual Vol. II Addendum, Ch. 3 (Storage Unit Geometry); Vol. III, Ch. 5 (Transport and Treatment), on the <a href="https://swmm-manual.netlify.app/">online SWMM manual</a>.</p>
   </section>
